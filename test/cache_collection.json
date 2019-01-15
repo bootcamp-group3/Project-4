@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "69d34168-b3cc-496c-bdf2-f965bdec3b88",
+		"name": "ETPhone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Obj",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85e7cd37-a4fe-4a8a-8bed-de377da34e74",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"uuid\", jsonData); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"John\",\n\"age\":30,\n\"cars\":[ \"Ford\", \"BMW\", \"Fiat\" ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cache/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cache",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Obj",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cache/retrieve/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cache",
+						"retrieve",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Obj",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\":\"John\",\n\"age\":30,\n\"cars\":[ \"Ford\", \"BMW\", \"Fiat\", \"Chevy\" ],\n\"gender\": \"male\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cache/update/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cache",
+						"update",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Updated Obj",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cache/retrieve/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cache",
+						"retrieve",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Obj",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/cache/delete/{{uuid}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cache",
+						"delete",
+						"{{uuid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
