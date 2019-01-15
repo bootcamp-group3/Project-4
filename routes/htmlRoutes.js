@@ -8,7 +8,7 @@ module.exports = function (app) {
     app.get("/testGame", function(req, res){
         res.render("testGame");
     });
-    app.get("*", function (req, res) {
-        res.render("404");
-    });
+    // app.get("*", function (req, res) {
+    //     res.render("404");
+    // });
 };
