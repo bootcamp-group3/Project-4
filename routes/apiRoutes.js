@@ -1,7 +1,7 @@
 // var db = require("../models");
 var board = require("../app/resources/board");
 var game = require("../app/resources/game");
-const Game = require("../models/domain/gamestate");
+const Cache = require("../models/domain/cache");
 
 module.exports = function (app) {
     app.get("/api/testGen/board", function (req, res) {
@@ -11,24 +11,24 @@ module.exports = function (app) {
         res.json(game.createNew());
     });
     // Create a new game
-    app.post("/api/game/create", async function (req, res) {
-        const game = new Game(req.body);
-        board = await Game.createBoard(game);
-        res.json(board);
+    app.post("/api/cache/create", async function (req, res) {
+        const cache = new Cache(req.body);
+        const id = await Cache.createObj(cache);
+        res.json(id);
     });
     // Retrieve Game
-    app.get("/api/game/retrieve/:id", async function (req, res) {
-        board = await Game.retrieveBoard(req.params.id);
-        res.json(board);
+    app.get("/api/cache/retrieve/:id", async function (req, res) {
+        const obj = await Cache.retrieveObj(req.params.id);
+        res.json(obj);
     });
     // Update Game
-    app.put("/api/game/update/:id", async function (req, res) {
-        board = await Game.updateBoard(req.params.id, req.body);
-        res.json(board);
+    app.put("/api/cache/update/:id", async function (req, res) {
+        const status = await Cache.updateObj(req.params.id, req.body);
+        res.json(status);
     });
     // Delete Game
-    app.delete("/api/game/delete/:id", async function (req, res) {
-        board = await Game.deleteBoard(req.params.id);
-        res.json(board);
+    app.delete("/api/cache/delete/:id", async function (req, res) {
+        const status = await Cache.deleteObj(req.params.id);
+        res.json(status);
     });
 };
