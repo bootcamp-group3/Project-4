@@ -11,7 +11,7 @@
     "start": "node server.js",
     "lint": "eslint **/*.js --quiet",
     "fix": "eslint --fix .",
-    "redis": "if [ `docker ps | grep -i redis | wc -l` != 1 ]; then docker rm /some-redis; docker run -p 6379:6379/tcp --name some-redis -d redis redis-server --appendonly yes; fi",
+    "redis": "if [ `docker ps | grep -i redis | wc -l` != 1 ]; then docker rm some-redis; docker run -p 6379:6379/tcp --name some-redis -d redis redis-server --appendonly yes; fi",
     "test": "npm run lint && NODE_ENV=test mocha -u tdd --reporter spec --exit",
     "watch": "nodemon -e js --exec npm run dev"
   },
