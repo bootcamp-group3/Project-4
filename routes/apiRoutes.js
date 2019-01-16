@@ -31,7 +31,7 @@ module.exports = function (app) {
     app.post("/api/players", function (req, res) {
         db.Player.findOrCreate({
             where: {
-                googleId: req.body.googleId
+                googleId: req.body.id
             }
         }, {
             googleId: req.body.id,
