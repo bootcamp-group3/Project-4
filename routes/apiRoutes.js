@@ -30,7 +30,7 @@ module.exports = function (app) {
     // Add new player to db.
     app.post("/api/players", function (req, res) {
         db.Player.create({
-            googleId: req.body.id,
+            googleId: req.body.googleId,
             name: req.body.name,
             icon: req.body.icon
         }).then(result => {
