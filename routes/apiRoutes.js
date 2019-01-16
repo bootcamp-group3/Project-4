@@ -1,4 +1,4 @@
-// var db = require("../models");
+var db = require("../models");
 var game = require("../app/resources/game");
 const Cache = require("../models/domain/cache");
 
@@ -26,5 +26,17 @@ module.exports = function (app) {
     app.delete("/api/cache/delete/:id", async function (req, res) {
         const status = await Cache.deleteObj(req.params.id);
         res.json(status);
+    });
+    // Add new player to db.
+    app.post("/api/players", function (req, res) {
+        db.Player.create({
+            googleId: req.body.id,
+            name: req.body.name,
+            icon: req.body.icon
+        }).then(result => {
+            res.json({
+                id: result.insertId
+            });
+        });
     });
 };

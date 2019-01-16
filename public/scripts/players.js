@@ -9,4 +9,13 @@ function onSignIn(googleUser) {
     Name: ${name}
     Icon: ${icon}
     `);
+
+    $.ajax("/api/players", {
+        type: "POST",
+        data: {
+            id: id,
+            name: name,
+            icon: icon
+        }
+    });
 }
