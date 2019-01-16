@@ -35,9 +35,11 @@ module.exports = function (app) {
                 googleId: req.body.id
             }
         }, {
-            googleId: req.body.id,
-            name: req.body.name,
-            icon: req.body.icon
+            defaults: {
+                googleId: req.body.id,
+                name: req.body.name,
+                icon: req.body.icon
+            }
         })
             .then(result => {
                 res.json({
