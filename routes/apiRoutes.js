@@ -30,11 +30,11 @@ module.exports = function (app) {
     // Find or create player in db.
     app.post("/api/players", function (req, res) {
 
-        db.Player.create({
-        //     where: {
-        //         googleId: req.body.id
-        //     }
-        // }, {
+        db.Player.findOrCreate({
+            where: {
+                googleId: req.body.id
+            }
+        }, {
             googleId: req.body.id,
             name: req.body.name,
             icon: req.body.icon
