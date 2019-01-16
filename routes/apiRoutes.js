@@ -29,6 +29,7 @@ module.exports = function (app) {
     });
     // Add new player to db.
     app.post("/api/players", function (req, res) {
+
         db.Player.findOrCreate({
             where: {
                 googleId: req.body.id
@@ -42,7 +43,6 @@ module.exports = function (app) {
                 res.json({
                     id: result.insertId
                 });
-                console.log(result);
             });
     });
 };
