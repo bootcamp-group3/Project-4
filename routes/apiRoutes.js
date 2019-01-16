@@ -29,14 +29,20 @@ module.exports = function (app) {
     });
     // Add new player to db.
     app.post("/api/players", function (req, res) {
-        db.Player.create({
+        db.Player.findOrCreate({
+            where: {
+                googleId: req.body.googleId
+            }
+        }, {
             googleId: req.body.id,
             name: req.body.name,
             icon: req.body.icon
-        }).then(result => {
-            res.json({
-                id: result.insertId
+        })
+            .then(result => {
+                res.json({
+                    id: result.insertId
+                });
+                console.log(result);
             });
-        });
     });
 };
