@@ -3,7 +3,6 @@ module.exports = function (sequelize, DataTypes) {
         googleId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 0
         },
         name: {
             type: DataTypes.STRING,
