@@ -12,8 +12,6 @@
 //*         class Board
 //*         function getFor(game) [ where <game> is Game proto ] 
 
-const gRender = require("./gRender");
-
 // Default parameters for the game board. xLim = width in tiles, yLim = height in tiles
 // border and bonusLim are used by randomization algorithm
 // border limits how far in from the edge of the board ocean tiles may appear

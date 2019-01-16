@@ -5,10 +5,10 @@ module.exports = function (app) {
     app.get("/", function (req, res) {
         res.render("index");
     });
-    app.get("/testGame", function(req, res){
-        res.render("testGame");
+    app.get("/testLobby", function(req, res){
+        res.render("testLobby");
     });
-    app.get("*", function (req, res) {
-        res.render("404");
-    });
+    // app.get("*", function (req, res) {
+    //     res.render("404");
+    // });
 };

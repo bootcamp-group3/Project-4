@@ -1,12 +1,8 @@
 // var db = require("../models");
-var board = require("../app/resources/board");
 var game = require("../app/resources/game");
 const Cache = require("../models/domain/cache");
 
 module.exports = function (app) {
-    app.get("/api/testGen/board", function (req, res) {
-        res.json(board.gen());
-    });
     app.get("/api/testGen/game", function (req, res) {
         res.json(game.createNew());
     });
