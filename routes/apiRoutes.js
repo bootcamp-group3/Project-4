@@ -29,18 +29,18 @@ module.exports = function (app) {
     });
     // Find or create player in db.
     app.post("/api/players", function (req, res) {
-
-        db.Player.findOrCreate({
+        const selector = {
             where: {
                 googleId: req.body.id
             }
-        }, {
-            defaults: {
-                googleId: req.body.id,
-                name: req.body.name,
-                icon: req.body.icon
-            }
-        })
+        };
+        const values = {
+            googleId: req.body.id,
+            name: req.body.name,
+            icon: req.body.icon
+        };
+
+        db.Player.findOrCreate(selector, values)
             .then(result => {
                 res.json({
                     id: result.insertId
