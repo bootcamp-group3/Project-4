@@ -34,13 +34,13 @@ module.exports = function (app) {
                 googleId: req.body.id
             }
         };
-        const values = {
-            googleId: req.body.id,
-            name: req.body.name,
-            icon: req.body.icon
-        };
+        // const values = {
+        //     googleId: req.body.id,
+        //     name: req.body.name,
+        //     icon: req.body.icon
+        // };
 
-        db.Player.findOrCreate(values, selector)
+        db.Player.findOrCreate(selector)
             .then(result => {
                 res.json({
                     id: result.insertId
