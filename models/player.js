@@ -1,7 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     var Player = sequelize.define("Player", {
         googleId: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         name: {
