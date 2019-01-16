@@ -13,7 +13,7 @@ function onSignIn(googleUser) {
     $.ajax("/api/players", {
         type: "POST",
         data: {
-            id: id,
+            googleId: id,
             name: name,
             icon: icon
         }

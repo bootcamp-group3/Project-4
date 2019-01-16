@@ -25,6 +25,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.MEDIUMINT,
             allowNull: false,
             defaultValue: 0
+        },
+        googleID: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
         }
     });
     return Player;
