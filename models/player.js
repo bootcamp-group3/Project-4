@@ -1,5 +1,10 @@
 module.exports = function (sequelize, DataTypes) {
     var Player = sequelize.define("Player", {
+        googleID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -23,11 +28,6 @@ module.exports = function (sequelize, DataTypes) {
         },
         losses: {
             type: DataTypes.MEDIUMINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        googleID: {
-            type: DataTypes.BIGINT,
             allowNull: false,
             defaultValue: 0
         }
