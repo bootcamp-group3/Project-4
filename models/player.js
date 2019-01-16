@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     var Player = sequelize.define("Player", {
-        googleID: {
+        googleId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 0
