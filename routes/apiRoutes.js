@@ -40,7 +40,7 @@ module.exports = function (app) {
             icon: req.body.icon
         };
 
-        db.Player.findOrCreate(selector, values)
+        db.Player.findOrCreate(values, selector)
             .then(result => {
                 res.json({
                     id: result.insertId
