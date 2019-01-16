@@ -29,7 +29,10 @@ module.exports = function (app) {
     });
     // Find or create player in db.
     app.post("/api/players", function (req, res) {
-        console.log(req.body.id)
+        console.log(`ID: ${req.body.id}
+        ------------------------------
+        ------------------------------`
+        );
         const selector = {
             where: {
                 googleId: req.body.id
