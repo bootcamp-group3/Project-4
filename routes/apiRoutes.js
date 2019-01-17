@@ -1,11 +1,7 @@
 var db = require("../models");
-var game = require("../app/resources/game");
 const Cache = require("../models/domain/cache");
 
 module.exports = function (app) {
-    app.get("/api/testGen/game", function (req, res) {
-        res.json(game.createNew());
-    });
 
     // Create a new cache object
     app.post("/api/cache/create", async function (req, res) {

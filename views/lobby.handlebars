@@ -13,6 +13,7 @@
     crossorigin="anonymous">
 {{!-- Custom styling --}}
 <link rel="stylesheet" href="/assets/styles/style.css">
+<script src="/socket.io/socket.io.js"></script>
 <div>
     <div class="container">
         <div class="jumbotron col-md-12 text-center">
@@ -29,14 +30,16 @@
     </div>
 </div>
 <script>
+    var socket = io();
     var countDown = 15;
 
-    var intervalID = setInterval(function(){
-        if(countDown === 0 || countDown <= 0){
-            window.location.href = "/game"
+    var intervalID = setInterval(function () {
+        if (countDown === 0 || countDown <= 0) {
+            socket.emit("join_game", { "data": "join game parameters" });
+            window.location.href = "/game";
         };
         $("#timeout-display-TEMPORARY").text("");
         $("#timeout-display-TEMPORARY").text(countDown);
-        countDown --;
-    },1000)
+        countDown--;
+    }, 1000)
 </script>
