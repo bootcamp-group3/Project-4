@@ -7,9 +7,9 @@ function onSignIn(googleUser) {
     const icon = profile.getImageUrl();
 
     var data = {
-        id: id,
-        name: name,
-        icon: icon
+        "id": id,
+        "name": name,
+        "icon": icon
     };
 
     console.log(`
@@ -27,13 +27,17 @@ function onSignIn(googleUser) {
         }
     });
 
-    socket.emit("login", data);
+    socket.emit("login", {"as" : data });
+    window.location.href = "/lobby";
 }
 $(function(){
 
     $("#target-lobby-redirect").on("click", function(){
-        console.log("click");
-        socket.emit("join_lobby",{"as": "google sign in data"});
-        window.location.href= "/lobby";
+        let userTestHandle = $("#input-test-handle").val();
+        let toSocket = {
+            "as" : userTestHandle
+        };
+        socket.emit("join_lobby",toSocket);
+        window.location.href="/lobby";
     });
 });

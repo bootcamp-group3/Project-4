@@ -25,21 +25,21 @@
             <br>
             <br>
             <hr>
-            <span>Redirecting in: </span><span id="timeout-display-TEMPORARY"></span><span> seconds </span>
+            <button class="btn btn-info" id="target-redirect">Redirect to Game</button>
         </div>
     </div>
 </div>
 <script>
     var socket = io();
     var countDown = 15;
+    socket.emit("in_lobby");
 
-    var intervalID = setInterval(function () {
-        if (countDown === 0 || countDown <= 0) {
-            socket.emit("join_game", { "data": "join game parameters" });
-            window.location.href = "/game";
-        };
-        $("#timeout-display-TEMPORARY").text("");
-        $("#timeout-display-TEMPORARY").text(countDown);
-        countDown--;
-    }, 1000)
+    socket.on("update_lobby", function(message){
+        console.log(message);
+    })
+
+    $("#target-redirect").on("click", function(){
+        socket.emit("join_game", { "data": "join game parameters" });
+        window.location.href = "/game";
+    });
 </script>
