@@ -5,7 +5,8 @@ module.exports = function (app) {
     app.get("/", function (req, res) {
         res.render("index");
     });
-    app.get("/lobby", function(req, res){
+    app.get("/lobby/", function(req, res){
+
         res.render("lobby");
     });
     app.get("/game", function(req, res){
