@@ -1,9 +1,9 @@
 module.exports = function (app) {
-    var io = require("socket.io").listen(app.Server);
-    io.sockets.on("connection", function (socket) {
-        socket.emit("toClient", {
-            type: "status",
-            msg: "Connection established"
-        });
-    });
+    require("express-ws")(app);
+    const Lobby = require("./../../app/resources/lobby");
+    const lobbyURL = "/join/lobby";
+
+    Lobby.create();
+
+    app.ws(lobbyURL, Lobby.listen);
 };
