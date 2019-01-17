@@ -1,3 +1,5 @@
+var socket = io();
+
 function onSignIn(googleUser) {
     const profile = googleUser.getBasicProfile();
     const id = profile.getId(); // Do not send to your backend! Use an ID token instead.
@@ -28,7 +30,7 @@ function onSignIn(googleUser) {
     socket.emit("login", data);
 }
 $(function(){
-    var socket = io();
+
     $("#target-lobby-redirect").on("click", function(){
         console.log("click");
         socket.emit("join_lobby",{"as": "google sign in data"});
