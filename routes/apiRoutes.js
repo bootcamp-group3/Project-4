@@ -6,27 +6,76 @@ module.exports = function (app) {
     app.get("/api/testGen/game", function (req, res) {
         res.json(game.createNew());
     });
-    // Create a new game
+
+    // Create a new cache object
     app.post("/api/cache/create", async function (req, res) {
-        const cache = new Cache(req.body);
-        const id = await Cache.createObj(cache);
-        res.json(id);
+        try {
+            const cache = new Cache(req.body);
+            const id = await Cache.createObj(cache);
+
+            if (id === null) {
+                throw null;
+            } else {
+                res.status(201).json(id);
+            }
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).end();
+        }
     });
-    // Retrieve Game
+
+    // Retrieve cache object
     app.get("/api/cache/retrieve/:id", async function (req, res) {
-        const obj = await Cache.retrieveObj(req.params.id);
-        res.json(obj);
+        try {
+            const obj = await Cache.retrieveObj(req.params.id);
+
+            if (obj === null) {
+                throw null;
+            } else {
+                res.status(200).json(obj);
+            }
+
+        } catch (error) {
+            console.log(error);
+            res.status(404).end();
+        }
     });
-    // Update Game
+
+    // Update cache object
     app.put("/api/cache/update/:id", async function (req, res) {
-        const status = await Cache.updateObj(req.params.id, req.body);
-        res.json(status);
+        try {
+            const status = await Cache.updateObj(req.params.id, req.body);
+
+            if (status === null) {
+                throw null;
+            } else {
+                res.status(200).json(status);
+            }
+
+        } catch (error) {
+            console.log(error);
+            res.status(404).end();
+        }
     });
-    // Delete Game
+
+    // Delete cache object
     app.delete("/api/cache/delete/:id", async function (req, res) {
-        const status = await Cache.deleteObj(req.params.id);
-        res.json(status);
+        try {
+            const status = await Cache.deleteObj(req.params.id);
+
+            if (status === null) {
+                throw null;
+            } else {
+                res.status(200).json(status);
+            }
+
+        } catch (error) {
+            console.log(error);
+            res.status(404).end();
+        }
     });
+
     // Find or create player in db.
     app.post("/api/players", function (req, res) {
         console.log(`ID: ${req.body.id}
