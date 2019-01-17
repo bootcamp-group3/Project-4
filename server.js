@@ -1,9 +1,12 @@
 require("dotenv").config();
 var express = require("express");
+const app = express();
+
 var exphbs = require("express-handlebars");
 var db = require("./models");
+var http = require("http").Server(app);
+const io = require("socket.io")(http);
 
-var app = express();
 var PORT = process.env.PORT || 8080;
 
 // Middleware
@@ -23,7 +26,8 @@ app.set("view engine", "handlebars");
 // Routes
 require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
-require("./models/domain/lobby")(app);
+require("./routes/socketRoutes")(io);
+// require("./models/domain/lobby")(app);
 
 var syncOptions = { force: false };
 
@@ -35,7 +39,7 @@ if (process.env.NODE_ENV === "test") {
 
 // Starting the server, syncing our models ------------------------------------/
 db.sequelize.sync(syncOptions).then(function() {
-    app.listen(PORT, function() {
+    http.listen(PORT, function() {
         console.log(
             "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
             PORT,
