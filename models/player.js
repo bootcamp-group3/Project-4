@@ -1,5 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
     var Player = sequelize.define("Player", {
+        googleId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -14,7 +18,7 @@ module.exports = function (sequelize, DataTypes) {
         plays: {
             type: DataTypes.MEDIUMINT,
             allowNull: false,
-            defaultVaulue: 0
+            defaultValue: 0
         },
         wins: {
             type: DataTypes.MEDIUMINT,

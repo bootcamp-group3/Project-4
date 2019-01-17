@@ -5,10 +5,17 @@ module.exports = function (app) {
     app.get("/", function (req, res) {
         res.render("index");
     });
-    app.get("/testLobby", function(req, res){
-        res.render("testLobby");
+    app.get("/lobby/", function(req, res){
+
+        res.render("lobby");
+    });
+    app.get("/game", function(req, res){
+        res.render("testBoard");
     });
     // app.get("*", function (req, res) {
     //     res.render("404");
     // });
+    app.get("/gameBoard", function(req,res){
+        res.render("gameBoard");
+    });
 };
