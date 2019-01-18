@@ -96,4 +96,28 @@ module.exports = function (app) {
                 });
             });
     });
+    // Gets leadearboard
+    app.get("/api/leaderboard", function (req, res) {
+        db.Game.findAll({
+            order: [
+                sequelize.fn("max", sequelize.col("score"))
+            ],
+            include: [
+                {
+                    model: db.Player
+                }
+            ]
+        }).then(Game => {
+            const resObj = Game.map(Game => {
+                return Object.assign(
+                    {},
+                    {
+                        name: Player.name,
+                        score: Game.score
+                    }
+                );
+            });
+            res.json(resObj);
+        });
+    });
 };
