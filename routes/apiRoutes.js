@@ -115,4 +115,14 @@ module.exports = function (app) {
             res.json(resObj);
         });
     });
+
+    app.post("/api/leaderboard", function (req, res) {
+        db.Game.create({
+            uuid: req.body.uuid,
+            score: req.body.score,
+            PlayerId: req.body.PlayerId
+        }).then(result => {
+            res.json(res.insertId);
+        });
+    });
 };
