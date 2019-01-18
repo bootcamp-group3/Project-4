@@ -76,8 +76,7 @@ module.exports = function (app) {
     app.post("/api/players", function (req, res) {
         console.log(`ID: ${req.body.id}
         ------------------------------
-        ------------------------------`
-        );
+        ------------------------------`);
         const selector = {
             where: {
                 googleId: req.body.id
@@ -103,20 +102,15 @@ module.exports = function (app) {
             order: [
                 ["score", "DESC"]
             ],
-            include: [
-                {
-                    model: db.Player
-                }
-            ]
+            include: [{
+                model: db.Player
+            }]
         }).then(Game => {
             const resObj = Game.map(Game => {
-                return Object.assign(
-                    {},
-                    {
-                        name: db.Player.name,
-                        score: Game.score
-                    }
-                );
+                return Object.assign({}, {
+                    name: Game.name,
+                    score: Game.score
+                });
             });
             res.json(resObj);
         });
