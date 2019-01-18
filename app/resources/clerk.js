@@ -19,10 +19,21 @@ module.exports = {
         let updatedLobbyState = cachedLobbyState;
         updatedLobbyState.connections ++;
         updatedLobbyState.sockets.push(socketID);
+
+        const lobbySize = updatedLobbyState.sockets.length;
+        console.log(lobbySize);
+
+        let players = null;
+
+        if (lobbySize >= 2) {
+            players = updatedLobbyState.sockets.slice(0, 2);
+            updatedLobbyState.sockets = updatedLobbyState.sockets.slice(2);
+        }
+
         console.log("To cache: ");
         console.log(updatedLobbyState);
         await Cache.updateObj("lobby", updatedLobbyState);
-        return Promise.resolve(updatedLobbyState);
+        return Promise.resolve([updatedLobbyState, players]);
     },
     has : function(socketID){
         Cache.retrieveObj("lobby").then(function(lobbyState){
