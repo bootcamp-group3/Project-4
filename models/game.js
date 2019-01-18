@@ -1,9 +1,7 @@
+const Player = require()
+
 module.exports = function (sequelize, DataTypes) {
-    var Game = sequelize.define("Player", {
-        googleId: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
+    var Game = sequelize.define("Game", {
         score: {
             type: DataTypes.BIGINT,
             allowNull: false,
@@ -14,6 +12,6 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         }
     });
-    Game.belongsTo(db.Player);
+    Game.belongsTo(Player);
     return Player;
 };
