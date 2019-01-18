@@ -113,7 +113,7 @@ module.exports = function (app) {
                 return Object.assign(
                     {},
                     {
-                        name: Player.name,
+                        name: db.Player.name,
                         score: Game.score
                     }
                 );
