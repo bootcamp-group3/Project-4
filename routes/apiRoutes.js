@@ -99,6 +99,7 @@ module.exports = function (app) {
     // Gets leadearboard
     app.get("/api/leaderboard", function (req, res) {
         db.Game.findAll({
+            limit: 10,
             order: [
                 sequelize.fn("max", sequelize.col("score"))
             ],

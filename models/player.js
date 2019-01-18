@@ -31,6 +31,5 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: 0
         }
     });
-    Player.hasMany(Game, {foreignKey: "googleId"});
     return Player;
 };
