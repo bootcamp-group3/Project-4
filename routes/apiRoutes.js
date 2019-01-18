@@ -106,10 +106,10 @@ module.exports = function (app) {
                 model: db.Player
             }]
         }).then(Game => {
-            const resObj = Game.map(Game => {
+            const resObj = Game.map(leaderboard => {
                 return Object.assign({}, {
-                    name: Game.name,
-                    score: Game.score
+                    name: leaderboard.Player.name,
+                    score: leaderboard.score
                 });
             });
             res.json(resObj);
