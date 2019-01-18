@@ -1,5 +1,6 @@
 const lobby = require("./../app/resources/clerk");
 const cache = require("../models/domain/cache");
+const renderHTML = require("../app/resources/render");
 
 module.exports = function (io) {
     // Load index page
@@ -11,6 +12,25 @@ module.exports = function (io) {
             console.log(`User on socket ${socket.id} has disconnected`);
             if (lobby.has(socket.ID)) {
                 //remove socket from lobby
+            }
+        });
+
+        socket.on("getHTML", function (req) {
+            console.log("A user has requested html");
+            console.log(req);
+            switch (req.for_page) {
+                case "home":
+                    io.emit("render", { "content": renderHTML.home });
+                    break;
+                case "lobby":
+                    io.emit("render", { "content": renderHTML.lobby });
+                    break;
+                case "game":
+                    io.emit("render", { "content": renderHTML.game });
+                    break;
+                default:
+                    io.emit("render", { "content": renderHTML.home });
+                    break;
             }
         });
 

@@ -1,0 +1,28 @@
+<div>
+    <div class="container">
+        <div class="jumbotron col-md-12 text-center">
+            <h1><b>Finding match</b></h1><br>
+            <h1><i class="fa fa-spinner fa-spin"></i></h1>
+            <hr>
+            <h4>Players Currently Online</h4>
+            <h5 id="target-currently-online">1</h5>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+<script>
+    var countDown = 15;
+    socket.emit("in_lobby");
+
+    socket.on("update_lobby", function (message) {
+        if (message !== "undefined") {
+            const gameID = message;
+            const gameSpace = `/${gameID}`;
+            const gameSocket = io(gameSpace);
+            const gameRef = `/game${gameID}`;
+            // window.location.href = gameRef;
+        }
+        console.log(message);
+    });
+</script>
