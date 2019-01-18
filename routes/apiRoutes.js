@@ -76,8 +76,7 @@ module.exports = function (app) {
     app.post("/api/players", function (req, res) {
         console.log(`ID: ${req.body.id}
         ------------------------------
-        ------------------------------`
-        );
+        ------------------------------`);
         const selector = {
             where: {
                 googleId: req.body.id
@@ -95,5 +94,35 @@ module.exports = function (app) {
                     id: result.insertId
                 });
             });
+    });
+    // Gets leadearboard
+    app.get("/api/leaderboard", function (req, res) {
+        db.Game.findAll({
+            limit: 10,
+            order: [
+                ["score", "DESC"]
+            ],
+            include: [{
+                model: db.Player
+            }]
+        }).then(Game => {
+            const resObj = Game.map(Leaderboard => {
+                return Object.assign({}, {
+                    name: Leaderboard.Player.name,
+                    score: Leaderboard.score
+                });
+            });
+            res.json(resObj);
+        });
+    });
+
+    app.post("/api/leaderboard", function (req, res) {
+        db.Game.create({
+            uuid: req.body.uuid,
+            score: req.body.score,
+            PlayerId: req.body.PlayerId
+        }).then(result => {
+            res.json(result.insertId);
+        });
     });
 };
