@@ -101,7 +101,7 @@ module.exports = function (app) {
         db.Game.findAll({
             limit: 10,
             order: [
-                db.sequelize.fn("max", db.sequelize.col("score"))
+                ["score", "DESC"]
             ],
             include: [
                 {
