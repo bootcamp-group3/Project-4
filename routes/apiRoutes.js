@@ -122,7 +122,7 @@ module.exports = function (app) {
             score: req.body.score,
             PlayerId: req.body.PlayerId
         }).then(result => {
-            res.json(res.insertId);
+            res.json(result.insertId);
         });
     });
 };
