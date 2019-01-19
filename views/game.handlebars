@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="/assets/styles/reset.css">
+{{!-- jQuery --}}
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/assets/styles/gameBoard.css">
+
+<div id="board-container">
+    <div id="board-header">
+        <h3 id="title">Tile Tactics</h3>
+    </div>
+    <div id="board-body">
+        <div id="board-frame"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">The Game</h2>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <span><b> Turns remaining: </b></span> <span id="target-turns-remaining">15</span><br>
+                        <span><b> Player 1 Score: </b></span> <span id="target-turns-remaining">0</span><br>
+                        <span><b> Player 2 Score: </b></span> <span id="target-turns-remaining">0</span><br>
+                        <span><b>Tile Details: </b></span> <span id="tile-details"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div id="target-board-target">
+                <div id="target-frame">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+socket.emit("getBoard");
+socket.on("newBoard", function(event){
+    console.log(event.content);
+    $("#target-frame").html(event.content);
+    let currentTile = {
+        x: 5,
+        y: 3
+    };
+    let turn = "playerOne";
+    if (turn === "playerOne") {
+        $(".tile").hover(function(){
+            console.log("hovering");
+            $(`#tile-details`).html(`
+            <ul>
+                <li>X: ${$(this).data("x")}</li>
+                <li>Y: ${$(this).data("y")}</li>
+                <li>Occupied: ${$(this).data("occupied")}</li>
+                <li>Fortifications: ${$(this).data("fort")}</li>
+                <li>Type: ${$(this).data("tileType")}</li>
+            </div>
+            `);
+            }, function() {
+                $(`#tile-details`).html("");
+            
+        });
+        $(".tile").on("click", function(event) {
+            
+            console.log("A tile was clicked.");
+            // error 4,2 4,4
+            let x = $(this).data("x");
+            let y = $(this).data("y");
+            console.log(`X:${x}  Y:${y}`);
+            if (x >= currentTile.x - 1 && x <= currentTile.x + 1 && y >= currentTile.y - 1 && y <= currentTile.y + 1) {
+                
+                if (x === currentTile.x - 1) {
+                    if (y === currentTile.y - 1 || y === currentTile.y + 1) {
+                        console.log("Invalid Move")
+                    } else {
+                        console.log("Valid Move");
+                        $(this).css({border: "solid yellow 2px"});
+                    }
+                } else {
+                    console.log("Valid Move");
+                    $(this).css({border: "solid yellow 2px"});
+                }
+                
+            } else {
+                console.log("Invalid Move")
+            }
+            
+        });
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
+<script src="/assets/scripts/game.js"></script>
