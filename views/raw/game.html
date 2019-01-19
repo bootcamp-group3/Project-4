@@ -28,6 +28,5 @@ socket.emit("getBoard");
 socket.on("newBoard", function(event){
     console.log(event.content);
     $("#target-frame").html(event.content);
-    event.content=$(""
 });
 </script>
