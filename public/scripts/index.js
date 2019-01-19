@@ -1,5 +1,3 @@
-var socket = io();
-
 function onSignIn(googleUser) {
     const profile = googleUser.getBasicProfile();
     const id = profile.getId(); // Do not send to your backend! Use an ID token instead.
@@ -27,17 +25,11 @@ function onSignIn(googleUser) {
         }
     });
 
-    socket.emit("login", {"as" : data });
     window.location.href = "/lobby";
 }
 $(function(){
 
     $("#target-lobby-redirect").on("click", function(){
-        let userTestHandle = $("#input-test-handle").val();
-        let toSocket = {
-            "as" : userTestHandle
-        };
-        socket.emit("join_lobby",toSocket);
         window.location.href="/lobby";
     });
 });

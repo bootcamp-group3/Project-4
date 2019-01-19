@@ -1,11 +1,15 @@
 // var db = require("../models");
 
 module.exports = function (app) {
-    // Load index page
     app.get("/", function (req, res) {
         res.render("index");
     });
-    app.get("/gameBoard", function(req,res){
-        res.render("gameBoard");
+
+    app.get("/game", function(req,res){
+        res.render("game");
+    });
+
+    app.get("/lobby", function(req,res){
+        res.render("lobby");
     });
 };
