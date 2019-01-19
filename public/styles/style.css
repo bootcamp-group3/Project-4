@@ -24,11 +24,14 @@
   margin-top: 5%;
 }
 
-.card-text{
+/* .card-text{
   background-color: rgb(173, 181, 187)
-}
+} */
 
-.heading {}
+.heading {
+  background-color: none;
+  border-bottom: none;
+}
 
 h1 {
   font-family: 'Press Start 2P', cursive;
