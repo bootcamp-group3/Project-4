@@ -2,6 +2,9 @@ const lobby = require("./../app/resources/clerk");
 const cache = require("../models/domain/cache");
 const renderHTML = require("../app/resources/render");
 
+//!For testing
+const game = require("../app/resources/game");
+
 module.exports = function (io) {
     // Load index page
     io.on("connection", function (socket) {
@@ -32,6 +35,13 @@ module.exports = function (io) {
                     io.emit("render", { "content": renderHTML.home });
                     break;
             }
+        });
+
+        socket.on("getBoard", function () {
+            //!For now, just return a random board
+            var testBoard = new game.Board();
+            var blob = game.Board.render(testBoard);
+            io.emit("newBoard", { "content": blob });
         });
 
         socket.on("login", function (args) {
