@@ -38,29 +38,6 @@ socket.on("connect", function () {
     // Use the join_game protocol to join namespace
     socket.emit("join_game", gameID);
 
-    // Wait for a start_game response
-    socket.on("start_game", function (event) {
-        console.log("# start game with dat:");
-        console.log(event.content);
-        // Declare newEvent
-        let newEvent = event.content;
-        // Add player to data object
-        newEvent.players = {};
-        newEvent.players[socketID] = {
-            position: {
-                x: 1,
-                y: 1
-            },
-            score: {
-                tiles: 0,
-                fortified: 0
-            }
-        };
-        console.log("# append player, update game with dat:");
-        console.log(newEvent);
-        socket.emit("send_update", { "id": gameID, "content": newEvent });
-    });
-
     socket.on("get_update", function (msg) {
         console.log(msg);
         if (msg.players[socketID] === undefined) {
@@ -72,24 +49,45 @@ socket.on("connect", function () {
                     x: 10,
                     y: 10
                 },
+                spawn: {
+                    x: 0,
+                    y: 0
+                },
                 score: {
                     tiles: 0,
                     fortified: 0
                 }
             };
+            if (msg.reserved.length > 1) {
+                newEvent.players[socketID].spawn.x = msg.reserved[0].x;
+                newEvent.players[socketID].spawn.y = msg.reserved[0].y;
+                newEvent.players[socketID].position.x = msg.reserved[0].x;
+                newEvent.players[socketID].position.y = msg.reserved[0].y;
+
+                let spawnIndex = newEvent.players[socketID].position.x * (newEvent.players[socketID].position.y + 1);
+                newEvent.tiles[spawnIndex].owner = socketID;
+                newEvent.tiles[spawnIndex].fortified = 6;
+
+                newEvent.reserved = [msg.reserved[1]];
+            } else if (msg.reserved.length === 1) {
+                newEvent.players[socketID].spawn.x = msg.reserved[0].x;
+                newEvent.players[socketID].spawn.y = msg.reserved[0].y;
+                newEvent.players[socketID].position.x = msg.reserved[0].x;
+                newEvent.players[socketID].position.y = msg.reserved[0].y;
+
+                newEvent.reserved = null;
+            }
             socket.emit("send_update", { "id": gameID, "content": newEvent });
         } else {
             console.log("Player already in obj");
             renderBoard(msg);
-            var tiles = document.getElementsByClassName("tile");
-            console.log(tiles);
-            
-            let turn = socketID;
-            if (turn === socketID) {
-                $(".tile").hover(function () {
-                    console.log($(".tile").data("x"));
-                    console.log("hovering");
-                    $("#tile-details").html(`
+            // var tiles = document.getElementsByClassName("tile");
+            // console.log(tiles);
+
+            $(".tile").hover(function () {
+                console.log($(".tile").data("x"));
+                console.log("hovering");
+                $("#tile-details").html(`
                             <ul>
                                 <li>X: ${$(this).data("x")}</li>
                                 <li>Y: ${$(this).data("y")}</li>
@@ -97,9 +95,12 @@ socket.on("connect", function () {
                                 <li>Fortifications: ${$(this).data("fortified")}</li>
                                 <li>Type: ${$(this).data("tileType")}</li>
                             </ul>`);
-                }, function () {
-                    $("#tile-details").html("");
-                });
+            }, function () {
+                $("#tile-details").html("");
+            });
+            
+            let turn = socketID;
+            if (turn === socketID) {
             
                 $(".tile").on("click", function (event) {
             

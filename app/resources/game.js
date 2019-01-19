@@ -1,8 +1,8 @@
 const cache = require("../../models/domain/cache");
 
 const defaultBoardOptions = {
-    xLim: 11,
-    yLim: 11,
+    xLim: 12,
+    yLim: 12,
     border: 3,
     bonusLim: 3
 };
@@ -92,7 +92,7 @@ class Board {
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
-            let spawnX = Math.floor(Math.random() * (this.xLim / q)) + ((this.xLim / q) * c);
+            let spawnX = Math.floor((Math.random() * (this.xLim / q)) + ((this.xLim / q) * c));
             let spawnY = Math.floor(Math.random() * (this.yLim));
             this.reserved.push({
                 reservedFor: "spawn",
