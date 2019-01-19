@@ -77,7 +77,6 @@ class Tile {
             } 
         }
     }
-
 }
 
 class Board {
@@ -85,6 +84,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.players = {};
         this.reserved = [];
         this.tiles = [];
         this.spawnPlayers(2);
@@ -113,12 +113,13 @@ class Board {
 module.exports = {
     hasBoard: async function (gameID) {
         let state = await cache.retrieveObj(gameID);
+        // console.log(state);
         if (state === null) {
             let newBoard = new Board();
             await cache.updateObj(gameID, newBoard);
             return Promise.resolve([false, newBoard]);
         } else {
-            return Promise.resolve([true]);
+            return Promise.resolve([true, state]);
         }
     },
     Board: Board,

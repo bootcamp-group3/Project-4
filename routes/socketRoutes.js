@@ -17,13 +17,6 @@ module.exports = function (io) {
             }
         });
 
-        socket.on("getBoard", function () {
-            //!For now, just return a random board
-            var testBoard = new game.Board();
-            var blob = game.Board.render(testBoard);
-            io.emit("newBoard", { "content": blob });
-        });
-
         socket.on("login", function (args) {
             console.log("This user has requested authentication via OAUTH");
             console.log(args);
@@ -57,19 +50,23 @@ module.exports = function (io) {
                 let gameState = await Game.hasBoard(id);
                 if (gameState[0] === false) {
                     console.log("Needs board");
-                    io.to(id).emit("start_game", { "content": gameState[1] });
+                    io.to(id).emit("get_update", gameState[1]);
+                } else if (gameState[0] === true) {
+                    console.log("Has board. Sending now...");
+                    io.to(gameId).emit("get_update", gameState[1]);
                 }
             }
             checkBoard(id);
             console.log(`Player: ${socket.id} joined game: ${id}`);
         });
 
-        socket.on("send_update", function(obj) {
+        socket.on("send_update", function (obj) {
             gameId = obj.id;
             content = obj.content;
+            console.log(`Update to game ${gameId} from socket ${socket.id}`);
 
             try {
-                socket.to(gameId).emit("get_update", obj.content);
+                io.to(gameId).emit("get_update", obj.content);
             } catch (e) {
                 console.log(e);
             }
