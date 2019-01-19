@@ -10,6 +10,7 @@
                         <span><b> Turns remaining: </b></span> <span id="target-turns-remaining">15</span><br>
                         <span><b> Player 1 Score: </b></span> <span id="target-turns-remaining">0</span><br>
                         <span><b> Player 2 Score: </b></span> <span id="target-turns-remaining">0</span><br>
+                        <span><b>Tile Details: </b></span> <span id="tile-details"></span>
                     </div>
                 </div>
             </div>
@@ -28,5 +29,54 @@ socket.emit("getBoard");
 socket.on("newBoard", function(event){
     console.log(event.content);
     $("#target-frame").html(event.content);
+    let currentTile = {
+        x: 5,
+        y: 3
+    };
+    let turn = "playerOne";
+    if (turn === "playerOne") {
+        $(".tile").hover(function(){
+            console.log("hovering");
+            var x = $(this).data("x");
+            var y = $(this).data("y");
+            $(`#tile-details`).html(`
+            <ul>
+                <li>X: ${$(this).data("x")}</li>
+                <li>Y: ${$(this).data("y")}</li>
+                <li>Occupied: ${$(this).data("occupied")}</li>
+                <li>Fortifications: ${$(this).data("fort")}</li>
+                <li>Type: ${$(this).data("tileType")}</li>
+            </div>
+            `);
+            }, function() {
+                $(`#tile-details`).html("");
+            
+        });
+        $(".tile").on("click", function(event) {
+            
+            console.log("A tile was clicked.");
+            // error 4,2 4,4
+            let x = $(this).data("x");
+            let y = $(this).data("y");
+            console.log(`X:${x}  Y:${y}`);
+            $(this).css({border: "solid yellow 2px"})
+            if (x >= currentTile.x - 1 && x <= currentTile.x + 1 && y >= currentTile.y - 1 && y <= currentTile.y + 1) {
+                
+                if (x === currentTile.x - 1) {
+                    if (y === currentTile.y - 1 || y === currentTile.y + 1) {
+                        console.log("Invalid Move")
+                    } else {
+                        console.log("Valid Move")
+                    }
+                } else {
+                    console.log("Valid Move");
+                }
+                
+            } else {
+                console.log("Invalid Move")
+            }
+            
+        });
+    }
 });
 </script>

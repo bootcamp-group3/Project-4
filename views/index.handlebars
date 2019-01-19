@@ -24,6 +24,7 @@
         });
         socket.on("render", function (event) {
                 console.log(event);
+                console.log(event.turn)
                 $("#target-render-page").html(event.content)
             });
     </script>
