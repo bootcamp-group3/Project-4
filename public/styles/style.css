@@ -1,3 +1,11 @@
 h1 {
   font-family: 'Press Start 2P', cursive;
+};
+
+h3, h5 {
+  font-family: 'Montserrat', sans-serif;
+};
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
