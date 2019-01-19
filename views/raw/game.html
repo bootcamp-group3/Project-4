@@ -37,8 +37,6 @@ socket.on("newBoard", function(event){
     if (turn === "playerOne") {
         $(".tile").hover(function(){
             console.log("hovering");
-            var x = $(this).data("x");
-            var y = $(this).data("y");
             $(`#tile-details`).html(`
             <ul>
                 <li>X: ${$(this).data("x")}</li>
@@ -59,17 +57,18 @@ socket.on("newBoard", function(event){
             let x = $(this).data("x");
             let y = $(this).data("y");
             console.log(`X:${x}  Y:${y}`);
-            $(this).css({border: "solid yellow 2px"})
             if (x >= currentTile.x - 1 && x <= currentTile.x + 1 && y >= currentTile.y - 1 && y <= currentTile.y + 1) {
                 
                 if (x === currentTile.x - 1) {
                     if (y === currentTile.y - 1 || y === currentTile.y + 1) {
                         console.log("Invalid Move")
                     } else {
-                        console.log("Valid Move")
+                        console.log("Valid Move");
+                        $(this).css({border: "solid yellow 2px"});
                     }
                 } else {
                     console.log("Valid Move");
+                    $(this).css({border: "solid yellow 2px"});
                 }
                 
             } else {
