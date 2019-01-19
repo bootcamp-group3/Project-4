@@ -2,7 +2,7 @@ const lobby = require("./../app/resources/clerk");
 const cache = require("../models/domain/cache");
 
 //!For testing
-const game = require("../app/resources/game");
+const Game = require("../app/resources/game");
 
 module.exports = function (io) {
     // Load index page
@@ -35,7 +35,7 @@ module.exports = function (io) {
                 console.log(args);
             }
             lobby.join(socket.id).then(function (players) {
-                const game = new cache();
+                let game = new cache();
 
                 console.log(players);
 
@@ -53,7 +53,14 @@ module.exports = function (io) {
             } catch (e) {
                 console.log(e);
             }
-
+            async function checkBoard(id) {
+                let gameState = await Game.hasBoard(id);
+                if (gameState[0] === false) {
+                    console.log("Needs board");
+                    io.to(id).emit("start_game", { "content": gameState[1] });
+                }
+            }
+            checkBoard(id);
             console.log(`Player: ${socket.id} joined game: ${id}`);
         });
 

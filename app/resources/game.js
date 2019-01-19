@@ -1,3 +1,5 @@
+const cache = require("../../models/domain/cache");
+
 const defaultBoardOptions = {
     xLim: 11,
     yLim: 11,
@@ -106,43 +108,19 @@ class Board {
             }
         }
     }
-    static render(state) {
-        let tiles = state.tiles;
-        let tileWidth = 60;
-        let tileHeight = 52;
-        let positionH;
-        let parentID = "board";
-        let parentDiv =`<div id="${parentID}" style="position:relative;">`;
-        for (var q = 0; q < tiles.length; q++){
-            let thisTile = tiles[q];
-            if (thisTile.y % 2 !== 0) {
-                positionH = thisTile.x * tileWidth + tileWidth / 2;
-            } else {
-                positionH = thisTile.x * tileWidth;
-            }
-
-            let tileElem = 
-            `<img class="tile" 
-            style="width:${tileWidth}px; position:absolute; right:${positionH}px; top:${thisTile.y*tileHeight}px;"
-            id="${thisTile.x},${thisTile.y}"
-            data-x="${thisTile.x}" 
-            data-y="${thisTile.y}" 
-            data-tileType="${thisTile.type}" 
-            data-owner="${thisTile.owner}" 
-            data-fort="${thisTile.fortified}"
-            data-occupied="null" 
-            src="/assets/media/tile_grass.png"
-            style="z-index: 1">
-            </div>`;
-            parentDiv += tileElem;
-        }
-        parentDiv = parentDiv + "</div>";
-        return parentDiv;
-    }
 }
 
-
 module.exports = {
+    hasBoard: async function (gameID) {
+        let state = await cache.retrieveObj(gameID);
+        if (state === null) {
+            let newBoard = new Board();
+            await cache.updateObj(gameID, newBoard);
+            return Promise.resolve([false, newBoard]);
+        } else {
+            return Promise.resolve([true]);
+        }
+    },
     Board: Board,
     Tile: Tile
 };
