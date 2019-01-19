@@ -1,8 +1,8 @@
 const cache = require("../../models/domain/cache");
 
 const defaultBoardOptions = {
-    xLim: 11,
-    yLim: 11,
+    xLim: 12,
+    yLim: 12,
     border: 3,
     bonusLim: 3
 };
@@ -77,7 +77,6 @@ class Tile {
             } 
         }
     }
-
 }
 
 class Board {
@@ -85,6 +84,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.players = {};
         this.reserved = [];
         this.tiles = [];
         this.spawnPlayers(2);
@@ -92,7 +92,7 @@ class Board {
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
-            let spawnX = Math.floor(Math.random() * (this.xLim / q)) + ((this.xLim / q) * c);
+            let spawnX = Math.floor((Math.random() * (this.xLim / q)) + ((this.xLim / q) * c));
             let spawnY = Math.floor(Math.random() * (this.yLim));
             this.reserved.push({
                 reservedFor: "spawn",
@@ -113,12 +113,13 @@ class Board {
 module.exports = {
     hasBoard: async function (gameID) {
         let state = await cache.retrieveObj(gameID);
+        // console.log(state);
         if (state === null) {
             let newBoard = new Board();
             await cache.updateObj(gameID, newBoard);
             return Promise.resolve([false, newBoard]);
         } else {
-            return Promise.resolve([true]);
+            return Promise.resolve([true, state]);
         }
     },
     Board: Board,
