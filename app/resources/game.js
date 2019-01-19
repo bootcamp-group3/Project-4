@@ -43,6 +43,7 @@ class Tile {
         this.y = coords[1];
         this.owner = null;
         this.fortified = 0;
+        this.occupied = null;
 
         // Logic to check if the Tile we are constructing is one of our two reserved tiles
         if (this.x === board.reserved[0].x && this.y === board.reserved[0].y || this.x === board.reserved[1].x && this.y === board.reserved[1].y) {
@@ -123,12 +124,15 @@ class Board {
             let tileElem = 
             `<img class="tile" 
             style="width:${tileWidth}px; position:absolute; right:${positionH}px; top:${thisTile.y*tileHeight}px;"
+            id="${thisTile.x},${thisTile.y}"
             data-x="${thisTile.x}" 
             data-y="${thisTile.y}" 
             data-tileType="${thisTile.type}" 
             data-owner="${thisTile.owner}" 
-            data-fort="${thisTile.fortified}" 
-            src="/assets/media/tile_grass.png">
+            data-fort="${thisTile.fortified}"
+            data-occupied="null" 
+            src="/assets/media/tile_grass.png"
+            style="z-index: 1">
             </div>`;
             parentDiv += tileElem;
         }
