@@ -4,12 +4,6 @@ function onSignIn(googleUser) {
     const name = profile.getName();
     const icon = profile.getImageUrl();
 
-    var data = {
-        "id": id,
-        "name": name,
-        "icon": icon
-    };
-
     console.log(`
     ID: ${id}
     Name: ${name}
@@ -28,7 +22,11 @@ function onSignIn(googleUser) {
     window.location.href = "/lobby";
 }
 $(function(){
-
+    $.get("/api/leaderboard").then(function (dat) {
+        console.log(dat);
+    }).catch(function (err) {
+        console.log(err);
+    });
     $("#target-lobby-redirect").on("click", function(){
         window.location.href="/lobby";
     });
