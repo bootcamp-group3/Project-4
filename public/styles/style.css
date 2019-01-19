@@ -1,5 +1,9 @@
 #back {
-  background-color: #ffc107 !important
+  background-color: #ffc107;
+}
+
+.btn {
+  background-color: #0F8B8D;
 }
 
 h1 {
@@ -14,7 +18,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* html {
-  background-image: url("/assets/media/background.jpg");
-}; */
+html {
+  background-color: #3C4D59;
+}
 
