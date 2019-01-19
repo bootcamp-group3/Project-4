@@ -24,6 +24,10 @@
   margin-top: 5%;
 }
 
+#text-body{
+  background-color: rgb(173, 181, 187)
+}
+
 h1 {
   font-family: 'Press Start 2P', cursive;
 }
@@ -34,7 +38,7 @@ h3, h5 {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #3C4D59;
+  background-color: rgb(66, 66, 66);
 }
 
 
