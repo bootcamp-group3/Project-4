@@ -28,10 +28,7 @@
   background-color: rgb(173, 181, 187)
 }
 
-.heading {
-  background-color: none;
-  border-bottom: none;
-}
+.heading {}
 
 h1 {
   font-family: 'Press Start 2P', cursive;
