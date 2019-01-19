@@ -1,42 +1,33 @@
-
 const defaultBoardOptions = {
-    xLim: 16,
-    yLim: 16,
+    xLim: 11,
+    yLim: 11,
     border: 3,
     bonusLim: 3
 };
 
-// typeRoll is the chance factor in board generation. 
-// When a new instance of the Tile class is created, it will call 
-// typeRoll on itself ( { tile : this , zone : < typeRoll action > } )
-
-// typeRoll then directly modifies the necessary property in the
-// Tile instance object
-const $ = require("jquery");
-
 function typeRoll(tile, zone) {
     var roll;
     switch (zone) {
-    case "border":
+        case "border":
         // For border tiles, we roll for either a 0 (Plain type) or a 1 (Ocean obstacle type)
-        roll = Math.round(Math.random());
-        // We set the tile's type property to the result
-        return tile.type = roll;
-    case "inland":
-        // For inland tiles, we again roll for either a 0 or a 1
-        roll = Math.round(Math.random());
-        if (roll === 1) {
-            // This time, if we roll a 1 
-            return tile.type = 2;
-        } else {
+            roll = Math.round(Math.random());
+            // We set the tile's type property to the result
             return tile.type = roll;
-        }
-    case "bonusType":
-        roll = Math.floor(Math.random() * 3);
-        return tile.bonusType = roll;
-    default:
-        roll = Math.round(Math.random());
-        return roll;
+        case "inland":
+            // For inland tiles, we again roll for either a 0 or a 1
+            roll = Math.round(Math.random());
+            if (roll === 1) {
+                // This time, if we roll a 1 
+                return tile.type = 2;
+            } else {
+                return tile.type = roll;
+            }
+        case "bonusType":
+            roll = Math.floor(Math.random() * 3);
+            return tile.bonusType = roll;
+        default:
+            roll = Math.round(Math.random());
+            return roll;
     }
 }
 
@@ -109,41 +100,40 @@ class Board {
     }
     generate() {
         for (var row = 0; row < this.yLim; row++) {
-            let thisRow = [];
             for (var col = 0; col < this.xLim; col++) {
-                thisRow.push(new Tile([col, row], this));
+                this.tiles.push(new Tile([col, row], this));
             }
-            this.tiles.push(thisRow);
         }
     }
-    static render(state){
-        let frame = $("<div>");
-        let tileContainer = $("<div>").attr("class","tile-container");
-        for (var row in state.tiles){
-            let tileRow = $("<div>").attr("class","tile-row");
-            for (var col in state.tiles){
-                let tileElement = $("<div>").attr("class", "tile-element");
-                let tileData = state.tiles[row][col];
-                switch(tileData.type){
-                case 0 :
-                    tileElement.attr("class","tile-plain");
-                    break;
-                case 1 :
-                    tileElement.attr("class","tile-ocean");
-                    break;
-                case 2 :
-                    tileElement.attr("class","tile-mountain");
-                    break;
-                default:
-                    tileElement = null;
-                }
-                tileRow.append(tileElement);
+    static render(state) {
+        let tiles = state.tiles;
+        let tileWidth = 60;
+        let tileHeight = 52;
+        let positionH;
+        let parentID = "board";
+        let parentDiv =`<div id="${parentID}" style="position:relative;">`;
+        for (var q = 0; q < tiles.length; q++){
+            let thisTile = tiles[q];
+            if (thisTile.y % 2 !== 0) {
+                positionH = thisTile.x * tileWidth + tileWidth / 2;
+            } else {
+                positionH = thisTile.x * tileWidth;
             }
-            tileContainer.append(tileRow);
-        }
-        frame.append(tileContainer);
 
-        return frame;
+            let tileElem = 
+            `<img class="tile" 
+            style="width:${tileWidth}px; position:absolute; right:${positionH}px; top:${thisTile.y*tileHeight}px;"
+            data-x="${thisTile.x}" 
+            data-y="${thisTile.y}" 
+            data-tileType="${thisTile.type}" 
+            data-owner="${thisTile.owner}" 
+            data-fort="${thisTile.fortified}" 
+            src="/assets/media/tile_grass.png">
+            </div>`;
+            parentDiv += tileElem;
+        }
+        parentDiv = parentDiv + "</div>";
+        return parentDiv;
     }
 }
 

@@ -1,12 +1,32 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">The Game</h2>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <span><b> Turns remaining: </b></span> <span id="target-turns-remaining">15</span><br>
+                        <span><b> Player 1 Score: </b></span> <span id="target-turns-remaining">0</span><br>
+                        <span><b> Player 2 Score: </b></span> <span id="target-turns-remaining">0</span><br>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-9">
             <div id="target-board-target">
-                <div id="target-frame"></div>
+                <div id="target-frame">
+
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+socket.emit("getBoard");
+socket.on("newBoard", function(event){
+    console.log(event.content);
+    $("#target-frame").html(event.content);
+});
+</script>
