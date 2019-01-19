@@ -7,6 +7,14 @@
   background-color: #0F8B8D;
 }
 
+.card{
+  padding: 0;
+}
+
+.card-header {
+  margin-top: 5%;:
+}
+
 h1 {
   font-family: 'Press Start 2P', cursive;
 }
