@@ -40,19 +40,40 @@
     </div>
 </div>
 <script>
-socket.emit("getBoard");
-socket.on("newBoard", function(event){
-    console.log(event.content);
-    $("#target-frame").html(event.content);
-    let currentTile = {
-        x: 5,
-        y: 3
-    };
-    let turn = "playerOne";
-    if (turn === "playerOne") {
-        $(".tile").hover(function(){
-            console.log("hovering");
-            $(`#tile-details`).html(`
+    const url = window.location.pathname;
+    const gameId = url.substr(url.lastIndexOf('/') + 1);
+    console.log(gameId);
+    const socket = io();
+
+    socket.on("connect", function (event) {
+        socketId = socket.io.engine.id;
+        console.log(socketId);
+    });
+
+    socket.emit("join_game", gameId);
+
+    obj = {
+        id: gameId,
+        content: `hi there ${gameId}`
+    }
+    socket.emit("send_update", obj);
+    socket.on("get_update", function (event) {
+        console.log("test");
+        console.log(event);
+    });
+
+    socket.emit("getBoard");
+    socket.on("newBoard", function (event) {
+        $("#target-frame").html(event.content);
+        let currentTile = {
+            x: 5,
+            y: 3
+        };
+        let turn = "playerOne";
+        if (turn === "playerOne") {
+            $(".tile").hover(function () {
+                console.log("hovering");
+                $(`#tile-details`).html(`
             <ul>
                 <li>X: ${$(this).data("x")}</li>
                 <li>Y: ${$(this).data("y")}</li>
@@ -61,39 +82,38 @@ socket.on("newBoard", function(event){
                 <li>Type: ${$(this).data("tileType")}</li>
             </div>
             `);
-            }, function() {
+            }, function () {
                 $(`#tile-details`).html("");
-            
-        });
-        $(".tile").on("click", function(event) {
-            
-            console.log("A tile was clicked.");
-            // error 4,2 4,4
-            let x = $(this).data("x");
-            let y = $(this).data("y");
-            console.log(`X:${x}  Y:${y}`);
-            if (x >= currentTile.x - 1 && x <= currentTile.x + 1 && y >= currentTile.y - 1 && y <= currentTile.y + 1) {
-                
-                if (x === currentTile.x - 1) {
-                    if (y === currentTile.y - 1 || y === currentTile.y + 1) {
-                        console.log("Invalid Move")
+
+            });
+            $(".tile").on("click", function (event) {
+
+                console.log("A tile was clicked.");
+                // error 4,2 4,4
+                let x = $(this).data("x");
+                let y = $(this).data("y");
+                console.log(`X:${x}  Y:${y}`);
+                if (x >= currentTile.x - 1 && x <= currentTile.x + 1 && y >= currentTile.y - 1 && y <= currentTile.y + 1) {
+
+                    if (x === currentTile.x - 1) {
+                        if (y === currentTile.y - 1 || y === currentTile.y + 1) {
+                            console.log("Invalid Move")
+                        } else {
+                            console.log("Valid Move");
+                            $(this).css({ border: "solid yellow 2px" });
+                        }
                     } else {
                         console.log("Valid Move");
-                        $(this).css({border: "solid yellow 2px"});
+                        $(this).css({ border: "solid yellow 2px" });
                     }
+
                 } else {
-                    console.log("Valid Move");
-                    $(this).css({border: "solid yellow 2px"});
+                    console.log("Invalid Move")
                 }
-                
-            } else {
-                console.log("Invalid Move")
-            }
-            
-        });
-    }
-});
+
+            });
+        }
+    })
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.js"></script>
-<script src="/assets/scripts/game.js"></script>

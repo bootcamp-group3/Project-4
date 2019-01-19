@@ -33,7 +33,7 @@ module.exports = {
         console.log("To cache: ");
         console.log(updatedLobbyState);
         await Cache.updateObj("lobby", updatedLobbyState);
-        return Promise.resolve([updatedLobbyState, players]);
+        return Promise.resolve(players);
     },
     has : function(socketID){
         Cache.retrieveObj("lobby").then(function(lobbyState){
