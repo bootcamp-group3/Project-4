@@ -24,8 +24,13 @@
   margin-top: 5%;
 }
 
-#text-body{
+.card-text{
   background-color: rgb(173, 181, 187)
+}
+
+.heading {
+  background-color: none;
+  border-bottom: none;
 }
 
 h1 {
