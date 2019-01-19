@@ -1,3 +1,7 @@
+.card {
+  background-color: #D3A500 !important
+};
+
 h1 {
   font-family: 'Press Start 2P', cursive;
 };
@@ -14,10 +18,6 @@ html {
   background-image: url("/assets/media/background.jpg");
 };
 
-.card {
-  background-color: #D3A500 !important
-};
-
-/* .card-body {
+.card-body {
   background-color: #ffffff
-}; */
+};
