@@ -19,6 +19,10 @@
   margin: 5%;
 }
 
+.jumbotron {
+  background-color: #ffc107;
+}
+
 h1 {
   font-family: 'Press Start 2P', cursive;
 }
