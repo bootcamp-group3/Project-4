@@ -5,7 +5,8 @@ module.exports = function (app) {
         res.render("index");
     });
 
-    app.get("/game", function(req,res){
+    app.get("/game/:id", function(req,res){
+        console.log(req.params.id);
         res.render("game");
     });
 
