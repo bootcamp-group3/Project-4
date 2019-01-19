@@ -13,3 +13,11 @@ body {
 html {
   background-image: url("/assets/media/background.jpg");
 };
+
+.container {
+  background-color: #D3A500,
+};
+
+.card-body {
+  background-color: #ffffff
+};
