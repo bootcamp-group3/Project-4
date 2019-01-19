@@ -14,9 +14,9 @@ body {
   font-family: 'Roboto', sans-serif;
 };
 
-html {
+/* html {
   background-image: url("/assets/media/background.jpg");
-};
+}; */
 
 .card-body {
   background-color: #ffffff
