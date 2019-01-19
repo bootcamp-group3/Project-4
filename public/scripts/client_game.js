@@ -75,6 +75,10 @@ socket.on("connect", function () {
                 newEvent.players[socketID].position.x = msg.reserved[0].x;
                 newEvent.players[socketID].position.y = msg.reserved[0].y;
 
+                let spawnIndex = newEvent.players[socketID].position.x * (newEvent.players[socketID].position.y + 1);
+                newEvent.tiles[spawnIndex].owner = socketID;
+                newEvent.tiles[spawnIndex].fortified = 6;
+
                 newEvent.reserved = null;
             }
             socket.emit("send_update", { "id": gameID, "content": newEvent });
