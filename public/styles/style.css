@@ -1,3 +1,49 @@
-.list-group-item {
-  line-height: 2.5;
+#back {
+  background-color: inherit;
+  margin-top: 5%;
 }
+
+.btn {
+  background-color: #0F8B8D;
+}
+
+.card{
+  padding: 0;
+}
+
+.card-header {
+  padding-top: 5%;
+}
+
+.card-text{
+  margin: 5%;
+}
+
+.jumbotron {
+  background-color: #ffc107;
+  margin-top: 5%;
+}
+
+/* .card-text{
+  background-color: rgb(173, 181, 187)
+} */
+
+.heading {
+  background-color: none;
+  border-bottom: none;
+}
+
+h1 {
+  font-family: 'Press Start 2P', cursive;
+}
+
+h3, h5 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: rgb(66, 66, 66);
+}
+
+
