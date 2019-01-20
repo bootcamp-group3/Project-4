@@ -1,6 +1,8 @@
+const cache = require("../../models/domain/cache");
+
 const defaultBoardOptions = {
-    xLim: 11,
-    yLim: 11,
+    xLim: 12,
+    yLim: 12,
     border: 3,
     bonusLim: 3
 };
@@ -75,7 +77,6 @@ class Tile {
             } 
         }
     }
-
 }
 
 class Board {
@@ -83,6 +84,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.players = {};
         this.reserved = [];
         this.tiles = [];
         this.spawnPlayers(2);
@@ -90,7 +92,7 @@ class Board {
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
-            let spawnX = Math.floor(Math.random() * (this.xLim / q)) + ((this.xLim / q) * c);
+            let spawnX = Math.floor((Math.random() * (this.xLim / q)) + ((this.xLim / q) * c));
             let spawnY = Math.floor(Math.random() * (this.yLim));
             this.reserved.push({
                 reservedFor: "spawn",
@@ -106,43 +108,20 @@ class Board {
             }
         }
     }
-    static render(state) {
-        let tiles = state.tiles;
-        let tileWidth = 60;
-        let tileHeight = 52;
-        let positionH;
-        let parentID = "board";
-        let parentDiv =`<div id="${parentID}" style="position:relative;">`;
-        for (var q = 0; q < tiles.length; q++){
-            let thisTile = tiles[q];
-            if (thisTile.y % 2 !== 0) {
-                positionH = thisTile.x * tileWidth + tileWidth / 2;
-            } else {
-                positionH = thisTile.x * tileWidth;
-            }
-
-            let tileElem = 
-            `<img class="tile" 
-            style="width:${tileWidth}px; position:absolute; right:${positionH}px; top:${thisTile.y*tileHeight}px;"
-            id="${thisTile.x},${thisTile.y}"
-            data-x="${thisTile.x}" 
-            data-y="${thisTile.y}" 
-            data-tileType="${thisTile.type}" 
-            data-owner="${thisTile.owner}" 
-            data-fort="${thisTile.fortified}"
-            data-occupied="null" 
-            src="/assets/media/tile_grass.png"
-            style="z-index: 1">
-            </div>`;
-            parentDiv += tileElem;
-        }
-        parentDiv = parentDiv + "</div>";
-        return parentDiv;
-    }
 }
 
-
 module.exports = {
+    hasBoard: async function (gameID) {
+        let state = await cache.retrieveObj(gameID);
+        // console.log(state);
+        if (state === null) {
+            let newBoard = new Board();
+            await cache.updateObj(gameID, newBoard);
+            return Promise.resolve([false, newBoard]);
+        } else {
+            return Promise.resolve([true, state]);
+        }
+    },
     Board: Board,
     Tile: Tile
 };

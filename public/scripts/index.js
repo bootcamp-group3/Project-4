@@ -22,11 +22,6 @@ function onSignIn(googleUser) {
     window.location.href = "/lobby";
 }
 $(function(){
-    $.get("/api/leaderboard").then(function (dat) {
-        console.log(dat);
-    }).catch(function (err) {
-        console.log(err);
-    });
     $("#target-lobby-redirect").on("click", function(){
         window.location.href="/lobby";
     });

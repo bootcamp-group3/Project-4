@@ -13,6 +13,7 @@
 </div>
 <script>
     var countDown = 15;
+    const socket = io();
     socket.emit("in_lobby");
 
     socket.on("update_lobby", function (message) {
@@ -21,8 +22,7 @@
             const gameSpace = `/${gameID}`;
             const gameSocket = io(gameSpace);
             const gameRef = `/game${gameID}`;
-            // window.location.href = gameRef;
+            window.location.href = gameRef;
         }
-        console.log(message);
     });
 </script>
