@@ -14,7 +14,17 @@ function renderBoard(state) {
     for (var f = 0; f < state.tiles.length; f++) {
         let thisTile = state.tiles[f];
         let tile = $(`<div class="tile" style="width:${tileWidth}px;position:absolute;top:${thisTile.y * tileWidth}px;left:${thisTile.x * tileWidth}px">`);
-        let tileImg = $("<img src='/assets/media/grass_1.png' class='tile-img' style='width:100%;'>");
+        var tileImgSrc;
+        if (thisTile.type === 9) {
+            tileImgSrc = "castle";
+        } else if (thisTile.type === 0) {
+            tileImgSrc = "grass";
+        } else if (thisTile.type === 2) {
+            tileImgSrc = "obst";
+        } else {
+            tileImgSrc = "grass";
+        }
+        let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
         // tile.text(`(${thisTile.x + 1},${thisTile.y + 1})\nFort:${thisTile.fortified}`);
         tile.data("x", thisTile.x + 1);

@@ -53,7 +53,7 @@ module.exports = function (io) {
                     io.to(id).emit("get_update", gameState[1]);
                 } else if (gameState[0] === true) {
                     console.log("Has board. Sending now...");
-                    io.to(gameId).emit("get_update", gameState[1]);
+                    io.to(id).emit("get_update", gameState[1]);
                 }
             }
             checkBoard(id);
