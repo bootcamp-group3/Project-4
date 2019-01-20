@@ -3,8 +3,8 @@ const cache = require("../../models/domain/cache");
 const defaultBoardOptions = {
     xLim: 12,
     yLim: 12,
-    border: 3,
-    bonusLim: 3
+    border: 2,
+    bonusLim: 2
 };
 
 function typeRoll(tile, zone) {
@@ -17,12 +17,12 @@ function typeRoll(tile, zone) {
             return tile.type = roll;
         case "inland":
             // For inland tiles, we again roll for either a 0 or a 1
-            roll = Math.round(Math.random());
-            if (roll === 1) {
+            roll = Math.round(Math.random()*10);
+            if (roll === 10) {
                 // This time, if we roll a 1 
                 return tile.type = 2;
             } else {
-                return tile.type = roll;
+                return tile.type = 0;
             }
         case "bonusType":
             roll = Math.floor(Math.random() * 3);
