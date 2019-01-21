@@ -1,0 +1,40 @@
+html{
+    height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: rgb(175, 175, 175);
+  height: 100%;
+}
+
+.container{
+  background: rgb(243, 241, 236);
+}
+
+.board-parent{
+    height: 100%;
+}
+
+h3, h5 {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#title {
+    text-align: center;
+    font-size: 18px;
+}
+
+#target-board-target{
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.tile:hover {
+    width: 50px;
+    height: 50px;
+    border: solid yellow 3px;
+    margin: 3px;
+}

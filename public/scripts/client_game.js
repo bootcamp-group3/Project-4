@@ -9,11 +9,12 @@ console.log(`Game ID : ${gameID}`);
 
 //Declare function to render board
 function renderBoard(state) {
-    tileWidth = 60;
+    var tileWidth = 90;
+    var gutter = 5;
     let boardContainer = $("<div class='board-container' style='position:relative;'>");
     for (var f = 0; f < state.tiles.length; f++) {
         let thisTile = state.tiles[f];
-        let tile = $(`<div class="tile" style="width:${tileWidth}px;position:absolute;top:${thisTile.y * tileWidth}px;left:${thisTile.x * tileWidth}px">`);
+        let tile = $(`<div class="tile" style="width:${tileWidth}px;position:absolute;top:${thisTile.y * tileWidth + ((thisTile.y + 1) * gutter)}px;left:${thisTile.x * tileWidth + ((thisTile.x + 1) * gutter)}px">`);
         var tileImgSrc;
         if (thisTile.type === 9) {
             tileImgSrc = "castle";
