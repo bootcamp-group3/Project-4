@@ -75,6 +75,7 @@ class Board {
         this.border = defaultBoardOptions.border;
         this.players = {
             1: {
+                playerID : null,
                 socket: null,
                 loc: {
                     x: null,
@@ -90,6 +91,7 @@ class Board {
                 }
             },
             2: {
+                playerID: null,
                 socket: null,
                 loc: {
                     x: null,
