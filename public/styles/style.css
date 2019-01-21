@@ -11,16 +11,12 @@
   background: rgb(243, 241, 236);
 }
 
-.jumbotron {
-  background-color: #193813;
-  margin-top: 5%;
-}
 .card-header{
   background-color: #ffda07;
 }
 
 .heading {
-  background-color: none;
+  background-color: #528a55;
   border-bottom: none;
 }
 
