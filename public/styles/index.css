@@ -47,7 +47,9 @@ body {
 }
 
 #main{
-    margin-top: 25%
+    margin-top: 10%;
+    box-shadow: 10px 10px 8px #14254485;
+    padding-bottom: 5%;
 }
 
 
