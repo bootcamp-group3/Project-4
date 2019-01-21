@@ -21,8 +21,3 @@ function onSignIn(googleUser) {
 
     window.location.href = "/lobby";
 }
-$(function(){
-    $("#target-lobby-redirect").on("click", function(){
-        window.location.href="/lobby";
-    });
-});

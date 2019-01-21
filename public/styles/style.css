@@ -1,35 +1,22 @@
 #back {
   background-color: inherit;
-  margin-top: 5%;
+
 }
 
 .btn {
   background-color: #0F8B8D;
 }
 
-.card{
-  padding: 0;
+.container{
+  background: rgb(243, 241, 236);
 }
 
-.card-header {
-  padding-top: 5%;
+.card-header{
+  background-color: #ffda07;
 }
-
-.card-text{
-  margin: 5%;
-}
-
-.jumbotron {
-  background-color: #ffc107;
-  margin-top: 5%;
-}
-
-/* .card-text{
-  background-color: rgb(173, 181, 187)
-} */
 
 .heading {
-  background-color: none;
+  background-color: #528a55;
   border-bottom: none;
 }
 
