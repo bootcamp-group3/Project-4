@@ -4,11 +4,11 @@ h1 {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #A3D5FF;
-  color: #00A6A6;
+  background-image: url(../media/background.jpg);
+  color: #035c88;
 }
 
 .jumbotron {
   margin-top: 25%;
-  background-color: #EFCA08;
+  background-color: #ffd400;
 }

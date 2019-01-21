@@ -1,29 +1,19 @@
-#back-layer1 {
-    position: relative;
-    /* The image used */
-    background-image: url("https://medievalbooks.files.wordpress.com/2015/09/ambrogio_lorenzetti_effects.jpg");
-
-    /* Full height */
-    height: 100%;
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: color-burn;
+.body{
+    background-color: #0675d2b3;
 }
-#back-layer2{
-    background: rgba(65, 65, 65, 0.63);
+
+.heading {
+    padding-top: 2%;
+    background-color: #ffd400;
+    color: #035c88;
 }
 
 .container{
-    position: relative;
-    background: rgb(240, 255, 243);
-    border-left: solid 2px rgb(65, 65, 65); 
-    border-right: solid 2px rgb(65, 65, 65); 
-    z-index: 1;
-
+    background-color: #D9F0FF;
+    border: solid 2px rgb(65, 65, 65); 
 }
+
+ul.nav a:hover { color: #fff !important; }
 
 .signIn{
     padding: 5%;
