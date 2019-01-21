@@ -1,4 +1,4 @@
-.body{
+.body {
     background-color: #0675d2b3;
 }
 
@@ -8,36 +8,41 @@
     color: #035c88;
 }
 
-.container{
+.container {
     background-color: #D9F0FF;
-    border: solid 2px rgb(65, 65, 65); 
+    border: solid 2px rgb(65, 65, 65);
 }
 
 
-.signIn{
+.signIn {
     padding: 5%;
 }
 
-.signIn-label{
+.signIn-label {
     font-size: 18pt;
     font-weight: 600;
 }
 
 
-.card-header{
+.card-header {
     background-color: #ffda07;
 }
 
-.btn-info{
-    background-color: #155458;
+.btn-info {
+    background-color: #00A6ED;
     color: #ffda07;
+}
+
+.btn-info :hover {
+    color: rgb(0, 70, 100) !important;
 }
 
 h1 {
     font-family: 'Press Start 2P', cursive;
 }
 
-h3, h5 {
+h3,
+h5 {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -46,10 +51,8 @@ body {
     background-image: url(../media/download.png)
 }
 
-#main{
+#main {
     margin-top: 10%;
     box-shadow: 10px 10px 8px #14254485;
     padding-bottom: 5%;
 }
-
-
