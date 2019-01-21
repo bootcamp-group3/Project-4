@@ -7,8 +7,7 @@ const url = window.location.pathname;
 const gameID = url.substr(url.lastIndexOf("/") + 1);
 console.log(`Game ID : ${gameID}`);
 
-// Enable toolTips
-//Declare function to render board
+// Declare function to render board
 function renderBoard(state) {
     $("#target-frame").html("");
     var tileWidth = 90;
@@ -24,12 +23,12 @@ function renderBoard(state) {
         title="<u>Occupied by: </u> <b>${thisTile.owner}</b><br>
         <u>Fortifications: </u> <b>${thisTile.fortified}</b> <br>">`);
         var tileImgSrc;
-        if (thisTile.type === 9) {
-            tileImgSrc = "castle";
-        } else if (thisTile.type === 0) {
+        if (thisTile.type === 0) {
             tileImgSrc = "grass";
         } else if (thisTile.type === 2) {
             tileImgSrc = "obst";
+        } else if (thisTile.type === 9) { 
+            tileImgSrc = "castle";
         } else {
             tileImgSrc = "grass";
         }
@@ -59,55 +58,9 @@ socket.on("connect", function () {
 
     socket.on("get_update", function (msg) {
         console.log(msg);
-        // if (msg.players[socketID] === undefined) {
-        //     let newEvent = msg;
-        //     // Add player to data object
-        //     console.log("Adding player to obj");
-        //     newEvent.players[socketID] = {
-        //         position: {
-        //             x: 10,
-        //             y: 10
-        //         },
-        //         spawn: {
-        //             x: 0,
-        //             y: 0
-        //         },
-        //         score: {
-        //             tiles: 0,
-        //             fortified: 0
-        //         }
-        //     };
-        //     if (msg.reserved.length > 1) {
-        //         newEvent.players[socketID].spawn.x = msg.reserved[0].x;
-        //         newEvent.players[socketID].spawn.y = msg.reserved[0].y;
-        //         newEvent.players[socketID].position.x = msg.reserved[0].x;
-        //         newEvent.players[socketID].position.y = msg.reserved[0].y;
-
-        //         let spawnIndex = newEvent.players[socketID].position.x * (newEvent.players[socketID].position.y + 1);
-        //         newEvent.tiles[spawnIndex].owner = socketID;
-        //         newEvent.tiles[spawnIndex].fortified = 6;
-
-        //         newEvent.reserved = [msg.reserved[1]];
-        //     } else if (msg.reserved.length === 1) {
-        //         newEvent.players[socketID].spawn.x = msg.reserved[0].x;
-        //         newEvent.players[socketID].spawn.y = msg.reserved[0].y;
-        //         newEvent.players[socketID].position.x = msg.reserved[0].x;
-        //         newEvent.players[socketID].position.y = msg.reserved[0].y;
-
-        //         let spawnIndex = newEvent.players[socketID].position.x * (newEvent.players[socketID].position.y + 1);
-        //         newEvent.tiles[spawnIndex].owner = socketID;
-        //         newEvent.tiles[spawnIndex].fortified = 6;
-
-        //         newEvent.reserved = null;
-        //     }
-        //     socket.emit("send_update", { "id": gameID, "content": newEvent });
-        // } else {
-        //     console.log("Player already in obj");
-        //     $(".tile").tooltip("dispose");
-        //     renderBoard(msg);
-        //     $("[data-toggle='tooltip']").tooltip();
-         
-        // }
+        $(".tile").tooltip("dispose");
+        renderBoard(msg);
+        $("[data-toggle='tooltip']").tooltip();
     });
 });
 

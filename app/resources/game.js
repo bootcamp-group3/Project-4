@@ -108,8 +108,8 @@ class Board {
             }
         };
         this.tiles = [];
-        this.spawnPlayers(2);
         this.generate();
+        this.spawnPlayers(2);
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
@@ -119,6 +119,10 @@ class Board {
                 x: spawnX,
                 y: spawnY
             };
+            let spawnIndex = spawnX * (spawnY + 1);
+            this.tiles[spawnIndex].owner = c + 1; 
+            this.tiles[spawnIndex].fortified = 6; 
+            this.tiles[spawnIndex].type = 9; 
         }
     }
     generate() {
