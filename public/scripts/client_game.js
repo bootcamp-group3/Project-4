@@ -19,7 +19,7 @@ function rollDie() {
 }
 
 function waitTurn() {
-    $(".validMove").on("click", function (event) {
+    $(".validMove").on("click", function () {
         let sel = {
             x: $(this).data("x"),
             y: $(this).data("y")
@@ -154,6 +154,7 @@ socket.on("get_update", function (msg) {
                 if (state.players[playerNo].start > state.players[1].start) {
                     state.turn = playerNo;
                     state.setup = false;
+                    $("#turn-modal").modal("hide");
                     $(".tile").tooltip("dispose");
                     renderBoard(state);
                     $("[data-toggle='tooltip']").tooltip();
