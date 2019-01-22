@@ -75,5 +75,28 @@ module.exports = function (io) {
             }
 
         });
+
+        socket.on("game_over", function (obj) {
+            gameID = obj.id;
+            state = obj.content;
+            function tally(player) {
+                return player.score.owned * player.score.fortified;
+            }
+            let p1Score = tally(state.players[1]);
+            let p2Score = tally(state.players[2]);
+            var winner;
+            if (p1Score > p2Score) {
+                winner = 1;
+            } else if (p2Score > p1Score) {
+                winner = 2;
+            } else if (p1Score === p2Score) {
+                winner = null;
+            }
+            io.to(gameID).emit("final_update", { "winner": winner, 1 : p1Score, 2: p2Score });
+        });
+
+        socket.on("final_update", function (obj) {
+            io.to(obj.id).emit("final_update", obj.content);
+        });
     });
 };

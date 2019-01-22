@@ -48,6 +48,13 @@ h3, h5 {
 #target-board-target{
     width: 100%;
     height: 100%;
+}
+
+#target-frame{
+
+    border: groove #ffd400 10px;
+    height: 925px;
+    width: 925px;
     background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
     border: solid black 2px;
 }

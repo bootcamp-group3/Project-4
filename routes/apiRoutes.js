@@ -119,9 +119,9 @@ module.exports = function (app) {
 
     app.post("/api/leaderboard", function (req, res) {
         db.Game.create({
-            uuid: req.body.uuid,
+            uuid: req.body.gameID,
             score: req.body.score,
-            PlayerId: req.body.PlayerId
+            PlayerId: req.body.playerID
         }).then(result => {
             res.json(result.insertId);
         });

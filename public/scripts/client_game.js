@@ -5,6 +5,8 @@ socketID = socket.io.engine.id;
 // Declare player ID
 var playerID = localStorage.getItem("id");
 console.log(`Player: ${playerID}`);
+// Declare user ref (for db/leaderboard purposes)
+var uRef = localStorage.getItem("uRef");
 // Declare play no.
 var playerNo;
 // Parse game ID from url
@@ -16,6 +18,11 @@ console.log(moment().format("hh:mm:ss"));
 
 function rollDie() {
     return Math.floor(Math.random() * 6) + 1;
+}
+
+function gameOver(state){
+    socket.emit("game_over", { "id": gameID, "content": state });
+    socket.removeListener("get_update");
 }
 
 function waitTurn(state) {
@@ -56,14 +63,13 @@ function waitTurn(state) {
                 state.turnsRem--;
                 socket.emit("send_update", { "id": gameID, "content": state });
             });
-        } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo) {
+        } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo && state.tiles[sel.index].type !== "spawn") {
             let toWin = state.tiles[sel.index].fortified;
             $("#target-toWin-disp").text(toWin);
             $("#attack-modal").modal("show");
             $("#attack-button").on("click", function () {
                 let roll = rollDie();
                 if (roll > toWin) {
-                    let roll = rollDie();
                     if (playerNo === 1) {
                         state.players[2].score.owned -= 1;
                         state.players[2].score.fortified -= state.tiles[sel.index].fortified;
@@ -75,6 +81,8 @@ function waitTurn(state) {
                     state.tiles[sel.index].fortified = roll;
                     state.players[playerNo].score.owned += 1;
                     state.players[playerNo].score.fortified += roll;
+                    state.players[playerNo].loc.x = state.tiles[sel.index].x;
+                    state.players[playerNo].loc.y = state.tiles[sel.index].y;
 
                     $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
                     $("#attack-modal").modal("hide");
@@ -270,20 +278,23 @@ socket.on("get_update", function (msg) {
     let myScore = 0;
     let enemyScore = 0;
     if (playerNo === 1) {
-        myScore = state.players[1].owned + state.players[1].fortified;
-        enemyScore = state.players[2].owned + state.players[2].fortified;
+
+        myScore = state.players[1].score.owned + state.players[1].score.fortified;
+        enemyScore = state.players[2].score.owned + state.players[2].score.fortified;
     } else if (playerNo === 2) {
-        myScore = state.players[2].owned + state.players[2].fortified;
-        enemyScore = state.players[1].owned + state.players[1].fortified;
+        myScore = state.players[2].score.owned + state.players[2].score.fortified;
+        enemyScore = state.players[1].score.owned + state.players[1].score.fortified;
     } else {
         myScore = 0;
         enemyScore = 0;
     }
+    console.log(moment().format("hh:mm:ss"));
+    console.log(state);
+    
+
     $("#target-turns-remaining").text((state.turnsRem / 2));
     $("#target-my-score").text(myScore);
     $("#target-enemy-score").text(enemyScore);
-    console.log(moment().format("hh:mm:ss"));
-    console.log(state);
 
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
@@ -319,14 +330,36 @@ socket.on("get_update", function (msg) {
                 }
             });
         }
-    } else {
+    } else if (state.turnsRem > 0){
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
         if (state.turn === playerNo) {
             waitTurn(state);
         }
+    } else if (state.turnsRem === 0) {
+        gameOver(state);
     }
+});
+
+socket.on("final_update", function (msg) {
+    socket.removeListener("final_update");
+    socket.emit("final_update", { "id": gameID, "content": msg });
+    $.post("/api/leaderboard", {
+        gameID: gameID,
+        score: msg[playerNo],
+        playerID: uRef
+    }).then(function (res) {
+        console.log(res);
+    });
+    if (msg.winner === playerNo) {
+        $("#target-winLose").text("YOU WON!");
+    } else if (msg.winner === null) {
+        $("#target-winLose").text("DRAW! TIE GAME!");
+    } else {
+        $("#target-winLose").text("YOU LOST!");
+    }
+    $("gameOver-modal").modal("show");
 });
 
 $(function () {
