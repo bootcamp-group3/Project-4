@@ -72,6 +72,7 @@ socket.on("get_startup", function (msg) {
     console.log(moment().format("hh:mm:ss"));
     console.log("Game startup inititialized");
     let state = msg;
+    console.log(state);
 
     if (state.players[1].playerID === playerID) {
         playerNo = 1;
