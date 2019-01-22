@@ -102,15 +102,16 @@
                 <div class="card-body">
                     <div class="card-text">
                         <ol>
+                            <li>Position Name Score</li>
                             {{#each items}}
                             <li>
-                                {{inc @index}}{{dataValues.Player.name}}{{dataValues.score}}
+                                {{inc @index}} {{dataValues.Player.name}} {{dataValues.score}}
                                 <br><br>
                             </li>
                         </ol>
                         {{/each}}
-                        <i class="fa fa-spinner fa-spin"></i>
-                        <b>Loading Leaderboards...</b>
+                        {{!-- <i class="fa fa-spinner fa-spin"></i>
+                        <b>Loading Leaderboards...</b> --}}
                     </div>
                 </div>
             </div>
