@@ -44,6 +44,10 @@ function waitTurn(state) {
 
                 state.players[playerNo].loc.x = state.tiles[sel.index].x;
                 state.players[playerNo].loc.y = state.tiles[sel.index].y;
+
+                state.players[playerNo].score.owned += 1;
+                state.players[playerNo].score.fortified += roll;
+
                 if (playerNo === 1) {
                     state.turn = 2;
                 } else if (playerNo === 2) {
