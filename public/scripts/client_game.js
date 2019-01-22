@@ -71,7 +71,6 @@ socket.on("connect", function () {
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
-        $("#wait-modal").modal("hide");
 
         if (state.turn === null) {
             if (state.players[1].playerID === playerID && state.players[1].start === null) {

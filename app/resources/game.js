@@ -109,8 +109,8 @@ class Board {
             }
         };
         this.tiles = [];
+        this.setup = true;
         this.generate();
-        this.spawnPlayers(2);
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
@@ -137,6 +137,7 @@ class Board {
                 this.tiles.push(new Tile([col, row], this));
             }
         }
+        this.spawnPlayers(2);
     }
 }
 
