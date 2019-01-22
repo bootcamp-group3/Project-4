@@ -64,11 +64,11 @@ socket.on("get_startup", function (msg) {
     console.log(moment().format("hh:mm:ss"));
     console.log("Game is in setup mode");
     console.log(msg);
-    if (state.players[1].playerID === playerID) {
+    if (msg.players[1].playerID === playerID) {
         playerNo = 1;
         console.log(moment().format("hh:mm:ss"));
         console.log("This client is player number " + playerNo);
-    } else if (state.players[2].playerID === playerID) {
+    } else if (msg.players[2].playerID === playerID) {
         playerNo = 2;
         console.log(moment().format("hh:mm:ss"));
         console.log("This client is player number " + playerNo);
