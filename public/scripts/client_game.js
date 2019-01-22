@@ -35,24 +35,28 @@ function renderBoard(state) {
         <em>Occupied by: </em> <b>${thisTile.owner}</b><br>
         <em>Fortifications: </em> <b>${thisTile.fortified}</b> <br>">`);
         var tileImgSrc;
-        if (thisTile.type === 0) {
-            tileImgSrc = "grass";
-        } else if (thisTile.type === 2) {
+        if (thisTile.type === 2) {
             tileImgSrc = "obst";
-        } else if (thisTile.type === 9) {
-            tileImgSrc = "castle";
         } else {
             tileImgSrc = "grass";
         }
+        if (thisTile.x === state.players[1].spawn.x && thisTile.y === state.players[1].spawn.y) {
+            tileImgSrc = "castle";
+            if (playerNo === 1) {
+                tile.attr("class", "mySpawn");
+            }
+        }
+
+        if (thisTile.x === state.players[2].spawn.x && thisTile.y === state.players[2].spawn.y) {
+            tileImgSrc = "castle";
+            if (playerNo === 2) {
+                tile.attr("class", "mySpawn");
+            }
+        }
+        
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
-        // if (state.turn !== null) {
-        //     if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
-        //         tile.attr("class", "mySpawn");
-        //     } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.players[playerNo].loc.y) {
-        //         tile.attr("class", "myLoc");
-        //     }
-        // }
+        
         tile.data("x", thisTile.x);
         tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
@@ -79,7 +83,7 @@ socket.on("get_startup", function (msg) {
         $("#turn-button").on("click", function () {
             let roll = rollDie();
             state.players[playerNo].start = roll;
-            $("#turn-modal-body").text(roll);
+            $("#turn-modal-body").text("You rolled: " + roll);
             $("#turn-button").off();
             socket.emit("send_update", { "id": gameID, "content": state });
         });
@@ -112,9 +116,13 @@ socket.on("get_update", function (msg) {
                 state.players[playerNo].start = roll;
                 $("#turn-modal-body").text(roll);
                 $("#turn-button").off();
-                socket.emit("send_update", { "id": gameID, "content": state });
+                // socket.emit("send_update", { "id": gameID, "content": state });
+                if (state.players[playerNo].start > state.players[1].start) {
+                    state.turn = playerNo;
+                    renderBoard(state);
+                }
             });
-        }
+        } 
     } else {
         $(".tile").tooltip("dispose");
         renderBoard(state);
