@@ -132,13 +132,16 @@ socket.on("get_update", function (msg) {
                 state.players[playerNo].start = roll;
                 $("#turn-modal-body").text(roll);
                 $("#turn-button").off();
-                // socket.emit("send_update", { "id": gameID, "content": state });
                 if (state.players[playerNo].start > state.players[1].start) {
                     state.turn = playerNo;
                     state.setup = false;
                     $(".tile").tooltip("dispose");
                     renderBoard(state);
                     $("[data-toggle='tooltip']").tooltip();
+                } else {
+                    state.turn = 1;
+                    state.setup = false;
+                    socket.emit("send_update", { "id": gameID, "content": state });
                 }
             });
         } 
