@@ -115,6 +115,10 @@ socket.on("connect", function () {
                 }
                 socket.emit("send_update", { "id": gameID, "content": state });
             }
+        } else if (state.turn === playerNo) {
+            console.log("Your turn!");
+        } else if (state.turn !== playerNo) {
+            console.log("Not your turn!");
         }
     });
 });
