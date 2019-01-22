@@ -61,7 +61,7 @@ function renderBoard(state) {
         tile.html(tileImg);
 
         if (state.turn === playerNo) {
-            if ((thisTile.x >= state.players[playerNo].loc.x - 2 || thisTile.x <= state.players[playerNo].loc.x + 2) && (thisTile.y >= state.players[playerNo].loc.y - 2 || thisTile.y <= state.players[playerNo].loc.y + 2)) {
+            if ((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && (thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2)) {
                 tile.attr("class", "validMove");
             }
         }
