@@ -28,17 +28,19 @@ function renderBoard(state) {
             tileImgSrc = "grass";
         } else if (thisTile.type === 2) {
             tileImgSrc = "obst";
-        } else if (thisTile.type === 9) { 
+        } else if (thisTile.type === 9) {
             tileImgSrc = "castle";
         } else {
             tileImgSrc = "grass";
         }
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
-        if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
-            tile.attr("class", "mySpawn");
-        } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.player[playerNo].loc.y) {
-            tile.attr("class", "myLoc");
+        if (state.turn !== null) {
+            if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
+                tile.attr("class", "mySpawn");
+            } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.player[playerNo].loc.y) {
+                tile.attr("class", "myLoc");
+            }
         }
         // tile.text(`(${thisTile.x + 1},${thisTile.y + 1})\nFort:${thisTile.fortified}`);
         tile.data("x", thisTile.x + 1);
@@ -60,7 +62,7 @@ socket.on("connect", function () {
     console.log(socketID + "\n\n");
 
     // Use the join_game protocol to join namespace
-    socket.emit("join_game", { game: gameID, player: playerID});
+    socket.emit("join_game", { game: gameID, player: playerID });
 
 
     socket.on("get_update", function (msg) {
@@ -73,7 +75,7 @@ socket.on("connect", function () {
             if (state.players[1].playerID === playerID && state.players[1].start === null) {
                 playerNo = 1;
                 $("#turn-modal").modal("show");
-                $("#turn-button").on("click", function () { 
+                $("#turn-button").on("click", function () {
                     $("#turn-button").off();
                     let roll = Math.floor(Math.random() * 6) + 1;
                     console.log(roll);
@@ -82,12 +84,12 @@ socket.on("connect", function () {
                     $("#turn-button").on("click", function () {
                         $("#turn-modal").modal("hide");
                     });
-                    setTimeout(function () { 
+                    setTimeout(function () {
                         $("#turn-modal").modal("hide");
                     }, 2000);
                     state.players[1].start = roll;
                     socket.emit("send_update", { "id": gameID, "content": state });
-                    
+
                 });
             } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
                 $("#wait-modal").modal("show");
