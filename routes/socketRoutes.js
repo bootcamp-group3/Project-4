@@ -92,7 +92,7 @@ module.exports = function (io) {
             } else if (p1Score === p2Score) {
                 winner = null;
             }
-            io.to(gameID).emit("final_update", { "winner": winner, "1": p1Score, "2": p2Score });
+            io.to(gameID).emit("final_update", { "winner": winner, 1 : p1Score, 2: p2Score });
         });
 
         socket.on("final_update", function (obj) {

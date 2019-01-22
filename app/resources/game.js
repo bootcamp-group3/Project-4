@@ -4,7 +4,7 @@ const defaultBoardOptions = {
     xLim: 12,
     yLim: 12,
     border: 2,
-    turnLim: 15
+    turnLim: 2
 };
 
 function typeRoll(tile, zone) {

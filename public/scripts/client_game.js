@@ -342,7 +342,14 @@ socket.on("get_update", function (msg) {
 
 socket.on("final_update", function (msg) {
     socket.removeListener("final_update");
-    socket.emit("final_update", {"id" : gameID, "content":msg});
+    socket.emit("final_update", { "id": gameID, "content": msg });
+    $.post("/api/leaderboard", {
+        gameID: gameID,
+        score: msg[playerNo],
+        playerID: playerID
+    }).then(function (res) {
+        console.log(res);
+    });
 });
 
 $(function () {
