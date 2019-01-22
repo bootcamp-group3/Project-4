@@ -18,7 +18,7 @@ function onSignIn(googleUser) {
         }
     });
 
-    $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "</div><br /><br /><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div>");
+    $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "!</div><br /><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div><br />");
 }
 
 // Flip between static and animated card
