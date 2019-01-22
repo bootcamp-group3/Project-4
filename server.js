@@ -10,9 +10,7 @@ const io = require("socket.io")(http);
 var PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(express.urlencoded({
-    extended: false
-}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/assets", express.static(`${__dirname}/public/.`));
 
@@ -20,16 +18,15 @@ app.use("/assets", express.static(`${__dirname}/public/.`));
 app.engine(
     "handlebars",
     exphbs({
-        defaultLayout: "main"
+        defaultLayout: "main",
+        helpers: {
+            inc: function(value) {
+                return parseInt(value) + 1;
+            }
+        }
     })
 );
-app.engine("handlebars", exphbs({
-    helpers: {
-        inc: function(value) {
-            return parseInt(value) + 1;
-        }
-    }
-}));
+app.set("view engine", "handlebars");
 
 // Routes
 require("./routes/apiRoutes")(app);
@@ -37,9 +34,7 @@ require("./routes/htmlRoutes")(app);
 require("./routes/socketRoutes")(io);
 // require("./models/domain/lobby")(app);
 
-var syncOptions = {
-    force: false
-};
+var syncOptions = { force: false };
 
 // If running a test, set syncOptions.force to true
 // clearing the `testdb`
@@ -48,8 +43,8 @@ if (process.env.NODE_ENV === "test") {
 }
 
 // Starting the server, syncing our models ------------------------------------/
-db.sequelize.sync(syncOptions).then(function () {
-    http.listen(PORT, function () {
+db.sequelize.sync(syncOptions).then(function() {
+    http.listen(PORT, function() {
         console.log(
             "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
             PORT,
