@@ -97,12 +97,12 @@ socket.on("connect", function () {
                     }, 1000);
 
                 });
-            } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
+            } else if (state.players[1].playerID === playerID && state.players[1].start != null) {
                 console.log(moment().format("hh:mm:ss"));
                 console.log("Waiting for opponent to roll");
                 $("#wait-modal").modal("show");
 
-            } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
+            } else if (state.players[2].playerID === playerID && state.players[1].start != null && state.players[2].start === null) {
                 console.log(moment().format("hh:mm:ss"));
                 console.log("Opponent has rolled. Your turn. ");
                 playerNo = 2;
@@ -127,7 +127,7 @@ socket.on("connect", function () {
                 console.log(moment().format("hh:mm:ss"));
                 console.log("Waiting for opponent to roll");
                 $("#wait-modal").modal("show");
-            } else if (state.players[1].start !== null && state.players[2] !== null) {
+            } else if (state.players[1].start != null && state.players[2] != null) {
                 console.log(moment().format("hh:mm:ss"));
                 console.log("Both oppoenents have rolled");
                 if (state.players[1].start > state.players[2].start) {
@@ -140,7 +140,7 @@ socket.on("connect", function () {
         } else if (state.turn === playerNo) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Your turn to make a move");
-        } else if (state.turn !== playerNo) {
+        } else if (state.turn != playerNo && state.turn != null) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Not your turn to make a move");
         }
