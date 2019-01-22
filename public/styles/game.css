@@ -54,3 +54,13 @@ h3, h5 {
     overflow-x: scroll;
     overflow-y: scroll;
 }
+
+.board-container {
+    border: groove #ffd400 10px;
+    height: 925px;
+    width: 925px;
+    margin-left: 100px;
+    background: #FFFEBA;
+    box-shadow: 3px 3px 15px 1px black;
+    float: left;
+}
