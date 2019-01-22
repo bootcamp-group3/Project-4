@@ -29,6 +29,7 @@ function waitTurn(state) {
         if (state.tiles[sel.index].occupied === null) {
             $("#fortify-modal").modal("show");
             $("#roll-button").on("click", function () {
+                $("#fortify-modal").modal("hide");
                 $("#roll-button").off();
                 let roll = rollDie();
                 $("#target-roll-disp").text(roll);
@@ -61,7 +62,7 @@ function waitTurn(state) {
                 if (roll > toWin) {
                     let roll = rollDie();
                     $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
-                    $("#turn-modal").modal("hide");
+                    $("#attack-modal").modal("hide");
                     $("#disp-rolled-modal").modal("show");
                     setTimeout(() => {
                         $("#target-roll-disp").text("");
@@ -70,7 +71,7 @@ function waitTurn(state) {
                 } else if (roll < toWin) {
                     let roll = rollDie();
                     $("#target-roll-disp").text("Opponent prevailed against a roll of " + roll);
-                    $("#turn-modal").modal("hide");
+                    $("#attack-modal").modal("hide");
                     $("#disp-rolled-modal").modal("show");
                     setTimeout(() => {
                         $("#target-roll-disp").text("");
@@ -194,9 +195,9 @@ socket.on("get_startup", function (msg) {
         $("#turn-modal").modal("show");
         $("#turn-button").off();
         $("#turn-button").on("click", function () {
+            $("#turn-modal").modal("hide");
             let roll = rollDie();
             $("#target-roll-disp").text(roll);
-            $("#turn-modal").modal("hide");
             $("#disp-rolled-modal").modal("show");
             setTimeout(() => {
                 $("#target-roll-disp").text("");
@@ -234,9 +235,9 @@ socket.on("get_update", function (msg) {
             $("#turn-modal").modal("show");
             $("#turn-button").off();
             $("#turn-button").on("click", function () {
+                $("#turn-modal").modal("hide");
                 let roll = rollDie(); 
                 $("#target-roll-disp").text(roll);
-                $("#turn-modal").modal("hide");
                 $("#disp-rolled-modal").modal("show");
                 setTimeout(() => {
                     $("#target-roll-disp").text("");
