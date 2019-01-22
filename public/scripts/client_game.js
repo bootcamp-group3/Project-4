@@ -57,8 +57,6 @@ function renderBoard(state) {
 socket.on("connect", function () {
     // Declare socketID
     socketID = socket.io.engine.id;
-    console.log("This client is on socket: ");
-    console.log(socketID + "\n\n");
 
     // Use the join_game protocol to join namespace
     socket.emit("join_game", { game: gameID, player: playerID });
@@ -66,6 +64,10 @@ socket.on("connect", function () {
 
     socket.on("get_update", function (msg) {
         let state = msg;
+
+        console.log("Update! V V V");
+        console.log(state);
+
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
