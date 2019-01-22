@@ -136,14 +136,16 @@ class Board {
 }
 
 module.exports = {
-    hasBoard: async function (gameID) {
+    hasBoard: async function (gameID, playerID) {
         let state = await cache.retrieveObj(gameID);
         // console.log(state);
         if (state === null) {
             let newBoard = new Board();
+            newBoard.players[1].playerID = playerID;
             await cache.updateObj(gameID, newBoard);
             return Promise.resolve([false, newBoard]);
         } else {
+            state.players[0].playerID = playerID;
             return Promise.resolve([true, state]);
         }
     },

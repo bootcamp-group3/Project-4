@@ -54,7 +54,7 @@ socket.on("connect", function () {
     console.log(socketID + "\n\n");
 
     // Use the join_game protocol to join namespace
-    socket.emit("join_game", gameID);
+    socket.emit("join_game", { game: gameID, player: playerID});
 
     socket.on("get_update", function (msg) {
         console.log(msg);

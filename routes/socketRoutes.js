@@ -40,13 +40,15 @@ module.exports = function (io) {
             });
         });
 
-        socket.on("join_game", function(id) {
+        socket.on("join_game", function (msg) {
+            let id = msg.game;
+            let player = msg.player;
             try {
                 socket.join(id);
             } catch (e) {
                 console.log(e);
             }
-            async function checkBoard(id) {
+            async function checkBoard(id, player) {
                 let gameState = await Game.hasBoard(id);
                 if (gameState[0] === false) {
                     console.log("Needs board");
