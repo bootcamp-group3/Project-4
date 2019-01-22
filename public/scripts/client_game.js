@@ -85,8 +85,10 @@ socket.on("get_startup", function (msg) {
     $("#turn-button").off();
     $("#turn-button").on("click", function () {
         let roll = rollDie();
+        state.players[playerNo].start = roll;
         $("#turn-modal-body").text(roll);
         $("#turn-button").off();
+        socket.emit("send_update", { "id": gameID, "content": state });
     });
 });
 
@@ -99,6 +101,11 @@ socket.on("get_update", function (msg) {
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
         console.log(state);
+        if (6 >= state.players[1] > 0 && 6 >= state.players[2] > 0) {
+            console.log(moment().format("hh:mm:ss"));
+            console.log("Both players have rolled");
+            
+        }
     } else {
         $(".tile").tooltip("dispose");
         renderBoard(state);
