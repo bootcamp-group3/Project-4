@@ -71,7 +71,6 @@ function waitTurn(state) {
                         state.players[1].score.owned -= 1;
                         state.players[1].score.fortified -= state.tiles[sel.index].fortified;
                     }
-
                     state.tiles[sel.index].owner = playerNo;
                     state.tiles[sel.index].fortified = roll;
                     state.players[playerNo].score.owned += 1;
@@ -86,13 +85,11 @@ function waitTurn(state) {
                     }, 1500);
                 } else if (roll < toWin) {
                     let roll = rollDie();
-
                     if (playerNo === 1) {
                         state.players[2].score.fortified += roll;
                     } else if (playerNo === 2) {
                         state.players[2].score.fortified += roll;
                     }
-
                     $("#target-roll-disp").text("Opponent prevailed against a roll of " + roll);
                     $("#attack-modal").modal("hide");
                     $("#disp-rolled-modal").modal("show");
@@ -229,11 +226,11 @@ function renderBoard(state) {
 }
 
 socket.on("get_startup", function (msg) {
-    socket.removeListener("get_startup");
     console.log(moment().format("hh:mm:ss"));
     console.log("Game startup inititialized");
     let state = msg;
     console.log(state);
+    socket.removeListener("get_startup");
 
     if (state.players[1].playerID === playerID) {
         playerNo = 1;
@@ -241,8 +238,8 @@ socket.on("get_startup", function (msg) {
         console.log("This client is player number " + playerNo);
         console.log("Client  " + playerNo + " rolls first.");
         $("#turn-modal").modal("show");
-        $("#turn-button").off();
         $("#turn-button").on("click", function () {
+            $("#turn-button").off();
             $("#turn-modal").modal("hide");
             let roll = rollDie();
             $("#target-roll-disp").text(roll);
@@ -254,7 +251,7 @@ socket.on("get_startup", function (msg) {
             state.players[playerNo].start = roll;
             $("#turn-button").off();
             socket.emit("send_update", { "id": gameID, "content": state });
-
+            
         });
     } else if (state.players[2].playerID === playerID) {
         playerNo = 2;
@@ -270,7 +267,6 @@ socket.on("get_startup", function (msg) {
 socket.on("get_update", function (msg) {
     let state = msg;
     $("#wait-modal").modal("hide");
-    $("#target-turns-remaining").text((state.turnsRem / 2));
     let myScore = 0;
     let enemyScore = 0;
     if (playerNo === 1) {
@@ -283,6 +279,7 @@ socket.on("get_update", function (msg) {
         myScore = 0;
         enemyScore = 0;
     }
+    $("#target-turns-remaining").text((state.turnsRem / 2));
     $("#target-my-score").text(myScore);
     $("#target-enemy-score").text(enemyScore);
     console.log(moment().format("hh:mm:ss"));
