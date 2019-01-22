@@ -2,7 +2,22 @@
 
 module.exports = function (app) {
     app.get("/", function (req, res) {
-        res.render("index");
+        db.Game.findAll({
+            limit: 10,
+            order: [
+                ["score", "DESC"]
+            ],
+            include: [{
+                model: db.Player
+            }]
+        }).then(Game => {
+            var hbsObject = Game.map(Leaderboard => {
+                return Object.assign({}, {
+                    name: Leaderboard.Player.name,
+                    score: Leaderboard.score
+                });
+            });
+        res.render("index", hbsObject);
     });
 
     app.get("/game/:id", function(req,res){
