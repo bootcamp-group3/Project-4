@@ -34,7 +34,7 @@ function waitTurn(state) {
                 let roll = rollDie();
                 $("#target-roll-disp").text(roll);
                 $("#disp-rolled-modal").modal("show");
-                setTimeout(() => { 
+                setTimeout(() => {
                     $("#target-roll-disp").text("");
                     $("#disp-rolled-modal").modal("hide");
                 }, 1500);
@@ -55,7 +55,6 @@ function waitTurn(state) {
                 }
                 state.turnsRem--;
                 socket.emit("send_update", { "id": gameID, "content": state });
-
             });
         } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo) {
             let toWin = state.tiles[sel.index].fortified;
@@ -65,6 +64,19 @@ function waitTurn(state) {
                 let roll = rollDie();
                 if (roll > toWin) {
                     let roll = rollDie();
+                    if (playerNo === 1) {
+                        state.players[2].score.owned -= 1;
+                        state.players[2].score.fortified -= state.tiles[sel.index].fortified;
+                    } else if (playerNo === 2) {
+                        state.players[1].score.owned -= 1;
+                        state.players[1].score.fortified -= state.tiles[sel.index].fortified;
+                    }
+
+                    state.tiles[sel.index].owner = playerNo;
+                    state.tiles[sel.index].fortified = roll;
+                    state.players[playerNo].score.owned += 1;
+                    state.players[playerNo].score.fortified += roll;
+
                     $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
                     $("#attack-modal").modal("hide");
                     $("#disp-rolled-modal").modal("show");
@@ -74,6 +86,13 @@ function waitTurn(state) {
                     }, 1500);
                 } else if (roll < toWin) {
                     let roll = rollDie();
+
+                    if (playerNo === 1) {
+                        state.players[2].score.fortified += roll;
+                    } else if (playerNo === 2) {
+                        state.players[2].score.fortified += roll;
+                    }
+
                     $("#target-roll-disp").text("Opponent prevailed against a roll of " + roll);
                     $("#attack-modal").modal("hide");
                     $("#disp-rolled-modal").modal("show");
@@ -81,7 +100,32 @@ function waitTurn(state) {
                         $("#target-roll-disp").text("");
                         $("#disp-rolled-modal").modal("hide");
                     }, 1500);
+                } else if (roll === toWin) {
+                    if (playerNo === 1) {
+                        state.players[2].score.fortified -= state.tiles[sel.index].fortified;
+                    } else if (playerNo === 2) {
+                        state.players[2].score.fortified -= state.tiles[sel.index].fortified;
+                    }
+                    state.tiles[sel.index].fortified = null;
+                    state.tiles[sel.index].occupied = null;
+                    state.tiles[sel.index].owner = null;
+                    $("#target-roll-disp").text("A stalemate! You and your opponent both lost " + roll + " of your troops!");
+                    $("#attack-modal").modal("hide");
+                    $("#disp-rolled-modal").modal("show");
+                    setTimeout(() => {
+                        $("#target-roll-disp").text("");
+                        $("#disp-rolled-modal").modal("hide");
+                    }, 1500);
                 }
+
+                if (playerNo === 1) {
+                    state.turn = 2;
+                } else if (playerNo === 2) {
+                    state.turn = 1;
+                }
+
+                state.turnsRem--;
+                socket.emit("send_update", { "id": gameID, "content": state });
             });
         }
     });
@@ -150,10 +194,10 @@ function renderBoard(state) {
 
         if (state.turn === playerNo) {
             if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
-                if (thisTile.type !== 2){
+                if (thisTile.type !== 2) {
                     tile.addClass("validMove");
                 }
-            }else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
+            } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 if (thisTile.type !== 2) {
                     tile.addClass("validMove");
                 }
@@ -226,6 +270,20 @@ socket.on("get_startup", function (msg) {
 socket.on("get_update", function (msg) {
     let state = msg;
     $("#wait-modal").modal("hide");
+    $("#target-turns-remaining").text((state.turnsRem / 2));
+    if (playerNo === 1) {
+        let myScore = state.players[1].owned + state.players[1].fortified;
+        let enemyScore = state.players[2].owned + state.players[2].fortified;
+    } else if (playerNo === 2) {
+        let myScore = state.players[2].owned + state.players[2].fortified;
+        let enemyScore = state.players[1].owned + state.players[1].fortified;
+    } else {
+        let myScore = 0;
+        let enemyScore = 0;
+    }
+    $("#target-my-score").text(myScore);
+    $("#target-enemy-score").text(enemyScore);
+    console.log(moment().format("hh:mm:ss"));
     console.log(state);
 
     if (state.setup === true) {
@@ -240,7 +298,7 @@ socket.on("get_update", function (msg) {
             $("#turn-button").off();
             $("#turn-button").on("click", function () {
                 $("#turn-modal").modal("hide");
-                let roll = rollDie(); 
+                let roll = rollDie();
                 $("#target-roll-disp").text(roll);
                 $("#disp-rolled-modal").modal("show");
                 setTimeout(() => {
