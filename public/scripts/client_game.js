@@ -38,7 +38,7 @@ function renderBoard(state) {
         if (state.turn !== null) {
             if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
                 tile.attr("class", "mySpawn");
-            } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.player[playerNo].loc.y) {
+            } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.players[playerNo].loc.y) {
                 tile.attr("class", "myLoc");
             }
         }
