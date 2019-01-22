@@ -32,7 +32,13 @@ body {
     
 }
 .myLoc{
-     border : solid 3px #00ccff;
+    border : solid 3px #00ccff;
+}
+.tile-player-icon{
+    z-index: 2;
+    position: absolute;
+    right: 15px;
+    bottom: 12px; 
 }
 
 
@@ -46,27 +52,24 @@ h3, h5 {
 }
 
 #target-board-target{
-    width: 100%;
+   
+    border: groove #ffd400 10px;
     height: 100%;
+    width: 100%;
+    background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
+    border: solid black 2px;
+    margin: auto;
 }
 
 #target-frame{
-
-    border: groove #ffd400 10px;
-    height: 925px;
-    width: 925px;
-    background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
-    border: solid black 2px;
+    margin: auto;
 }
 
 .board-container {
     border: groove #ffd400 10px;
     height: 925px;
     width: 925px;
-    margin-top: 35px;
-    margin-bottom: 35px;
-    margin-left: 100px;
     background: #FFFEBA;
     box-shadow: 3px 3px 15px 1px black;
-    float: left;
+    align-content: center;
 }
