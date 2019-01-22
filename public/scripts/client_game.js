@@ -151,6 +151,7 @@ function renderBoard(state) {
         left:${thisTile.x * tileWidth + ((thisTile.x + 1) * gutter)}px"
         data-toggle="tooltip" data-html="true">`);
         var tileImgSrc;
+        
         if (thisTile.type === 2) {
             tileImgSrc = "obst";
         } else {
@@ -180,22 +181,28 @@ function renderBoard(state) {
             }
         }
 
+        let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
+        tile.html(tileImg);
+
         if (state.players[1].loc.x === thisTile.x && state.players[1].loc.y === thisTile.y) {
             if (playerNo === 1) {
                 tile.addClass("myLoc");
+                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon' style='width:100%;'>");
             } else if (playerNo === 2) {
                 tile.addClass("enemyLoc");
+                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon' style='width:100%;'>");
             }
         } if (state.players[2].loc.x === thisTile.x && state.players[2].loc.y === thisTile.y) {
             if (playerNo === 2) {
                 tile.addClass("myLoc");
+                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon' style='width:100%;'>");
             } else if (playerNo === 1) {
                 tile.addClass("enemyLoc");
+                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon' style='width:100%;'>");
             }
         }
 
-        let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
-        tile.html(tileImg);
+
 
         if (state.turn === playerNo) {
             if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
@@ -277,8 +284,7 @@ socket.on("get_update", function (msg) {
     $("#wait-modal").modal("hide");
     let myScore = 0;
     let enemyScore = 0;
-    if (playerNo === 1) {
-
+    if (playerNo === 1) {e
         myScore = state.players[1].score.owned * state.players[1].score.fortified;
         enemyScore = state.players[2].score.owned * state.players[2].score.fortified;
     } else if (playerNo === 2) {
@@ -370,7 +376,7 @@ socket.on("final_update", function (msg) {
         $("#target-winLose").text("YOU LOST!");
     }
     $("#gameOver-modal").modal("show");
-    $("#target-frame").html("")
+    $("#target-frame").html("");
 });
 
 $(function () {
