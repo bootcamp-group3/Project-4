@@ -112,6 +112,9 @@ socket.on("get_update", function (msg) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Update received in setup mode");
         console.log(state);
+        if (state.players[playerNo].playerID === null && state.players[1].playerID !== playerID) {
+            state.players.playerID = playerID;
+        }
         if (state.players[playerNo].start === null) {
             $("#turn-modal").modal("show");
             $("#turn-button").off();
