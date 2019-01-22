@@ -95,6 +95,13 @@ module.exports = function (app) {
                 });
             });
     });
+
+    app.get("/api/getREF/:gID", function (req, res) {
+        let gID = req.params.gID;
+        db.Player.findAll({ where: { googleId } }).then(Player => {
+            res.json(Player[0].id);
+        });
+    });
     
     // Gets leadearboard
     app.get("/api/leaderboard", function (req, res) {

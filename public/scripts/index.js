@@ -16,9 +16,6 @@ function onSignIn(googleUser) {
             name: name,
             icon: icon
         }
-    }).then(function (res) {
-        console.log(res);
-        localStorage.setItem("uRef", res.id);
     });
     
     $("#signInContainer").append("<a class='btn btn-info' href='/lobby'>JOIN GAME</a>");

@@ -5,8 +5,6 @@ socketID = socket.io.engine.id;
 // Declare player ID
 var playerID = localStorage.getItem("id");
 console.log(`Player: ${playerID}`);
-// Declare user ref (for db/leaderboard purposes)
-var uRef = localStorage.getItem("uRef");
 // Declare play no.
 var playerNo;
 // Parse game ID from url
