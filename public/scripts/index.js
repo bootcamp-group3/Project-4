@@ -17,6 +17,12 @@ function onSignIn(googleUser) {
             icon: icon
         }
     });
-    
-    $("#signInContainer").append("<a class='btn btn-info' href='/lobby'>JOIN GAME</a>");
+
+    $("#signInContainer").replaceWith("Welcome " + name + "<br /><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button>");
 }
+
+$(function () {
+    $("#join-game").click(function () {
+        window.location.href = "/lobby";
+    });
+});
