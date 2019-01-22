@@ -116,7 +116,9 @@ socket.on("connect", function () {
                 socket.emit("send_update", { "id": gameID, "content": state });
             }
         } else if (state.turn === playerNo) {
-            console.log("Your turn!");
+            $(".tile").on("click", function (event) {
+                console.log(`X: ${$(this).data("x")}, Y: ${$(this).data("y")}`);
+            });
         } else if (state.turn !== playerNo) {
             console.log("Not your turn!");
         }
