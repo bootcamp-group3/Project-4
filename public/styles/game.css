@@ -15,16 +15,28 @@ body {
 .board-parent{
     height: 100%;
 }
-
-.mySpawn{
-    border: solid 2px blue;
-}
-.myLoc{
-    border: solid 2px teal;
-}
 .validMove{
     border: solid 3px #ffd900;
 }
+.enemySpawn{
+    border: solid 3px maroon;
+}
+.mySpawn{
+    border: solid 3px blue;
+}
+.enemyTile {
+    border : solid 3px #ff0040;
+}
+.myTile {
+    border : solid 3px #00ccff;
+}
+.enemyLoc{
+    border: solid 3px maroon;
+}
+.myLoc{
+    border: solid 3px teal;
+}
+
 
 h3, h5 {
   font-family: 'Montserrat', sans-serif;
