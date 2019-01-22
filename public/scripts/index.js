@@ -16,9 +16,6 @@ function onSignIn(googleUser) {
             name: name,
             icon: icon
         }
-    }).then(function (res) {
-        console.log(res);
-        localStorage.setItem("uRef", res.id);
     });
 
     $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "!</div><br /><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div><br />");
