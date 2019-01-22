@@ -17,15 +17,16 @@ module.exports = function (app) {
                     score: Leaderboard.score
                 });
             });
-        res.render("index", hbsObject);
+            res.render("index", hbsObject);
+        });
     });
 
-    app.get("/game/:id", function(req,res){
+    app.get("/game/:id", function (req, res) {
         console.log(req.params.id);
         res.render("game");
     });
 
-    app.get("/lobby", function(req,res){
+    app.get("/lobby", function (req, res) {
         res.render("lobby");
     });
 };
