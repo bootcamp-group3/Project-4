@@ -104,13 +104,13 @@
                         <ol>
                             {{#each items}}
                             <li>
-                                {{@index}} {{dataValues.Player.name}} {{dataValues.score}}
+                                {{@index+1}}{{dataValues.Player.name}}{{dataValues.score}}
                                 <br><br>
                             </li>
                         </ol>
+                        {{/each}}
                         <i class="fa fa-spinner fa-spin"></i>
                         <b>Loading Leaderboards...</b>
-                        {{/each}}
                     </div>
                 </div>
             </div>
