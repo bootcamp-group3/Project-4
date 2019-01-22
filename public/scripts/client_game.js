@@ -18,9 +18,11 @@ function rollDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
-function gameOver(state){
+function gameOver(state) {
+    console.log(moment().format("hh:mm:ss"));
+    console.log("Game over. Sending the message");
     socket.emit("game_over", { "id": gameID, "content": state });
-    socket.removeListener("get_update");
+    // socket.removeListener("get_update");
 }
 
 function waitTurn(state) {
@@ -277,11 +279,11 @@ socket.on("get_update", function (msg) {
     let enemyScore = 0;
     if (playerNo === 1) {
 
-        myScore = state.players[1].score.owned + state.players[1].score.fortified;
-        enemyScore = state.players[2].score.owned + state.players[2].score.fortified;
+        myScore = state.players[1].score.owned * state.players[1].score.fortified;
+        enemyScore = state.players[2].score.owned * state.players[2].score.fortified;
     } else if (playerNo === 2) {
-        myScore = state.players[2].score.owned + state.players[2].score.fortified;
-        enemyScore = state.players[1].score.owned + state.players[1].score.fortified;
+        myScore = state.players[2].score.owned * state.players[2].score.fortified;
+        enemyScore = state.players[1].score.owned * state.players[1].score.fortified;
     } else {
         myScore = 0;
         enemyScore = 0;
@@ -341,7 +343,9 @@ socket.on("get_update", function (msg) {
 });
 
 socket.on("final_update", function (msg) {
-    socket.removeListener("final_update");
+    // socket.removeListener("final_update");
+    console.log(moment().format("hh:mm:ss"));
+    console.log(msg);
     socket.emit("final_update", { "id": gameID, "content": msg });
 
     let getRefURL = `/api/getREF/${playerID}`;
@@ -355,7 +359,7 @@ socket.on("final_update", function (msg) {
             console.log(res);
         });
     });
-    
+
     if (msg.winner === playerNo) {
         $("#target-winLose").text("YOU WON!");
     } else if (msg.winner === null) {
