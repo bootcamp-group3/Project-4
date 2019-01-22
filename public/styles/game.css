@@ -12,9 +12,6 @@ body {
   background: rgb(243, 241, 236);
 }
 
-.board-parent{
-    height: 100%;
-}
 .validMove{
     border: solid 3px #ffd900;
 }
@@ -51,14 +48,16 @@ h3, h5 {
 #target-board-target{
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
-    overflow-y: scroll;
+    background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
+    border: solid black 2px;
 }
 
 .board-container {
     border: groove #ffd400 10px;
     height: 925px;
     width: 925px;
+    margin-top: 35px;
+    margin-bottom: 35px;
     margin-left: 100px;
     background: #FFFEBA;
     box-shadow: 3px 3px 15px 1px black;
