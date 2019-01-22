@@ -18,7 +18,12 @@ app.use("/assets", express.static(`${__dirname}/public/.`));
 app.engine(
     "handlebars",
     exphbs({
-        defaultLayout: "main"
+        defaultLayout: "main",
+        helpers: {
+            inc: function(value) {
+                return parseInt(value) + 1;
+            }
+        }
     })
 );
 app.set("view engine", "handlebars");
