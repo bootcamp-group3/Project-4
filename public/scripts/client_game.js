@@ -73,9 +73,11 @@ function renderBoard(state) {
             tileImgSrc = "castle";
             if (playerNo === 1) {
                 thisTile.ownerDisp = "Me";
+                thisTile.owner = playerNo;
                 tile.attr("class", "mySpawn");
             } else if (playerNo === 2) {
                 thisTile.ownerDisp = "Enemy";
+                thisTile.owner = 1;
                 tile.attr("class", "enemySpawn");
             }
         }
@@ -83,9 +85,11 @@ function renderBoard(state) {
             tileImgSrc = "castle";
             if (playerNo === 2) {
                 thisTile.ownerDisp = "Me";
+                thisTile.owner = playerNo;
                 tile.attr("class", "mySpawn");
             } else if (playerNo === 1) {
                 thisTile.ownerDisp = "Enemy";
+                thisTile.owner = 2;
                 tile.attr("class", "enemySpawn");
             }
         }
