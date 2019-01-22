@@ -369,7 +369,8 @@ socket.on("final_update", function (msg) {
     } else {
         $("#target-winLose").text("YOU LOST!");
     }
-    $("gameOver-modal").modal("show");
+    $("#gameOver-modal").modal("show");
+    $("#target-frame").html("")
 });
 
 $(function () {
