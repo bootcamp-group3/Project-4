@@ -18,5 +18,5 @@ function onSignIn(googleUser) {
         }
     });
     
-    $("#signInContainer").append("<a class='btn btn-info btn-lg' href='/lobby'>JOIN GAME</a>");
+    $("#signInContainer").append("<a class='btn btn-info' href='/lobby'>JOIN GAME</a>");
 }

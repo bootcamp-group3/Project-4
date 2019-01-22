@@ -10,8 +10,7 @@ const gameID = url.substr(url.lastIndexOf("/") + 1);
 console.log(`Game ID : ${gameID}`);
 // Use the join_game protocol to join namespace
 console.log(moment().format("hh:mm:ss"));
-console.log("Joining game");
-socket.emit("join_game", { game: gameID, player: playerID });
+
 
 // Declare function to render board
 function renderBoard(state) {
@@ -100,20 +99,17 @@ socket.on("get_update", function (msg) {
             playerNo = 2;
             $("#turn-modal").modal("show");
             $("#turn-button").on("click", function () {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Opponent has rolled. Your turn. ");
                 $("#turn-button").off();
                 let roll = Math.floor(Math.random() * 6) + 1;
                 console.log(roll);
                 $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-                $("#turn-button").text("CLOSE");
-                $("#turn-button").on("click", function () {
-                    $("#turn-modal").modal("hide");
-                });
+                state.players[2].start = roll;
+                socket.emit("send_update", { "id": gameID, "content": state });
                 setTimeout(function () {
                     $("#turn-modal").modal("hide");
                 }, 2000);
-                state.players[2].start = roll;
-                socket.emit("send_update", { "id": gameID, "content": state });
-
             });
         } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
             console.log(moment().format("hh:mm:ss"));
@@ -140,3 +136,7 @@ socket.on("get_update", function (msg) {
     }
 });
 
+$(function () {
+    console.log("Joining game");
+    socket.emit("join_game", { game: gameID, player: playerID });
+});
