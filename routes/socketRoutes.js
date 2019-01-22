@@ -52,10 +52,10 @@ module.exports = function (io) {
                 let gameState = await Game.hasBoard(id, player);
                 if (gameState[0] === false) {
                     console.log("Needs board");
-                    io.to(id).emit("get_update", gameState[1]);
+                    io.to(id).emit("get_startup", gameState[1]);
                 } else if (gameState[0] === true) {
                     console.log("Has board. Sending now...");
-                    io.to(id).emit("get_update", gameState[1]);
+                    io.to(id).emit("get_startup", gameState[1]);
                 }
             }
             checkBoard(id, player);
@@ -65,10 +65,11 @@ module.exports = function (io) {
         socket.on("send_update", function (obj) {
             gameId = obj.id;
             content = obj.content;
+            obj.content.src = "server";
             console.log(`Update to game ${gameId} from socket ${socket.id}`);
 
             try {
-                io.to(gameId).emit("get_update", obj.content);
+                io.to(gameId).volatile.emit("get_update", obj.content);
             } catch (e) {
                 console.log(e);
             }

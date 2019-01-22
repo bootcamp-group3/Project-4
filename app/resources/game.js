@@ -4,7 +4,7 @@ const defaultBoardOptions = {
     xLim: 12,
     yLim: 12,
     border: 2,
-    bonusLim: 2
+    turnLim: 2
 };
 
 function typeRoll(tile, zone) {
@@ -73,6 +73,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.turnsRem = defaultBoardOptions.turnLim * 2;
         this.turn = null;
         this.players = {
             1: {
@@ -109,8 +110,8 @@ class Board {
             }
         };
         this.tiles = [];
+        this.setup = true;
         this.generate();
-        this.spawnPlayers(2);
     }
     spawnPlayers(q) {
         for (var c = 0; c < q; c++) {
@@ -124,11 +125,6 @@ class Board {
                 x: spawnX,
                 y: spawnY
             };
-
-            let spawnIndex = spawnX * (spawnY + 1);
-            this.tiles[spawnIndex].owner = c + 1; 
-            this.tiles[spawnIndex].fortified = 6; 
-            this.tiles[spawnIndex].type = 9; 
         }
     }
     generate() {
@@ -137,6 +133,7 @@ class Board {
                 this.tiles.push(new Tile([col, row], this));
             }
         }
+        this.spawnPlayers(2);
     }
 }
 

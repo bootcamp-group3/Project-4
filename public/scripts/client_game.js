@@ -1,12 +1,53 @@
 // Import socket lib
 var socket = io();
-// Declare socket ID
+// Declare socketID
+socketID = socket.io.engine.id;
+// Declare player ID
 var playerID = localStorage.getItem("id");
+console.log(`Player: ${playerID}`);
+// Declare play no.
 var playerNo;
 // Parse game ID from url
 const url = window.location.pathname;
 const gameID = url.substr(url.lastIndexOf("/") + 1);
 console.log(`Game ID : ${gameID}`);
+// Use the join_game protocol to join namespace
+console.log(moment().format("hh:mm:ss"));
+
+function rollDie() {
+    return Math.floor(Math.random() * 6) + 1;
+}
+
+function waitTurn(state) {
+    $(".validMove").on("click", function () {
+        let sel = {
+            x: $(this).data("x"),
+            y: $(this).data("y"),
+        };
+        console.log(`Select (${sel.x}, ${sel.y})`);
+        sel.index = ((state.xLim * sel.y) + sel.x);
+        if (state.tiles[sel.index].occupied === null) {
+            $("#fortify-modal").modal("show");
+            $("#roll-button").on("click", function () {
+                let roll = rollDie();
+                state.tiles[sel.index].occupied = true;
+                state.tiles[sel.index].owner = playerNo;
+                state.tiles[sel.index].fortified = roll;
+
+                state.players[playerNo].loc.x = state.tiles[sel.index].x;
+                state.players[playerNo].loc.y = state.tiles[sel.index].y;
+                if (playerNo === 1) {
+                    state.turn = 2;
+                } else if (playerNo === 2) {
+                    state.turn = 1;
+                }
+                state.turnsRem--;
+                socket.emit("send_update", { "id": gameID, "content": state });
+
+            });
+        }
+    });
+}
 
 // Declare function to render board
 function renderBoard(state) {
@@ -16,35 +57,73 @@ function renderBoard(state) {
     let boardContainer = $("<div class='board-container' style='position:relative;'>");
     for (var f = 0; f < state.tiles.length; f++) {
         let thisTile = state.tiles[f];
+        thisTile.ownerDisp = thisTile.owner;
         let tile = $(`<div class="tile" 
         style="width:${tileWidth}px; position:absolute; 
         top:${thisTile.y * tileWidth + ((thisTile.y + 1) * gutter)}px;
         left:${thisTile.x * tileWidth + ((thisTile.x + 1) * gutter)}px"
-        data-toggle="tooltip" data-html="true"
-        title="<u>Occupied by: </u> <b>${thisTile.owner}</b><br>
-        <u>Fortifications: </u> <b>${thisTile.fortified}</b> <br>">`);
+        data-toggle="tooltip" data-html="true"<br>">`);
         var tileImgSrc;
-        if (thisTile.type === 0) {
-            tileImgSrc = "grass";
-        } else if (thisTile.type === 2) {
+        if (thisTile.type === 2) {
             tileImgSrc = "obst";
-        } else if (thisTile.type === 9) {
-            tileImgSrc = "castle";
         } else {
             tileImgSrc = "grass";
         }
-        let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
-        tile.html(tileImg);
-        if (state.turn !== null) {
-            if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
+        if (thisTile.x === state.players[1].spawn.x && thisTile.y === state.players[1].spawn.y) {
+            tileImgSrc = "castle";
+            if (playerNo === 1) {
+                thisTile.ownerDisp = "Me";
+                thisTile.owner = playerNo;
                 tile.attr("class", "mySpawn");
-            } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.players[playerNo].loc.y) {
-                tile.attr("class", "myLoc");
+            } else if (playerNo === 2) {
+                thisTile.ownerDisp = "Enemy";
+                thisTile.owner = 1;
+                tile.attr("class", "enemySpawn");
             }
         }
-        // tile.text(`(${thisTile.x + 1},${thisTile.y + 1})\nFort:${thisTile.fortified}`);
-        tile.data("x", thisTile.x + 1);
-        tile.data("y", thisTile.y + 1);
+        if (thisTile.x === state.players[2].spawn.x && thisTile.y === state.players[2].spawn.y) {
+            tileImgSrc = "castle";
+            if (playerNo === 2) {
+                thisTile.ownerDisp = "Me";
+                thisTile.owner = playerNo;
+                tile.attr("class", "mySpawn");
+            } else if (playerNo === 1) {
+                thisTile.ownerDisp = "Enemy";
+                thisTile.owner = 2;
+                tile.attr("class", "enemySpawn");
+            }
+        }
+
+        let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
+        tile.html(tileImg);
+
+        if (state.turn === playerNo) {
+            if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
+                if (thisTile.type !== 1){
+                    tile.attr("class", "validMove");
+                }
+            }
+            if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
+                if (thisTile.type !== 1) {
+                    tile.attr("class", "validMove");
+                }
+            }
+        }
+
+        if (thisTile.owner === playerNo) {
+            thisTile.ownerDisp = "Me";
+        } else if (thisTile.owner === null) {
+            thisTile.ownerDisp = "Unclaimed";
+        } else {
+            thisTile.ownerDisp = "Enemy";
+        }
+
+        tile.attr("title",
+            `<u>(${thisTile.x},${thisTile.y})</u>
+            <em>Occupied by: </em> <b>${thisTile.ownerDisp}</b><br>
+            <em>Fortifications: </em> <b>${thisTile.fortified}</b>`);
+        tile.data("x", thisTile.x);
+        tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
         tile.data("fortified", thisTile.fortified);
         tile.data("tileType", thisTile.type);
@@ -53,83 +132,87 @@ function renderBoard(state) {
     $("#target-frame").append(boardContainer);
 }
 
-// Upon initial connection
-socket.on("connect", function () {
-    // Declare socketID
-    socketID = socket.io.engine.id;
+socket.on("get_startup", function (msg) {
+    socket.removeListener("get_startup");
+    console.log(moment().format("hh:mm:ss"));
+    console.log("Game startup inititialized");
+    let state = msg;
+    console.log(state);
 
-    // Use the join_game protocol to join namespace
-    socket.emit("join_game", { game: gameID, player: playerID });
+    if (state.players[1].playerID === playerID) {
+        playerNo = 1;
+        console.log(moment().format("hh:mm:ss"));
+        console.log("This client is player number " + playerNo);
+        console.log("Client  " + playerNo + " rolls first.");
+        $("#turn-modal").modal("show");
+        $("#turn-button").off();
+        $("#turn-button").on("click", function () {
+            let roll = rollDie();
+            state.players[playerNo].start = roll;
+            $("#turn-modal-body").text("You rolled: " + roll);
+            $("#turn-button").off();
+            socket.emit("send_update", { "id": gameID, "content": state });
+            $("#post-roll-trigger").on("click", function () {
+                $("#wait-modal").modal("show");
+            });
+        });
+    } else if (state.players[2].playerID === playerID) {
+        playerNo = 2;
+        console.log(moment().format("hh:mm:ss"));
+        console.log("This client is player number " + playerNo);
+        console.log("Client  " + playerNo + " rolls second.");
+    } else {
+        console.log(moment().format("hh:mm:ss"));
+        console.log("No player number can be declared at this time");
+    }
+});
 
+socket.on("get_update", function (msg) {
+    let state = msg;
+    $("#wait-modal").modal("hide");
+    console.log(state);
 
-    socket.on("get_update", function (msg) {
-        let state = msg;
-
-        console.log("Update! V V V");
+    if (state.setup === true) {
+        console.log(moment().format("hh:mm:ss"));
+        console.log("Update received in setup mode");
         console.log(state);
-
+        if (state.players[playerNo].playerID === null && state.players[1].playerID !== playerID) {
+            state.players[playerNo].playerID = playerID;
+        }
+        if (state.players[playerNo].start === null) {
+            $("#turn-modal").modal("show");
+            $("#turn-button").off();
+            $("#turn-button").on("click", function () {
+                let roll = rollDie();
+                state.players[playerNo].start = roll;
+                $("#turn-modal-body").text(roll);
+                $("#turn-button").off();
+                if (state.players[playerNo].start > state.players[1].start) {
+                    state.turn = playerNo;
+                    state.setup = false;
+                    $("#turn-modal").modal("hide");
+                    $(".tile").tooltip("dispose");
+                    renderBoard(state);
+                    $("[data-toggle='tooltip']").tooltip();
+                    waitTurn(state);
+                } else {
+                    state.turn = 1;
+                    state.setup = false;
+                    socket.emit("send_update", { "id": gameID, "content": state });
+                }
+            });
+        }
+    } else {
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
-        $("#wait-modal").modal("hide");
-
-        if (state.turn === null) {
-            if (state.players[1].playerID === playerID && state.players[1].start === null) {
-                playerNo = 1;
-                $("#turn-modal").modal("show");
-                $("#turn-button").on("click", function () {
-                    $("#turn-button").off();
-                    let roll = Math.floor(Math.random() * 6) + 1;
-                    console.log(roll);
-                    $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-                    $("#turn-button").text("CLOSE");
-                    $("#turn-button").on("click", function () {
-                        $("#turn-modal").modal("hide");
-                    });
-                    setTimeout(function () {
-                        $("#turn-modal").modal("hide");
-                    }, 2000);
-                    state.players[1].start = roll;
-                    socket.emit("send_update", { "id": gameID, "content": state });
-
-                });
-            } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
-                $("#wait-modal").modal("show");
-                
-            } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
-                $("#wait-modal").modal("show");
-            } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
-                playerNo = 2;
-                $("#turn-modal").modal("show");
-                $("#turn-button").on("click", function () {
-                    $("#turn-button").off();
-                    let roll = Math.floor(Math.random() * 6) + 1;
-                    console.log(roll);
-                    $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-                    $("#turn-button").text("CLOSE");
-                    $("#turn-button").on("click", function () {
-                        $("#turn-modal").modal("hide");
-                    });
-                    setTimeout(function () {
-                        $("#turn-modal").modal("hide");
-                    }, 2000);
-                    state.players[2].start = roll;
-                    socket.emit("send_update", { "id": gameID, "content": state });
-
-                });
-            } else if (state.players[1].start !== null && state.players[2] !== null) {
-                if (state.players[1].start > state.players[2].start) {
-                    state.turn = 1;
-                } else {
-                    state.turn = 2;
-                }
-                socket.emit("send_update", { "id": gameID, "content": state });
-            }
-        } else if (state.turn === playerNo) {
-            //your turn
-        } else if (state.turn !== playerNo) {
-            console.log("Not your turn!");
+        if (state.turn === playerNo) {
+            waitTurn(state);
         }
-    });
+    }
 });
 
+$(function () {
+    console.log("Joining game");
+    socket.emit("join_game", { game: gameID, player: playerID });
+});
