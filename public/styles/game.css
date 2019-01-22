@@ -52,6 +52,7 @@ h3, h5 {
 }
 
 #target-board-target{
+    align-content: center;
     border: groove #ffd400 10px;
     height: 925px;
     width: 925px;
