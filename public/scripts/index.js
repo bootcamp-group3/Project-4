@@ -4,6 +4,10 @@ function onSignIn(googleUser) {
     const name = profile.getName();
     const icon = profile.getImageUrl();
 
+    localStorage.setItem("id", id);
+    localStorage.setItem("name", name);
+    localStorage.setItem("icon", icon);
+
     console.log(`
     ID: ${id}
     Name: ${name}
