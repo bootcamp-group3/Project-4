@@ -87,8 +87,8 @@ class Board {
                     y: null
                 },
                 score: {
-                    owned: null,
-                    fortified: null
+                    owned: 0,
+                    fortified: n0ull
                 },
                 start: null
             },
@@ -103,8 +103,8 @@ class Board {
                     y: null
                 },
                 score: {
-                    owned: null,
-                    fortified: null
+                    owned: 0,
+                    fortified: 0
                 },
                 start: null
             }
