@@ -73,6 +73,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.turn = null;
         this.players = {
             1: {
                 playerID : null,

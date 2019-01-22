@@ -1,7 +1,7 @@
 // Import socket lib
 var socket = io();
 // Declare socket ID
-var socketID;
+var playerID = localStorage.getItem("id");
 // Parse game ID from url
 const url = window.location.pathname;
 const gameID = url.substr(url.lastIndexOf("/") + 1);
@@ -10,7 +10,7 @@ console.log(`Game ID : ${gameID}`);
 // Declare function to render board
 function renderBoard(state) {
     $("#target-frame").html("");
-    var tileWidth = 90;
+    var tileWidth = 70;
     var gutter = 5;
     let boardContainer = $("<div class='board-container' style='position:relative;'>");
     for (var f = 0; f < state.tiles.length; f++) {
@@ -61,6 +61,24 @@ socket.on("connect", function () {
         $(".tile").tooltip("dispose");
         renderBoard(msg);
         $("[data-toggle='tooltip']").tooltip();
+
+        if (msg.turn === null) {
+            $("#turn-modal").modal("show");
+            $("#turn-button").on("click", function () { 
+                $("#turn-button").off();
+                let roll = Math.floor(Math.random() * 6) + 1;
+                console.log(roll);
+                $("#turn-modal-body").append(`<h3>${roll}</h3>`);
+                $("#turn-button").text("CLOSE");
+                $("#turn-button").on("click", function () {
+                    $("#turn-modal").modal("hide");
+                });
+                setTimeout(function () { 
+                    $("#turn-modal").modal("hide");
+                }, 2000);
+                
+            });
+        }
     });
 });
 
