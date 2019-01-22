@@ -35,6 +35,11 @@ function renderBoard(state) {
         }
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
+        if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
+            tile.attr("class", "mySpawn");
+        } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.player[playerNo].loc.y) {
+            tile.attr("class", "myLoc");
+        }
         // tile.text(`(${thisTile.x + 1},${thisTile.y + 1})\nFort:${thisTile.fortified}`);
         tile.data("x", thisTile.x + 1);
         tile.data("y", thisTile.y + 1);
@@ -61,7 +66,7 @@ socket.on("connect", function () {
     socket.on("get_update", function (msg) {
         let state = msg;
         $(".tile").tooltip("dispose");
-        renderBoard(msg);
+        renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
 
         if (state.turn === null) {
@@ -116,9 +121,7 @@ socket.on("connect", function () {
                 socket.emit("send_update", { "id": gameID, "content": state });
             }
         } else if (state.turn === playerNo) {
-            $(".tile").on("click", function (event) {
-                console.log(`X: ${$(this).data("x")}, Y: ${$(this).data("y")}`);
-            });
+
         } else if (state.turn !== playerNo) {
             console.log("Not your turn!");
         }

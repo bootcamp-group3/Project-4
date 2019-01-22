@@ -120,6 +120,11 @@ class Board {
                 x: spawnX,
                 y: spawnY
             };
+            this.players[c + 1].loc = {
+                x: spawnX,
+                y: spawnY
+            };
+
             let spawnIndex = spawnX * (spawnY + 1);
             this.tiles[spawnIndex].owner = c + 1; 
             this.tiles[spawnIndex].fortified = 6; 
