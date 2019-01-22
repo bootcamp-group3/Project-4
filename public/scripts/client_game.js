@@ -50,7 +50,6 @@ function renderBoard(state) {
         tile.data("tileType", thisTile.type);
         boardContainer.append(tile);
     }
-    console.log();
     $("#target-frame").append(boardContainer);
 }
 
@@ -70,6 +69,7 @@ socket.on("connect", function () {
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
+        $("#wait-modal").modal("hide");
 
         if (state.turn === null) {
             if (state.players[1].playerID === playerID && state.players[1].start === null) {
@@ -93,6 +93,7 @@ socket.on("connect", function () {
                 });
             } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
                 $("#wait-modal").modal("show");
+                
             } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
                 $("#wait-modal").modal("show");
             } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
@@ -123,7 +124,7 @@ socket.on("connect", function () {
                 socket.emit("send_update", { "id": gameID, "content": state });
             }
         } else if (state.turn === playerNo) {
-
+            //your turn
         } else if (state.turn !== playerNo) {
             console.log("Not your turn!");
         }
