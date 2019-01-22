@@ -29,7 +29,14 @@ function waitTurn(state) {
         if (state.tiles[sel.index].occupied === null) {
             $("#fortify-modal").modal("show");
             $("#roll-button").on("click", function () {
+                $("#roll-button").off();
                 let roll = rollDie();
+                $("#target-roll-disp").text(roll);
+                $("#disp-rolled-modal").modal("show");
+                setTimeout(() => { 
+                    $("#target-roll-disp").text("");
+                    $("#disp-rolled-modal").modal("hide");
+                }, 1500);
                 state.tiles[sel.index].occupied = true;
                 state.tiles[sel.index].owner = playerNo;
                 state.tiles[sel.index].fortified = roll;
@@ -44,6 +51,32 @@ function waitTurn(state) {
                 state.turnsRem--;
                 socket.emit("send_update", { "id": gameID, "content": state });
 
+            });
+        } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo) {
+            let toWin = state.tiles[sel.index].fortified;
+            $("#target-toWin-disp").text(toWin);
+            $("#attack-modal").modal("show");
+            $("#attack-button").on("click", function () {
+                let roll = rollDie;
+                if (roll > toWin) {
+                    let roll = rollDie();
+                    $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
+                    $("#turn-modal").modal("hide");
+                    $("#disp-rolled-modal").modal("show");
+                    setTimeout(() => {
+                        $("#target-roll-disp").text("");
+                        $("#disp-rolled-modal").modal("hide");
+                    }, 1500);
+                } else if (roll < toWin) {
+                    let roll = rollDie();
+                    $("#target-roll-disp").text("Opponent prevailed against a roll of " + roll);
+                    $("#turn-modal").modal("hide");
+                    $("#disp-rolled-modal").modal("show");
+                    setTimeout(() => {
+                        $("#target-roll-disp").text("");
+                        $("#disp-rolled-modal").modal("hide");
+                    }, 1500);
+                }
             });
         }
     });
@@ -112,11 +145,11 @@ function renderBoard(state) {
 
         if (state.turn === playerNo) {
             if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
-                if (thisTile.type !== 1){
+                if (thisTile.type !== 2){
                     tile.attr("class", "validMove");
                 }
             }else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
-                if (thisTile.type !== 1) {
+                if (thisTile.type !== 2) {
                     tile.attr("class", "validMove");
                 }
             }
@@ -162,13 +195,17 @@ socket.on("get_startup", function (msg) {
         $("#turn-button").off();
         $("#turn-button").on("click", function () {
             let roll = rollDie();
+            $("#target-roll-disp").text(roll);
+            $("#turn-modal").modal("hide");
+            $("#disp-rolled-modal").modal("show");
+            setTimeout(() => {
+                $("#target-roll-disp").text("");
+                $("#disp-rolled-modal").modal("hide");
+            }, 1500);
             state.players[playerNo].start = roll;
-            $("#turn-modal-body").text("You rolled: " + roll);
             $("#turn-button").off();
             socket.emit("send_update", { "id": gameID, "content": state });
-            $("#post-roll-trigger").on("click", function () {
-                $("#wait-modal").modal("show");
-            });
+
         });
     } else if (state.players[2].playerID === playerID) {
         playerNo = 2;
@@ -197,14 +234,18 @@ socket.on("get_update", function (msg) {
             $("#turn-modal").modal("show");
             $("#turn-button").off();
             $("#turn-button").on("click", function () {
-                let roll = rollDie();
+                let roll = rollDie(); 
+                $("#target-roll-disp").text(roll);
+                $("#turn-modal").modal("hide");
+                $("#disp-rolled-modal").modal("show");
+                setTimeout(() => {
+                    $("#target-roll-disp").text("");
+                    $("#disp-rolled-modal").modal("hide");
+                }, 1500);
                 state.players[playerNo].start = roll;
-                $("#turn-modal-body").text(roll);
-                $("#turn-button").off();
                 if (state.players[playerNo].start > state.players[1].start) {
                     state.turn = playerNo;
                     state.setup = false;
-                    $("#turn-modal").modal("hide");
                     $(".tile").tooltip("dispose");
                     renderBoard(state);
                     $("[data-toggle='tooltip']").tooltip();

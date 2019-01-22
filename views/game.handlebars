@@ -2,6 +2,26 @@
 <div class="board-parent">
     <!-- Modals -->
     <div id="modal-container">
+        <div class="modal" id="turn-indicator" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3> Your turn! </h3>
+                        <em> Hint: Move to any of the gold tiles to see how well it can be fortified!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="disp-rolled-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>You rolled a </p><b id="target-roll-disp"></b><br>
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -66,7 +86,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Press the Attack button to roll the dice.</p>
+                        <p>Oh boy! You've landed on an enemy tile! Attack! </p>
+                        <span>You'll have to roll a </span><u id="target-toWin-disp"></u><span> or higher to win this battle!</span>
                     </div>
                     <div class="modal-footer">
                         {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
