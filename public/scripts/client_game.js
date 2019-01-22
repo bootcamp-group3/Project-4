@@ -58,7 +58,7 @@ function waitTurn(state) {
             $("#target-toWin-disp").text(toWin);
             $("#attack-modal").modal("show");
             $("#attack-button").on("click", function () {
-                let roll = rollDie;
+                let roll = rollDie();
                 if (roll > toWin) {
                     let roll = rollDie();
                     $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
