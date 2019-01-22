@@ -117,6 +117,10 @@ class Board {
         for (var c = 0; c < q; c++) {
             let spawnX = Math.floor((Math.random() * (this.xLim / q)) + ((this.xLim / q) * c));
             let spawnY = Math.floor(Math.random() * (this.yLim));
+            let spawnIndex = (this.xLim * spawnY) + spawnX;
+            this.tiles[spawnIndex].type = "spawn";
+            this.tiles[spawnIndex].owner = c + 1;
+
             this.players[c + 1].spawn = {
                 x: spawnX,
                 y: spawnY

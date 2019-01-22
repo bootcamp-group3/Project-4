@@ -56,14 +56,13 @@ function waitTurn(state) {
                 state.turnsRem--;
                 socket.emit("send_update", { "id": gameID, "content": state });
             });
-        } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo) {
+        } else if (state.tiles[sel.index].occupied === true && state.tiles[sel.index].owner !== playerNo && state.tiles[sel.index].type !== "spawn") {
             let toWin = state.tiles[sel.index].fortified;
             $("#target-toWin-disp").text(toWin);
             $("#attack-modal").modal("show");
             $("#attack-button").on("click", function () {
                 let roll = rollDie();
                 if (roll > toWin) {
-                    let roll = rollDie();
                     if (playerNo === 1) {
                         state.players[2].score.owned -= 1;
                         state.players[2].score.fortified -= state.tiles[sel.index].fortified;
@@ -75,6 +74,8 @@ function waitTurn(state) {
                     state.tiles[sel.index].fortified = roll;
                     state.players[playerNo].score.owned += 1;
                     state.players[playerNo].score.fortified += roll;
+                    state.players[playerNo].loc.x = state.tiles[sel.index].x;
+                    state.players[playerNo].loc.y = state.tiles[sel.index].y;
 
                     $("#target-roll-disp").text("Opponent defeated with a roll of " + roll);
                     $("#attack-modal").modal("hide");
@@ -272,21 +273,20 @@ socket.on("get_update", function (msg) {
     if (playerNo === 1) {
         myScore = state.players[1].owned + state.players[1].fortified;
         enemyScore = state.players[2].owned + state.players[2].fortified;
-        $("#target-my-score").text(myScore);
-        $("#target-enemy-score").text(enemyScore);
     } else if (playerNo === 2) {
         myScore = state.players[2].owned + state.players[2].fortified;
         enemyScore = state.players[1].owned + state.players[1].fortified;
-        $("#target-my-score").text(myScore);
-        $("#target-enemy-score").text(enemyScore);
     } else {
         myScore = 0;
         enemyScore = 0;
     }
-    $("#target-turns-remaining").text((state.turnsRem / 2));
     console.log(moment().format("hh:mm:ss"));
     console.log(state);
-
+    
+    $("#target-turns-remaining").text((state.turnsRem / 2));
+    $("#target-my-score").text(myScore);
+    $("#target-enemy-score").text(enemyScore);
+    
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Update received in setup mode");
