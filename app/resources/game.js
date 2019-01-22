@@ -77,7 +77,6 @@ class Board {
         this.players = {
             1: {
                 playerID : null,
-                socket: null,
                 loc: {
                     x: null,
                     y: null
@@ -89,11 +88,11 @@ class Board {
                 score: {
                     owned: null,
                     fortified: null
-                }
+                },
+                start: null
             },
             2: {
                 playerID: null,
-                socket: null,
                 loc: {
                     x: null,
                     y: null
@@ -105,7 +104,8 @@ class Board {
                 score: {
                     owned: null,
                     fortified: null
-                }
+                },
+                start: null
             }
         };
         this.tiles = [];
