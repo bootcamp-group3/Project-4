@@ -57,6 +57,7 @@ h3, h5 {
     width: 925px;
     background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
     border: solid black 2px;
+    margin: auto;
 }
 
 #target-frame{
