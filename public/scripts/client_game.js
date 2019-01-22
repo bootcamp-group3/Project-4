@@ -18,7 +18,7 @@ function rollDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
-function waitTurn() {
+function waitTurn(state) {
     $(".validMove").on("click", function () {
         let sel = {
             x: $(this).data("x"),
@@ -158,7 +158,7 @@ socket.on("get_update", function (msg) {
                     $(".tile").tooltip("dispose");
                     renderBoard(state);
                     $("[data-toggle='tooltip']").tooltip();
-                    waitTurn();
+                    waitTurn(state);
                 } else {
                     state.turn = 1;
                     state.setup = false;
@@ -171,7 +171,7 @@ socket.on("get_update", function (msg) {
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
         if (state.turn === playerNo) {
-            waitTurn();
+            waitTurn(state);
         }
     }
 });
