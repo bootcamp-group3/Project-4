@@ -187,21 +187,21 @@ function renderBoard(state) {
         if (state.players[1].loc.x === thisTile.x && state.players[1].loc.y === thisTile.y) {
             if (playerNo === 1) {
                 tile.addClass("myLoc");
-                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon' style='width:100%;'>");
+                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon'>");
             } else if (playerNo === 2) {
                 tile.addClass("enemyLoc");
-                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon' style='width:100%;'>");
-            }
-        } if (state.players[2].loc.x === thisTile.x && state.players[2].loc.y === thisTile.y) {
-            if (playerNo === 2) {
-                tile.addClass("myLoc");
-                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon' style='width:100%;'>");
-            } else if (playerNo === 1) {
-                tile.addClass("enemyLoc");
-                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon' style='width:100%;'>");
+                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon'>");
             }
         }
-
+        if (state.players[2].loc.x === thisTile.x && state.players[2].loc.y === thisTile.y) {
+            if (playerNo === 2) {
+                tile.addClass("myLoc");
+                tile.append("<img src='/assets/media/i_p1.png' class='tile-player-icon'>");
+            } else if (playerNo === 1) {
+                tile.addClass("enemyLoc");
+                tile.append("<img src='/assets/media/i_p2.png' class='tile-player-icon'>");
+            }
+        }
 
 
         if (state.turn === playerNo) {
