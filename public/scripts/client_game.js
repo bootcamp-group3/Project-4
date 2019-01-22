@@ -113,7 +113,7 @@ socket.on("connect", function () {
                 } else {
                     state.turn = 2;
                 }
-                sockit.emit("send_update", { "id": gameID, "content": state });
+                socket.emit("send_update", { "id": gameID, "content": state });
             }
         }
     });
