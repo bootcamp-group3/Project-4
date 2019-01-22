@@ -54,8 +54,8 @@ h3, h5 {
 #target-board-target{
    
     border: groove #ffd400 10px;
-    height: 925px;
-    width: 925px;
+    height: 100%;
+    width: 100%;
     background-image: url(https://www.makemymural.com/wp-content/uploads/2018/03/Old-Map.jpg);
     border: solid black 2px;
     margin: auto;
