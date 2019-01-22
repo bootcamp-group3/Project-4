@@ -17,6 +17,6 @@ function onSignIn(googleUser) {
             icon: icon
         }
     });
-
-    window.location.href = "/lobby";
+    
+    $("#signInContainer").append("<a class='btn btn-info btn-lg' href='/lobby'>JOIN GAME</a>");
 }

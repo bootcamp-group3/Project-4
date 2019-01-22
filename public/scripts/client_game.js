@@ -70,7 +70,7 @@ socket.on("get_update", function (msg) {
     renderBoard(state);
     $("[data-toggle='tooltip']").tooltip();
 
-    if (state.turn === null && state.setup === true) {
+    if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Turn has not yet been decided");
         if (state.players[1].playerID === playerID && state.players[1].start === null) {
@@ -83,14 +83,10 @@ socket.on("get_update", function (msg) {
                 let roll = Math.floor(Math.random() * 6) + 1;
                 state.players[1].start = roll;
                 $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-                $("#turn-button").text("CLOSE");
-                $("#turn-button").on("click", function () {
-                    $("#turn-modal").modal("hide");
-                });
                 setTimeout(function () {
                     $("#turn-modal").modal("hide");
-                    socket.emit("send_update", { "id": gameID, "content": state });
                 }, 1000);
+                socket.emit("send_update", { "id": gameID, "content": state });
 
             });
         } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
