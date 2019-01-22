@@ -1,8 +1,11 @@
 // Import socket lib
 var socket = io();
-// Declare socket ID
+// Declare socketID
+socketID = socket.io.engine.id;
+// Declare player ID
 var playerID = localStorage.getItem("id");
 console.log(`Player: ${playerID}`);
+// Declare play no.
 var playerNo;
 // Parse game ID from url
 const url = window.location.pathname;
@@ -57,8 +60,11 @@ function renderBoard(state) {
     $("#target-frame").append(boardContainer);
 }
 
-// Declare socketID
-socketID = socket.io.engine.id;
+socket.on("get_startup", function (msg) { 
+    console.log(moment().format("hh:mm:ss"));
+    console.log("Game is in setup mode");
+});
+
 
 socket.on("get_update", function (msg) {
     let state = msg;
