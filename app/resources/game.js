@@ -145,7 +145,7 @@ module.exports = {
             await cache.updateObj(gameID, newBoard);
             return Promise.resolve([false, newBoard]);
         } else {
-            state.players[0].playerID = playerID;
+            state.players[2].playerID = playerID;
             return Promise.resolve([true, state]);
         }
     },

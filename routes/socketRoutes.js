@@ -49,7 +49,7 @@ module.exports = function (io) {
                 console.log(e);
             }
             async function checkBoard(id, player) {
-                let gameState = await Game.hasBoard(id);
+                let gameState = await Game.hasBoard(id, player);
                 if (gameState[0] === false) {
                     console.log("Needs board");
                     io.to(id).emit("get_update", gameState[1]);
@@ -58,7 +58,7 @@ module.exports = function (io) {
                     io.to(id).emit("get_update", gameState[1]);
                 }
             }
-            checkBoard(id);
+            checkBoard(id, player);
             console.log(`Player: ${socket.id} joined game: ${id}`);
         });
 
