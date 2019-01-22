@@ -20,7 +20,12 @@ function rollDie() {
 
 function waitTurn() {
     $(".validMove").on("click", function (event) {
-        console.log(`Select (${$(this).data("x")}, ${$(this).data("y")})`);
+        let sel = {
+            x: $(this).data("x"),
+            y: $(this).data("y")
+        };
+        console.log(`Select (${sel.x}, ${sel.y})`);
+        console.log(state.tiles[(sel.x * (sel.y + 1))]);
     });
 }
 
