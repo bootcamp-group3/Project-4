@@ -32,7 +32,11 @@ body {
     
 }
 .myLoc{
-     border : solid 3px #00ccff;
+    border : solid 3px #00ccff;
+}
+.tile-player-icon{
+    position: absolute;
+    z-index: 2;
 }
 
 

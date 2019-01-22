@@ -284,7 +284,7 @@ socket.on("get_update", function (msg) {
     $("#wait-modal").modal("hide");
     let myScore = 0;
     let enemyScore = 0;
-    if (playerNo === 1) {e
+    if (playerNo === 1) {
         myScore = state.players[1].score.owned * state.players[1].score.fortified;
         enemyScore = state.players[2].score.owned * state.players[2].score.fortified;
     } else if (playerNo === 2) {
