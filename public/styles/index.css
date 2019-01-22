@@ -1,65 +1,68 @@
-#back-layer1 {
-    position: relative;
-    /* The image used */
-    background-image: url("https://medievalbooks.files.wordpress.com/2015/09/ambrogio_lorenzetti_effects.jpg");
-
-    /* Full height */
-    height: 100%;
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-blend-mode: color-burn;
-}
-#back-layer2{
-    background: rgba(65, 65, 65, 0.63);
-}
-
-.container{
-    position: relative;
-    background: rgb(240, 255, 243);
-    border-left: solid 2px rgb(65, 65, 65); 
-    border-right: solid 2px rgb(65, 65, 65); 
-    z-index: 1;
-
-}
-
-.signIn{
-    padding: 5%;
-}
-
-.signIn-label{
-    font-size: 18pt;
-    font-weight: 600;
+.body {
+    background-color: #0675d2b3;
 }
 
 .heading {
     padding-top: 2%;
-    background-color: #155458;
-    color: #ffda07;
-    border-bottom: none;
+    background-color: #ffd400;
+    border-radius: 15px 15px 0 0;
 }
 
-.card-header{
+.container {
+    background-color: #D9F0FF;
+    border: solid 2px rgb(65, 65, 65);
+}
+
+
+.signIn {
+    padding: 5%;
+}
+
+.signIn-label {
+    font-size: 18pt;
+    font-weight: 600;
+}
+
+
+.card-header {
     background-color: #ffda07;
+    border-radius: 10px 10px 0 0 !important;
 }
 
-.btn-info{
-    background-color: #155458;
+.card{
+    border-radius: 10px;
+    box-shadow: 5px 5px 3px #14254485;
+}
+
+.btn-info {
+    background-color: #00A6ED;
     color: #ffda07;
+}
+
+.btn-info:hover {
+    background-color: #005B82 !important;
+    color: #ffda07 !important;
 }
 
 h1 {
     font-family: 'Press Start 2P', cursive;
 }
 
-h3, h5 {
+h3,
+h4,
+h5 {
     font-family: 'Roboto', sans-serif;
+    font-weight: bold
 }
 
 body {
     font-family: 'Roboto', sans-serif;
+    background-image: url(../media/download.png)
 }
 
-
+#main {
+    margin-top: 10%;
+    box-shadow: 10px 10px 8px #14254485;
+    padding-bottom: 5%;
+    border-radius: 10px;
+}
