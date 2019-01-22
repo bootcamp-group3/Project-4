@@ -8,6 +8,9 @@ var playerNo;
 const url = window.location.pathname;
 const gameID = url.substr(url.lastIndexOf("/") + 1);
 console.log(`Game ID : ${gameID}`);
+// Join game
+console.log("Joining game");
+socket.emit("join_game", { game: gameID, player: playerID });
 
 // Declare function to render board
 function renderBoard(state) {
@@ -60,13 +63,10 @@ socket.on("connect", function () {
     socketID = socket.io.engine.id;
 
     // Use the join_game protocol to join namespace
-    console.log("Joining game");
-    socket.emit("join_game", { game: gameID, player: playerID });
-
-
+    
     socket.on("get_update", function (msg) {
         let state = msg;
-
+        $("#wait-modal").modal("hide");
         console.log(moment().format("hh:mm:ss"));
         console.log(state);
 
@@ -79,7 +79,7 @@ socket.on("connect", function () {
             console.log("Turn has not yet been decided");
             if (state.players[1].playerID === playerID && state.players[1].start === null) {
                 console.log(moment().format("hh:mm:ss"));
-                console.log("Turn has not yet been decided. This player must roll.");
+                console.log("This player must roll.");
                 playerNo = 1;
                 $("#turn-modal").modal("show");
                 $("#turn-button").on("click", function () {
