@@ -107,36 +107,36 @@ function renderBoard(state) {
             if (playerNo === 1) {
                 thisTile.ownerDisp = "Me";
                 thisTile.owner = playerNo;
-                tile.attr("class", "mySpawn");
+                tile.addClass("mySpawn");
             } else if (playerNo === 2) {
                 thisTile.ownerDisp = "Enemy";
                 thisTile.owner = 1;
-                tile.attr("class", "enemySpawn");
+                tile.addClass("enemySpawn");
             }
         } else if (thisTile.x === state.players[2].spawn.x && thisTile.y === state.players[2].spawn.y) {
             tileImgSrc = "castle";
             if (playerNo === 2) {
                 thisTile.ownerDisp = "Me";
                 thisTile.owner = playerNo;
-                tile.attr("class", "mySpawn");
+                tile.addClass("mySpawn");
             } else if (playerNo === 1) {
                 thisTile.ownerDisp = "Enemy";
                 thisTile.owner = 2;
-                tile.attr("class", "enemySpawn");
+                tile.addClass("enemySpawn");
             }
         }
 
         if (state.players[1].loc.x === thisTile.x && state.players[1].loc.y === thisTile.y) {
             if (playerNo === 1) {
-                tile.attr("class", "myLoc");
+                tile.addClass("myLoc");
             } else if (playerNo === 2) {
-                tile.attr("class", "enemyLoc");
+                tile.addClass("enemyLoc");
             }
         } if (state.players[2].loc.x === thisTile.x && state.players[2].loc.y === thisTile.y) {
             if (playerNo === 2) {
-                tile.attr("class", "myLoc");
+                tile.addClass("myLoc");
             } else if (playerNo === 1) {
-                tile.attr("class", "enemyLoc");
+                tile.addClass("enemyLoc");
             }
         }
 
@@ -146,23 +146,23 @@ function renderBoard(state) {
         if (state.turn === playerNo) {
             if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
                 if (thisTile.type !== 2){
-                    tile.attr("class", "validMove");
+                    tile.addClass("validMove");
                 }
             }else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 if (thisTile.type !== 2) {
-                    tile.attr("class", "validMove");
+                    tile.addClass("validMove");
                 }
             }
         }
 
         if (thisTile.owner === playerNo) {
             thisTile.ownerDisp = "Me";
-            tile.attr("class", "myTile");
+            tile.addClass("myTile");
         } else if (thisTile.owner === null) {
             thisTile.ownerDisp = "Unclaimed";
         } else {
             thisTile.ownerDisp = "Enemy";
-            tile.attr("class", "enemyTile");
+            tile.addClass("enemyTile");
         }
 
         tile.attr("title",
