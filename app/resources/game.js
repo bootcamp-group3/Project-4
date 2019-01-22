@@ -88,7 +88,7 @@ class Board {
                 },
                 score: {
                     owned: 0,
-                    fortified: n0ull
+                    fortified: 0
                 },
                 start: null
             },
