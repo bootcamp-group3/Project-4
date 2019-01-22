@@ -11,12 +11,9 @@ module.exports = function (app) {
                 model: db.Player
             }]
         }).then(Game => {
-            var hbsObject = Game.map(Leaderboard => {
-                return Object.assign({}, {
-                    name: Leaderboard.Player.name,
-                    score: Leaderboard.score
-                });
-            });
+            var hbsObject = {
+                items: Game
+            };
             res.render("index", hbsObject);
         });
     });
