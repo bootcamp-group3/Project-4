@@ -101,16 +101,25 @@
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <ul style="list-style-type:none">
-                            <li>Position Name Score</li>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Score</th>
+                                </tr>
+                            </thead>
                             <br>
                             {{#each items}}
-                            <li>
-                                {{inc @index}} {{dataValues.Player.name}} {{dataValues.score}}
-                                <br>
-                            </li>
-                        {{/each}}
-                        </ul>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{inc @index}}</th>
+                                    <td>{{dataValues.Player.Name}}</td>
+                                    <td>{{dataValues.score}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                         {{!-- <i class="fa fa-spinner fa-spin"></i>
                         <b>Loading Leaderboards...</b> --}}
                     </div>
