@@ -125,8 +125,8 @@ class Board {
                 y: spawnY
             };
 
-            let spawnIndex = spawnX * (spawnY + 1);
-            this.tiles[spawnIndex].owner = c + 1; 
+            let spawnIndex = (spawnX * (spawnY + 1));
+            this.tiles[spawnIndex].owner = (c + 1); 
             this.tiles[spawnIndex].fortified = 6; 
             this.tiles[spawnIndex].type = 9; 
         }

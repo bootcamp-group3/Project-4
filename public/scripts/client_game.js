@@ -2,6 +2,7 @@
 var socket = io();
 // Declare socket ID
 var playerID = localStorage.getItem("id");
+console.log(`Player: ${playerID}`);
 var playerNo;
 // Parse game ID from url
 const url = window.location.pathname;
@@ -42,9 +43,8 @@ function renderBoard(state) {
                 tile.attr("class", "myLoc");
             }
         }
-        // tile.text(`(${thisTile.x + 1},${thisTile.y + 1})\nFort:${thisTile.fortified}`);
-        tile.data("x", thisTile.x + 1);
-        tile.data("y", thisTile.y + 1);
+        tile.data("x", thisTile.x );
+        tile.data("y", thisTile.y );
         tile.data("occupied", thisTile.owner);
         tile.data("fortified", thisTile.fortified);
         tile.data("tileType", thisTile.type);
@@ -80,6 +80,7 @@ socket.on("connect", function () {
                 $("#turn-button").on("click", function () {
                     $("#turn-button").off();
                     let roll = Math.floor(Math.random() * 6) + 1;
+                    state.players[1].start = roll;
                     console.log(roll);
                     $("#turn-modal-body").append(`<h3>${roll}</h3>`);
                     $("#turn-button").text("CLOSE");
@@ -88,9 +89,8 @@ socket.on("connect", function () {
                     });
                     setTimeout(function () {
                         $("#turn-modal").modal("hide");
-                    }, 2000);
-                    state.players[1].start = roll;
-                    socket.emit("send_update", { "id": gameID, "content": state });
+                        socket.emit("send_update", { "id": gameID, "content": state });
+                    }, 1000);
 
                 });
             } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
