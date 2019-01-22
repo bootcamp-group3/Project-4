@@ -69,7 +69,7 @@ module.exports = function (io) {
             console.log(`Update to game ${gameId} from socket ${socket.id}`);
 
             try {
-                io.to(gameId).emit("get_update", obj.content);
+                io.to(gameId).volatile.emit("get_update", obj.content);
             } catch (e) {
                 console.log(e);
             }

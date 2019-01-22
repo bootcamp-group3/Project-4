@@ -63,7 +63,7 @@ function renderBoard(state) {
     $("#target-frame").append(boardContainer);
 }
 
-socket.on("get_startup", function (msg) { 
+socket.on("get_startup", function (msg) {
     socket.removeListener("get_startup");
     console.log(moment().format("hh:mm:ss"));
     console.log("Game startup inititialized");
@@ -73,23 +73,25 @@ socket.on("get_startup", function (msg) {
         playerNo = 1;
         console.log(moment().format("hh:mm:ss"));
         console.log("This client is player number " + playerNo);
+        console.log("Client  " + playerNo + " rolls first.");
+        $("#turn-modal").modal("show");
+        $("#turn-button").off();
+        $("#turn-button").on("click", function () {
+            let roll = rollDie();
+            state.players[playerNo].start = roll;
+            $("#turn-modal-body").text(roll);
+            $("#turn-button").off();
+            socket.emit("send_update", { "id": gameID, "content": state });
+        });
     } else if (state.players[2].playerID === playerID) {
         playerNo = 2;
         console.log(moment().format("hh:mm:ss"));
         console.log("This client is player number " + playerNo);
+        console.log("Client  " + playerNo + " rolls second.");
     } else {
         console.log(moment().format("hh:mm:ss"));
         console.log("No player number can be declared at this time");
     }
-    $("#turn-modal").modal("show");
-    $("#turn-button").off();
-    $("#turn-button").on("click", function () {
-        let roll = rollDie();
-        state.players[playerNo].start = roll;
-        $("#turn-modal-body").text(roll);
-        $("#turn-button").off();
-        socket.emit("send_update", { "id": gameID, "content": state });
-    });
 });
 
 
@@ -97,14 +99,21 @@ socket.on("get_update", function (msg) {
     let state = msg;
     $("#wait-modal").modal("hide");
     console.log(state);
-
+    
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
+        console.log("Update received in setup mode");
         console.log(state);
-        if (6 >= state.players[1] > 0 && 6 >= state.players[2] > 0) {
-            console.log(moment().format("hh:mm:ss"));
-            console.log("Both players have rolled");
-            
+        if (state.players[playerNo].start === null) {
+            $("#turn-modal").modal("show");
+            $("#turn-button").off();
+            $("#turn-button").on("click", function () {
+                let roll = rollDie();
+                state.players[playerNo].start = roll;
+                $("#turn-modal-body").text(roll);
+                $("#turn-button").off();
+                socket.emit("send_update", { "id": gameID, "content": state });
+            });
         }
     } else {
         $(".tile").tooltip("dispose");
