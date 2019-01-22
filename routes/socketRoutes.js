@@ -40,14 +40,16 @@ module.exports = function (io) {
             });
         });
 
-        socket.on("join_game", function(id) {
+        socket.on("join_game", function (msg) {
+            let id = msg.game;
+            let player = msg.player;
             try {
                 socket.join(id);
             } catch (e) {
                 console.log(e);
             }
-            async function checkBoard(id) {
-                let gameState = await Game.hasBoard(id);
+            async function checkBoard(id, player) {
+                let gameState = await Game.hasBoard(id, player);
                 if (gameState[0] === false) {
                     console.log("Needs board");
                     io.to(id).emit("get_update", gameState[1]);
@@ -56,7 +58,7 @@ module.exports = function (io) {
                     io.to(id).emit("get_update", gameState[1]);
                 }
             }
-            checkBoard(id);
+            checkBoard(id, player);
             console.log(`Player: ${socket.id} joined game: ${id}`);
         });
 

@@ -16,6 +16,13 @@ body {
     height: 100%;
 }
 
+.mySpawn{
+    border: solid 2px blue;
+}
+.myLoc{
+    border: solid 2px teal;
+}
+
 h3, h5 {
   font-family: 'Montserrat', sans-serif;
 }
@@ -30,9 +37,4 @@ h3, h5 {
     height: 100%;
     overflow-x: scroll;
     overflow-y: scroll;
-}
-
-.tile:hover {
-    width: 50px;
-    height: 50px;
 }

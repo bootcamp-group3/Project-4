@@ -8,11 +8,6 @@ function onSignIn(googleUser) {
     localStorage.setItem("name", name);
     localStorage.setItem("icon", icon);
 
-    console.log(`
-    ID: ${id}
-    Name: ${name}
-    Icon: ${icon}
-    `);
 
     $.ajax("/api/players", {
         type: "POST",

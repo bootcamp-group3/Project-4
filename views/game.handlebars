@@ -2,6 +2,41 @@
 <div class="board-parent">
     <!-- Modals -->
     <div id="modal-container">
+        <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Waiting</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Waiting for opponent</p><br>
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="turn-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Highest Roll Goes First</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="turn-modal-body">
+                        <p>Press the ROLL button to roll the dice. Whoever gets the highest roll gets to go first!</p>
+                    </div>
+                    <div class="modal-footer">
+                        {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                        <button id="turn-button" type="button" class="btn btn-primary">ROLL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal" id="fortify-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

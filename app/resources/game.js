@@ -73,10 +73,10 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.turn = null;
         this.players = {
             1: {
                 playerID : null,
-                socket: null,
                 loc: {
                     x: null,
                     y: null
@@ -88,11 +88,11 @@ class Board {
                 score: {
                     owned: null,
                     fortified: null
-                }
+                },
+                start: null
             },
             2: {
                 playerID: null,
-                socket: null,
                 loc: {
                     x: null,
                     y: null
@@ -104,7 +104,8 @@ class Board {
                 score: {
                     owned: null,
                     fortified: null
-                }
+                },
+                start: null
             }
         };
         this.tiles = [];
@@ -119,6 +120,11 @@ class Board {
                 x: spawnX,
                 y: spawnY
             };
+            this.players[c + 1].loc = {
+                x: spawnX,
+                y: spawnY
+            };
+
             let spawnIndex = spawnX * (spawnY + 1);
             this.tiles[spawnIndex].owner = c + 1; 
             this.tiles[spawnIndex].fortified = 6; 
@@ -135,14 +141,16 @@ class Board {
 }
 
 module.exports = {
-    hasBoard: async function (gameID) {
+    hasBoard: async function (gameID, playerID) {
         let state = await cache.retrieveObj(gameID);
         // console.log(state);
         if (state === null) {
             let newBoard = new Board();
+            newBoard.players[1].playerID = playerID;
             await cache.updateObj(gameID, newBoard);
             return Promise.resolve([false, newBoard]);
         } else {
+            state.players[2].playerID = playerID;
             return Promise.resolve([true, state]);
         }
     },
