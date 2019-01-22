@@ -357,8 +357,8 @@ socket.on("final_update", function (msg) {
             gameID: gameID,
             score: msg[playerNo],
             playerID: uRef
-        }).then(function (res) {
-            console.log(res);
+        }).then(function () {
+            socket.removeListener("get_update");
         });
     });
 
