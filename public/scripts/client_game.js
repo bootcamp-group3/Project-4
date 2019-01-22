@@ -26,14 +26,12 @@ function renderBoard(state) {
     let boardContainer = $("<div class='board-container' style='position:relative;'>");
     for (var f = 0; f < state.tiles.length; f++) {
         let thisTile = state.tiles[f];
+        thisTile.ownerDisp = thisTile.owner;
         let tile = $(`<div class="tile" 
         style="width:${tileWidth}px; position:absolute; 
         top:${thisTile.y * tileWidth + ((thisTile.y + 1) * gutter)}px;
         left:${thisTile.x * tileWidth + ((thisTile.x + 1) * gutter)}px"
-        data-toggle="tooltip" data-html="true"
-        title="<u>(${thisTile.x},${thisTile.y})</u>
-        <em>Occupied by: </em> <b>${thisTile.owner}</b><br>
-        <em>Fortifications: </em> <b>${thisTile.fortified}</b> <br>">`);
+        data-toggle="tooltip" data-html="true"<br>">`);
         var tileImgSrc;
         if (thisTile.type === 2) {
             tileImgSrc = "obst";
@@ -43,16 +41,20 @@ function renderBoard(state) {
         if (thisTile.x === state.players[1].spawn.x && thisTile.y === state.players[1].spawn.y) {
             tileImgSrc = "castle";
             if (playerNo === 1) {
+                thisTile.ownerDisp = "Me";
                 tile.attr("class", "mySpawn");
             } else if (playerNo === 2) {
+                thisTile.ownerDisp = "Enemy";
                 tile.attr("class", "enemySpawn");
             }
         }
         if (thisTile.x === state.players[2].spawn.x && thisTile.y === state.players[2].spawn.y) {
             tileImgSrc = "castle";
             if (playerNo === 2) {
+                thisTile.ownerDisp = "Me";
                 tile.attr("class", "mySpawn");
             } else if (playerNo === 1) {
+                thisTile.ownerDisp = "Enemy";
                 tile.attr("class", "enemySpawn");
             }
         }
@@ -61,11 +63,17 @@ function renderBoard(state) {
         tile.html(tileImg);
 
         if (state.turn === playerNo) {
-            if ((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && (thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2)) {
+            if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
+                tile.attr("class", "validMove");
+            } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 tile.attr("class", "validMove");
             }
-        }
+        } 
 
+        tile.attr("title",
+            `<u>(${thisTile.x},${thisTile.y})</u>
+            <em>Occupied by: </em> <b>${thisTile.ownerDisp}</b><br>
+            <em>Fortifications: </em> <b>${thisTile.fortified}</b>`); 
         tile.data("x", thisTile.x);
         tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
