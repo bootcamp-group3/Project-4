@@ -18,6 +18,12 @@ function rollDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
+function waitTurn() {
+    $(".validMove").on("click", function (event) {
+        console.log(`Select (${$(this).data("x")}, ${$(this).data("y")})`);
+    });
+}
+
 // Declare function to render board
 function renderBoard(state) {
     $("#target-frame").html("");
@@ -130,7 +136,7 @@ socket.on("get_update", function (msg) {
         console.log("Update received in setup mode");
         console.log(state);
         if (state.players[playerNo].playerID === null && state.players[1].playerID !== playerID) {
-            state.players.playerID = playerID;
+            state.players[playerNo].playerID = playerID;
         }
         if (state.players[playerNo].start === null) {
             $("#turn-modal").modal("show");
@@ -146,6 +152,7 @@ socket.on("get_update", function (msg) {
                     $(".tile").tooltip("dispose");
                     renderBoard(state);
                     $("[data-toggle='tooltip']").tooltip();
+                    waitTurn();
                 } else {
                     state.turn = 1;
                     state.setup = false;
@@ -157,6 +164,9 @@ socket.on("get_update", function (msg) {
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
+        if (state.turn === playerNo) {
+            waitTurn();
+        }
     }
 });
 
