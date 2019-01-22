@@ -101,14 +101,15 @@
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <ol>
+                        <ul>
                             <li>Position Name Score</li>
+                            <br>
                             {{#each items}}
                             <li>
                                 {{inc @index}} {{dataValues.Player.name}} {{dataValues.score}}
-                                <br><br>
+                                <br>
                             </li>
-                        </ol>
+                        </ul>
                         {{/each}}
                         {{!-- <i class="fa fa-spinner fa-spin"></i>
                         <b>Loading Leaderboards...</b> --}}
