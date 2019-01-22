@@ -99,9 +99,13 @@ function renderBoard(state) {
 
         if (state.turn === playerNo) {
             if (((thisTile.x >= state.players[playerNo].loc.x - 2 && thisTile.x <= state.players[playerNo].loc.x + 2) && thisTile.y === state.players[playerNo].loc.y) || ((thisTile.y >= state.players[playerNo].loc.y - 2 && thisTile.y <= state.players[playerNo].loc.y + 2) && thisTile.x === state.players[playerNo].loc.x)) {
-                tile.attr("class", "validMove");
+                if (thisTile.type !== 1){
+                    tile.attr("class", "validMove");
+                }
             } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
-                tile.attr("class", "validMove");
+                if (thisTile.type !== 1) {
+                    tile.attr("class", "validMove");
+                }
             }
         }
 
