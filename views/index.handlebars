@@ -114,7 +114,10 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">{{inc @index}}</th>
-                                    <td>{{dataValues.Player.Name}}</td>
+                                    <td>
+                                        <img style="height: 25px" src="{{dataValues.Player.icon}}">
+                                        {{dataValues.Player.name}}
+                                    </td>
                                     <td>{{dataValues.score}}</td>
                                 </tr>
                                 {{/each}}
