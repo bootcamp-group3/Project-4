@@ -345,8 +345,10 @@ socket.on("get_update", function (msg) {
 socket.on("final_update", function (msg) {
     // socket.removeListener("final_update");
     console.log(moment().format("hh:mm:ss"));
+    console.log("Off final update message");
     console.log(msg);
     socket.emit("final_update", { "id": gameID, "content": msg });
+    socket.removeListener("final_update");
 
     let getRefURL = `/api/getREF/${playerID}`;
     $.get(getRefURL).then(function (res) {
