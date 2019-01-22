@@ -343,13 +343,19 @@ socket.on("get_update", function (msg) {
 socket.on("final_update", function (msg) {
     socket.removeListener("final_update");
     socket.emit("final_update", { "id": gameID, "content": msg });
-    $.post("/api/leaderboard", {
-        gameID: gameID,
-        score: msg[playerNo],
-        playerID: uRef
-    }).then(function (res) {
-        console.log(res);
+
+    let getRefURL = `/api/getREF/${playerID}`;
+    $.get(getRefURL).then(function (res) {
+        let uRef = res.uRef;
+        $.post("/api/leaderboard", {
+            gameID: gameID,
+            score: msg[playerNo],
+            playerID: uRef
+        }).then(function (res) {
+            console.log(res);
+        });
     });
+    
     if (msg.winner === playerNo) {
         $("#target-winLose").text("YOU WON!");
     } else if (msg.winner === null) {
