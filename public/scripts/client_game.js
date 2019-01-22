@@ -14,6 +14,9 @@ console.log(`Game ID : ${gameID}`);
 // Use the join_game protocol to join namespace
 console.log(moment().format("hh:mm:ss"));
 
+function rollDie() {
+    return Math.floor(Math.random() * 6) + 1;
+}
 
 // Declare function to render board
 function renderBoard(state) {
@@ -60,9 +63,8 @@ function renderBoard(state) {
     $("#target-frame").append(boardContainer);
 }
 
-
-
 socket.on("get_startup", function (msg) { 
+    socket.removeListener("get_startup");
     console.log(moment().format("hh:mm:ss"));
     console.log("Game startup inititialized");
     let state = msg;
@@ -79,6 +81,13 @@ socket.on("get_startup", function (msg) {
         console.log(moment().format("hh:mm:ss"));
         console.log("No player number can be declared at this time");
     }
+    $("#turn-modal").modal("show");
+    $("#turn-button").off();
+    $("#turn-button").on("click", function () {
+        let roll = rollDie();
+        $("#turn-modal-body").text(roll);
+        $("#turn-button").off();
+    });
 });
 
 
@@ -89,62 +98,7 @@ socket.on("get_update", function (msg) {
 
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
-        console.log("Game is in setup mode");
-        
-
-        // if (state.players[1].playerID === playerID && state.players[1].start === null) {
-        //     console.log(moment().format("hh:mm:ss"));
-        //     console.log("This player must roll.");
-        //     playerNo = 1;
-        //     $("#turn-modal").modal("show");
-        //     $("#turn-button").on("click", function () {
-        //         let roll = Math.floor(Math.random() * 6) + 1;
-        //         state.players[1].start = roll;
-        //         $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-        //         setTimeout(function () {
-        //             $("#turn-modal").modal("hide");
-        //         }, 1000);
-        //         socket.emit("send_update", { "id": gameID, "content": state });
-
-        //     });
-        // } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
-        //     console.log(moment().format("hh:mm:ss"));
-        //     console.log("Waiting for opponent to roll");
-        //     $("#wait-modal").modal("show");
-
-        // } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
-        //     console.log(moment().format("hh:mm:ss"));
-        //     console.log("Opponent has rolled. Your turn. ");
-        //     playerNo = 2;
-        //     $("#turn-modal").modal("show");
-        //     $("#turn-button").on("click", function () {
-        //         console.log(moment().format("hh:mm:ss"));
-        //         console.log("Opponent has rolled. Your turn. ");
-        //         $("#turn-button").off();
-        //         let roll = Math.floor(Math.random() * 6) + 1;
-        //         console.log(roll);
-        //         $("#turn-modal-body").append(`<h3>${roll}</h3>`);
-        //         state.players[2].start = roll;
-        //         socket.emit("send_update", { "id": gameID, "content": state });
-        //         setTimeout(function () {
-        //             $("#turn-modal").modal("hide");
-        //         }, 2000);
-        //     });
-        // } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
-        //     console.log(moment().format("hh:mm:ss"));
-        //     console.log("Waiting for opponent to roll");
-        //     $("#wait-modal").modal("show");
-        // } else if (6 >= state.players[1].start > 0 && 6 >= state.players[2] > 0) {
-        //     console.log(moment().format("hh:mm:ss"));
-        //     console.log("Both oppoenents have rolled");
-        //     if (state.players[1].start > state.players[2].start) {
-        //         state.turn = 1;
-        //     } else {
-        //         state.turn = 2;
-        //     }
-        //     state.setup = false;
-        //     socket.emit("send_update", { "id": gameID, "content": state });
-        // }
+        console.log(state);
     } else {
         $(".tile").tooltip("dispose");
         renderBoard(state);
