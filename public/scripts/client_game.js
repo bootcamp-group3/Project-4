@@ -271,9 +271,15 @@ socket.on("get_update", function (msg) {
     let myScore = 0;
     let enemyScore = 0;
     if (playerNo === 1) {
+        console.log(moment().format("hh:mm:ss"));
+        console.log("Owned: " + state.players[1].owned);
+        console.log("Fort'd: " + state.players[1].fortified);
         myScore = state.players[1].owned + state.players[1].fortified;
         enemyScore = state.players[2].owned + state.players[2].fortified;
     } else if (playerNo === 2) {
+        console.log(moment().format("hh:mm:ss"));
+        console.log("Owned: " + state.players[2].owned);
+        console.log("Fort'd: " + state.players[2].fortified);
         myScore = state.players[2].owned + state.players[2].fortified;
         enemyScore = state.players[1].owned + state.players[1].fortified;
     } else {
@@ -283,10 +289,11 @@ socket.on("get_update", function (msg) {
     console.log(moment().format("hh:mm:ss"));
     console.log(state);
     
+
     $("#target-turns-remaining").text((state.turnsRem / 2));
     $("#target-my-score").text(myScore);
     $("#target-enemy-score").text(enemyScore);
-    
+
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Update received in setup mode");
