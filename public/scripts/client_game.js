@@ -38,6 +38,8 @@ function waitTurn(state) {
                 } else if (playerNo === 2) {
                     state.turn = 1;
                 }
+                state.turnsRem--;
+                socket.emit("send_update", { "id": gameID, "content": state });
 
             });
         }
@@ -152,7 +154,6 @@ socket.on("get_startup", function (msg) {
         console.log("No player number can be declared at this time");
     }
 });
-
 
 socket.on("get_update", function (msg) {
     let state = msg;

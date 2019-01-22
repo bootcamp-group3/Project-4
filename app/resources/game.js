@@ -73,7 +73,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
-        this.turnLim = defaultBoardOptions.turnLim;
+        this.turnsRem = defaultBoardOptions.turnLim * 2;
         this.turn = null;
         this.players = {
             1: {
