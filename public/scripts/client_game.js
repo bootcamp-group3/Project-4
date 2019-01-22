@@ -56,7 +56,7 @@ function renderBoard(state) {
         
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
-        
+
         tile.data("x", thisTile.x);
         tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
@@ -86,6 +86,9 @@ socket.on("get_startup", function (msg) {
             $("#turn-modal-body").text("You rolled: " + roll);
             $("#turn-button").off();
             socket.emit("send_update", { "id": gameID, "content": state });
+            $("#post-roll-trigger").on("click", function () {
+                $("#wait-modal").modal("show");
+            });
         });
     } else if (state.players[2].playerID === playerID) {
         playerNo = 2;
