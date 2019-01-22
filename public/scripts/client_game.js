@@ -18,6 +18,11 @@ function rollDie() {
     return Math.floor(Math.random() * 6) + 1;
 }
 
+function gameOver(state){
+    socket.emit("game_over", { "id": gameID, "content": state });
+    socket.removeListener("get_update");
+}
+
 function waitTurn(state) {
     $(".validMove").on("click", function () {
         let sel = {
@@ -271,17 +276,12 @@ socket.on("get_update", function (msg) {
     let myScore = 0;
     let enemyScore = 0;
     if (playerNo === 1) {
-        console.log(moment().format("hh:mm:ss"));
-        console.log("Owned: " + state.players[1].owned);
-        console.log("Fort'd: " + state.players[1].fortified);
-        myScore = state.players[1].owned + state.players[1].fortified;
-        enemyScore = state.players[2].owned + state.players[2].fortified;
+
+        myScore = state.players[1].score.owned + state.players[1].score.fortified;
+        enemyScore = state.players[2].score.owned + state.players[2].score.fortified;
     } else if (playerNo === 2) {
-        console.log(moment().format("hh:mm:ss"));
-        console.log("Owned: " + state.players[2].owned);
-        console.log("Fort'd: " + state.players[2].fortified);
-        myScore = state.players[2].owned + state.players[2].fortified;
-        enemyScore = state.players[1].owned + state.players[1].fortified;
+        myScore = state.players[2].score.owned + state.players[2].score.fortified;
+        enemyScore = state.players[1].score.owned + state.players[1].score.fortified;
     } else {
         myScore = 0;
         enemyScore = 0;
@@ -328,14 +328,21 @@ socket.on("get_update", function (msg) {
                 }
             });
         }
-    } else {
+    } else if (state.turnsRem > 0){
         $(".tile").tooltip("dispose");
         renderBoard(state);
         $("[data-toggle='tooltip']").tooltip();
         if (state.turn === playerNo) {
             waitTurn(state);
         }
+    } else if (state.turnsRem === 0) {
+        gameOver(state);
     }
+});
+
+socket.on("final_update", function (msg) {
+    socket.removeListener("final_update");
+    socket.emit("final_update", {"id" : gameID, "content":msg});
 });
 
 $(function () {
