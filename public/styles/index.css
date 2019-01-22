@@ -25,6 +25,11 @@
 
 .card-header {
     background-color: #ffda07;
+    border-radius: 10px 10px 0 0;
+}
+
+.card{
+    border-radius: 10px;
 }
 
 .btn-info {
@@ -42,6 +47,7 @@ h1 {
 }
 
 h3,
+h4,
 h5 {
     font-family: 'Roboto', sans-serif;
     font-weight: bold
@@ -56,4 +62,5 @@ body {
     margin-top: 10%;
     box-shadow: 10px 10px 8px #14254485;
     padding-bottom: 5%;
+    border-radius: 10px;
 }
