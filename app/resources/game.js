@@ -4,7 +4,7 @@ const defaultBoardOptions = {
     xLim: 12,
     yLim: 12,
     border: 2,
-    bonusLim: 2
+    turnLim: 2
 };
 
 function typeRoll(tile, zone) {
@@ -73,6 +73,7 @@ class Board {
         this.xLim = defaultBoardOptions.xLim;
         this.yLim = defaultBoardOptions.yLim;
         this.border = defaultBoardOptions.border;
+        this.turnLim = defaultBoardOptions.turnLim;
         this.turn = null;
         this.players = {
             1: {

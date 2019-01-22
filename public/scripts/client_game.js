@@ -22,10 +22,25 @@ function waitTurn(state) {
     $(".validMove").on("click", function () {
         let sel = {
             x: $(this).data("x"),
-            y: $(this).data("y")
+            y: $(this).data("y"),
         };
         console.log(`Select (${sel.x}, ${sel.y})`);
-        console.log(state.tiles[(sel.x * (sel.y + 1))]);
+        sel.index = ((state.xLim * sel.y) + x);
+        if (state.tiles[sel.index].occupied === null) {
+            $("#fortify-modal").modal("show");
+            $("#roll-button").on("click", function () {
+                let roll = rollDie();
+                state.tiles[sel.index].occupied = true;
+                state.tiles[sel.index].owner = playerNo;
+                state.tiles[sel.index].fortified = roll;
+                if (playerNo === 1) {
+                    state.turn = 2;
+                } else if (playerNo === 2) {
+                    state.turn = 1;
+                }
+
+            });
+        }
     });
 }
 
@@ -79,6 +94,14 @@ function renderBoard(state) {
             } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 tile.attr("class", "validMove");
             }
+        }
+
+        if (thisTile.owner === playerNo) {
+            thisTile.ownerDisp = "Me";
+        } else if (thisTile.owner === null) {
+            thisTile.ownerDisp = "Unclaimed";
+        } else {
+            thisTile.ownerDisp = "Enemy";
         }
 
         tile.attr("title",
