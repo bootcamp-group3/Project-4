@@ -272,16 +272,18 @@ socket.on("get_update", function (msg) {
     if (playerNo === 1) {
         myScore = state.players[1].owned + state.players[1].fortified;
         enemyScore = state.players[2].owned + state.players[2].fortified;
+        $("#target-my-score").text(myScore);
+        $("#target-enemy-score").text(enemyScore);
     } else if (playerNo === 2) {
         myScore = state.players[2].owned + state.players[2].fortified;
         enemyScore = state.players[1].owned + state.players[1].fortified;
+        $("#target-my-score").text(myScore);
+        $("#target-enemy-score").text(enemyScore);
     } else {
         myScore = 0;
         enemyScore = 0;
     }
     $("#target-turns-remaining").text((state.turnsRem / 2));
-    $("#target-my-score").text(myScore);
-    $("#target-enemy-score").text(enemyScore);
     console.log(moment().format("hh:mm:ss"));
     console.log(state);
 
