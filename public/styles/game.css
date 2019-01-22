@@ -22,19 +22,20 @@ body {
     border: solid 3px maroon;
 }
 .mySpawn{
-    border: solid 3px blue;
+    border: solid 3px rgb(0, 0, 126);
 }
 .enemyTile {
-    border : solid 3px #ff0040;
-}
-.myTile {
-    border : solid 3px #00ccff;
-}
-.enemyLoc{
     border: solid 3px maroon;
 }
+.myTile {
+    border: solid 3px rgb(0, 0, 126);
+}
+.enemyLoc{
+    border : solid 3px #ff0040;
+    
+}
 .myLoc{
-    border: solid 3px teal;
+     border : solid 3px #00ccff;
 }
 
 
