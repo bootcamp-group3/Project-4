@@ -18,10 +18,11 @@ function onSignIn(googleUser) {
         }
     });
 
-    $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "</div><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div>");
-
-    $("#join-game").click(function (event) {
-        event.preventDefault();
-        window.location.href = "/lobby";
-    });
+    $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "</div><br /><br /><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div>");
 }
+
+// Flip between static and animated card
+$(document).on("click", "#join-game", function () {
+    event.preventDefault();
+    window.location.href = "/lobby";
+});
