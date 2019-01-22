@@ -33,8 +33,9 @@
     color: #ffda07;
 }
 
-.btn-info :hover {
-    color: rgb(0, 70, 100) !important;
+.btn-info:hover {
+    background-color: #005B82 !important;
+    color: #ffda07 !important;
 }
 
 h1 {
