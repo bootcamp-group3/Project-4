@@ -44,18 +44,27 @@ function renderBoard(state) {
             tileImgSrc = "castle";
             if (playerNo === 1) {
                 tile.attr("class", "mySpawn");
+            } else if (playerNo === 2) {
+                tile.attr("class", "enemySpawn");
             }
         }
-
         if (thisTile.x === state.players[2].spawn.x && thisTile.y === state.players[2].spawn.y) {
             tileImgSrc = "castle";
             if (playerNo === 2) {
                 tile.attr("class", "mySpawn");
+            } else if (playerNo === 1) {
+                tile.attr("class", "enemySpawn");
             }
         }
         
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
+
+        if (state.turn === playerNo) {
+            if ((thisTile.x >= state.players[playerNo].loc.x - 2 || thisTile.x <= state.players[playerNo].loc.x + 2) && (thisTile.y >= state.players[playerNo].loc.y - 2 || thisTile.y <= state.players[playerNo].loc.y + 2)) {
+                tile.attr("class", "validMove");
+            }
+        }
 
         tile.data("x", thisTile.x);
         tile.data("y", thisTile.y);
@@ -126,7 +135,10 @@ socket.on("get_update", function (msg) {
                 // socket.emit("send_update", { "id": gameID, "content": state });
                 if (state.players[playerNo].start > state.players[1].start) {
                     state.turn = playerNo;
+                    state.setup = false;
+                    $(".tile").tooltip("dispose");
                     renderBoard(state);
+                    $("[data-toggle='tooltip']").tooltip();
                 }
             });
         } 

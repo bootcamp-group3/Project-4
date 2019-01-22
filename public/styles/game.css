@@ -22,6 +22,9 @@ body {
 .myLoc{
     border: solid 2px teal;
 }
+.validMove{
+    border: solid 3px #66ff00;
+}
 
 h3, h5 {
   font-family: 'Montserrat', sans-serif;
