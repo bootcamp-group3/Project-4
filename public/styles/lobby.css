@@ -5,11 +5,14 @@ h1 {
 body {
   font-family: 'Roboto', sans-serif;
   background-image: url(../media/download.png);
-  color: #035c88;
 }
 
 .jumbotron {
   margin-top: 25%;
   background-color: #ffd400;
   box-shadow: 10px 10px 8px;
+}
+
+h4 {
+  font-weight: bold
 }
