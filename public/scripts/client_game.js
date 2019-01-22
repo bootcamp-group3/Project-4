@@ -352,6 +352,14 @@ socket.on("final_update", function (msg) {
     }).then(function (res) {
         console.log(res);
     });
+    if (msg.winner === playerNo) {
+        $("#target-winLose").text("YOU WON!");
+    } else if (msg.winner === null) {
+        $("#target-winLose").text("DRAW! TIE GAME!");
+    } else {
+        $("#target-winLose").text("YOU LOST!");
+    }
+    $("gameOver-modal").modal("show");
 });
 
 $(function () {
