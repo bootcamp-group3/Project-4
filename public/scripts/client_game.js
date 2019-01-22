@@ -56,7 +56,10 @@ socket.on("connect", function () {
     // Use the join_game protocol to join namespace
     socket.emit("join_game", { game: gameID, player: playerID});
 
+    $("#wait-modal").modal("show");
     socket.on("get_update", function (msg) {
+        $("#wait-modal").modal("hide");
+        
         console.log(msg);
         $(".tile").tooltip("dispose");
         renderBoard(msg);
