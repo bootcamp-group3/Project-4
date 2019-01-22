@@ -23,10 +23,13 @@ app.engine(
         defaultLayout: "main"
     })
 );
-app.set("view engine", "handlebars");
-exphbs.registerHelper("inc", function (value) {
-    return parseInt(value) + 1;
-});
+app.engine("handlebars", exphbs({
+    helpers: {
+        inc: function(value) {
+            return parseInt(value) + 1;
+        }
+    }
+}));
 
 // Routes
 require("./routes/apiRoutes")(app);
