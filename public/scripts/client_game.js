@@ -44,8 +44,8 @@ function renderBoard(state) {
                 tile.attr("class", "myLoc");
             }
         }
-        tile.data("x", thisTile.x );
-        tile.data("y", thisTile.y );
+        tile.data("x", thisTile.x);
+        tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
         tile.data("fortified", thisTile.fortified);
         tile.data("tileType", thisTile.type);
@@ -60,13 +60,14 @@ socket.on("connect", function () {
     socketID = socket.io.engine.id;
 
     // Use the join_game protocol to join namespace
+    console.log("Joining game");
     socket.emit("join_game", { game: gameID, player: playerID });
 
 
     socket.on("get_update", function (msg) {
         let state = msg;
 
-        console.log("Update! V V V");
+        console.log(moment().format("hh:mm:ss"));
         console.log(state);
 
         $(".tile").tooltip("dispose");
@@ -74,14 +75,17 @@ socket.on("connect", function () {
         $("[data-toggle='tooltip']").tooltip();
 
         if (state.turn === null) {
+            console.log(moment().format("hh:mm:ss"));
+            console.log("Turn has not yet been decided");
             if (state.players[1].playerID === playerID && state.players[1].start === null) {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Turn has not yet been decided. This player must roll.");
                 playerNo = 1;
                 $("#turn-modal").modal("show");
                 $("#turn-button").on("click", function () {
                     $("#turn-button").off();
                     let roll = Math.floor(Math.random() * 6) + 1;
                     state.players[1].start = roll;
-                    console.log(roll);
                     $("#turn-modal-body").append(`<h3>${roll}</h3>`);
                     $("#turn-button").text("CLOSE");
                     $("#turn-button").on("click", function () {
@@ -94,11 +98,13 @@ socket.on("connect", function () {
 
                 });
             } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Waiting for opponent to roll");
                 $("#wait-modal").modal("show");
-                
-            } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
-                $("#wait-modal").modal("show");
+
             } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Opponent has rolled. Your turn. ");
                 playerNo = 2;
                 $("#turn-modal").modal("show");
                 $("#turn-button").on("click", function () {
@@ -117,7 +123,13 @@ socket.on("connect", function () {
                     socket.emit("send_update", { "id": gameID, "content": state });
 
                 });
+            } else if (state.players[2].playerID === playerID && state.players[1].start === null) {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Waiting for opponent to roll");
+                $("#wait-modal").modal("show");
             } else if (state.players[1].start !== null && state.players[2] !== null) {
+                console.log(moment().format("hh:mm:ss"));
+                console.log("Both oppoenents have rolled");
                 if (state.players[1].start > state.players[2].start) {
                     state.turn = 1;
                 } else {
@@ -126,9 +138,11 @@ socket.on("connect", function () {
                 socket.emit("send_update", { "id": gameID, "content": state });
             }
         } else if (state.turn === playerNo) {
-            //your turn
+            console.log(moment().format("hh:mm:ss"));
+            console.log("Your turn to make a move");
         } else if (state.turn !== playerNo) {
-            console.log("Not your turn!");
+            console.log(moment().format("hh:mm:ss"));
+            console.log("Not your turn to make a move");
         }
     });
 });
