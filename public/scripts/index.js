@@ -17,6 +17,12 @@ function onSignIn(googleUser) {
             icon: icon
         }
     });
-    
-    $("#signInContainer").append("<a class='btn btn-info' href='/lobby'>JOIN GAME</a>");
+
+    $(".signIn").replaceWith("<div class\"signIn\"><div>Welcome " + name + "!</div><br /><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div></div><br />");
 }
+
+// Flip between static and animated card
+$(document).on("click", "#join-game", function () {
+    event.preventDefault();
+    window.location.href = "/lobby";
+});
