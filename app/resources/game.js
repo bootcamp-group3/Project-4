@@ -4,7 +4,7 @@ const defaultBoardOptions = {
     xLim: 12,
     yLim: 12,
     border: 2,
-    turnLim: 2
+    turnLim: 15
 };
 
 function typeRoll(tile, zone) {
@@ -87,8 +87,8 @@ class Board {
                     y: null
                 },
                 score: {
-                    owned: null,
-                    fortified: null
+                    owned: 0,
+                    fortified: 0
                 },
                 start: null
             },
@@ -103,8 +103,8 @@ class Board {
                     y: null
                 },
                 score: {
-                    owned: null,
-                    fortified: null
+                    owned: 0,
+                    fortified: 0
                 },
                 start: null
             }

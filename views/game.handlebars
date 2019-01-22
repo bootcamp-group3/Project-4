@@ -2,6 +2,26 @@
 <div class="board-parent">
     <!-- Modals -->
     <div id="modal-container">
+        <div class="modal" id="turn-indicator" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3> Your turn! </h3>
+                        <em> Hint: Move to any of the gold tiles to see how well it can be fortified!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="disp-rolled-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p>You rolled a </p><b id="target-roll-disp"></b><br>
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -66,7 +86,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Press the Attack button to roll the dice.</p>
+                        <p>Oh boy! You've landed on an enemy tile! Attack! </p>
+                        <span>You'll have to roll a </span><u id="target-toWin-disp"></u><span> or higher to win this battle!</span>
                     </div>
                     <div class="modal-footer">
                         {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
@@ -79,21 +100,28 @@
 
 
     <div class="container board-parent">
+        <div class="row">
+            <div class="card col-md-12">
+                <div class="card-header">
+                    <h1 class="card-title">The Game</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <span><b> Turns remaining: </b></span> <span id="target-turns-remaining">15</span>
+            </div>
+            <div class="col-md-3">
+                <span><b> My score: </b></span> <span id="target-my-score">0</span>
+            </div>
+            <div class="col-md-3">
+                <span><b> Enemy score: </b></span> <span id="target-enemy-score">0</span>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
         <div class="row board-parent">
             <div class="col-md-12 board-parent">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">The Game</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text">
-                            <span><b> Turns remaining: </b></span> <span id="target-turns-remaining">15</span>
-                            <span><b> Player 1 Score: </b></span> <span id="target-turns-remaining">0</span>
-                            <span><b> Player 2 Score: </b></span> <span id="target-turns-remaining">0</span>
-                            <span><b>Tile Details: </b></span> <span id="tile-details"></span>
-                        </div>
-                    </div>
-                </div>
                 <div id="target-board-target" class="board-parent">
                     <div id="target-frame"></div>
                 </div>
