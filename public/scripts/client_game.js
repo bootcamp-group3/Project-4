@@ -69,7 +69,7 @@ function renderBoard(state) {
                 tile.attr("class", "enemySpawn");
             }
         }
-        
+
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
 
@@ -79,12 +79,12 @@ function renderBoard(state) {
             } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 tile.attr("class", "validMove");
             }
-        } 
+        }
 
         tile.attr("title",
             `<u>(${thisTile.x},${thisTile.y})</u>
             <em>Occupied by: </em> <b>${thisTile.ownerDisp}</b><br>
-            <em>Fortifications: </em> <b>${thisTile.fortified}</b>`); 
+            <em>Fortifications: </em> <b>${thisTile.fortified}</b>`);
         tile.data("x", thisTile.x);
         tile.data("y", thisTile.y);
         tile.data("occupied", thisTile.owner);
@@ -135,7 +135,7 @@ socket.on("get_update", function (msg) {
     let state = msg;
     $("#wait-modal").modal("hide");
     console.log(state);
-    
+
     if (state.setup === true) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Update received in setup mode");
@@ -165,7 +165,7 @@ socket.on("get_update", function (msg) {
                     socket.emit("send_update", { "id": gameID, "content": state });
                 }
             });
-        } 
+        }
     } else {
         $(".tile").tooltip("dispose");
         renderBoard(state);
