@@ -18,7 +18,7 @@ function onSignIn(googleUser) {
         }
     });
 
-    $(".signIn").replaceWith("Welcome " + name + "<br /><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button>");
+    $(".signIn").replaceWith("<div>Welcome " + name + "</div><div><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button></div>");
 }
 
 $(function () {
