@@ -22,8 +22,9 @@ function renderBoard(state) {
         top:${thisTile.y * tileWidth + ((thisTile.y + 1) * gutter)}px;
         left:${thisTile.x * tileWidth + ((thisTile.x + 1) * gutter)}px"
         data-toggle="tooltip" data-html="true"
-        title="<u>Occupied by: </u> <b>${thisTile.owner}</b><br>
-        <u>Fortifications: </u> <b>${thisTile.fortified}</b> <br>">`);
+        title="<u>(${thisTile.x},${thisTile.y})</u>
+        <em>Occupied by: </em> <b>${thisTile.owner}</b><br>
+        <em>Fortifications: </em> <b>${thisTile.fortified}</b> <br>">`);
         var tileImgSrc;
         if (thisTile.type === 0) {
             tileImgSrc = "grass";
