@@ -25,7 +25,7 @@ function waitTurn(state) {
             y: $(this).data("y"),
         };
         console.log(`Select (${sel.x}, ${sel.y})`);
-        sel.index = ((state.xLim * sel.y) + x);
+        sel.index = ((state.xLim * sel.y) + sel.x);
         if (state.tiles[sel.index].occupied === null) {
             $("#fortify-modal").modal("show");
             $("#roll-button").on("click", function () {
@@ -102,7 +102,8 @@ function renderBoard(state) {
                 if (thisTile.type !== 1){
                     tile.attr("class", "validMove");
                 }
-            } else if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
+            }
+            if ((thisTile.x === state.players[playerNo].loc.x - 1 || thisTile.x === state.players[playerNo].loc.x + 1) && (thisTile.y === state.players[playerNo].loc.y - 1 || thisTile.y === state.players[playerNo].loc.y + 1)) {
                 if (thisTile.type !== 1) {
                     tile.attr("class", "validMove");
                 }
