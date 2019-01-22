@@ -41,7 +41,7 @@ function renderBoard(state) {
         }
         let tileImg = $(`<img src='/assets/media/${tileImgSrc}.png' class='tile-img' style='width:100%;'>`);
         tile.html(tileImg);
-        // if (state.turn != null) {
+        // if (state.turn !== null) {
         //     if (thisTile.x === state.players[playerNo].spawn.x && thisTile.y === state.players[playerNo].spawn.y) {
         //         tile.attr("class", "mySpawn");
         //     } else if (thisTile.x === state.players[playerNo].loc.x && thisTile.y === state.players[playerNo].loc.y) {
@@ -93,12 +93,12 @@ socket.on("get_update", function (msg) {
                 }, 1000);
 
             });
-        } else if (state.players[1].playerID === playerID && state.players[1].start != null) {
+        } else if (state.players[1].playerID === playerID && state.players[1].start !== null) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Waiting for opponent to roll");
             $("#wait-modal").modal("show");
 
-        } else if (state.players[2].playerID === playerID && state.players[1].start != null && state.players[2].start === null) {
+        } else if (state.players[2].playerID === playerID && state.players[1].start !== null && state.players[2].start === null) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Opponent has rolled. Your turn. ");
             playerNo = 2;
@@ -123,7 +123,7 @@ socket.on("get_update", function (msg) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Waiting for opponent to roll");
             $("#wait-modal").modal("show");
-        } else if (state.players[1].start != null && state.players[2] != null) {
+        } else if (6 >= state.players[1].start > 0 && 6 >= state.players[2] > 0) {
             console.log(moment().format("hh:mm:ss"));
             console.log("Both oppoenents have rolled");
             if (state.players[1].start > state.players[2].start) {
@@ -134,10 +134,11 @@ socket.on("get_update", function (msg) {
             state.setup = false;
             socket.emit("send_update", { "id": gameID, "content": state });
         }
-    } else if (state.turn === playerNo) {
+    }
+    if (state.turn === playerNo) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Your turn to make a move");
-    } else if (state.turn != playerNo && state.turn != null) {
+    } else if (state.turn !== playerNo && state.turn !== null) {
         console.log(moment().format("hh:mm:ss"));
         console.log("Not your turn to make a move");
     }
