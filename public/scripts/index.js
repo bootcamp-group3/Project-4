@@ -18,11 +18,12 @@ function onSignIn(googleUser) {
         }
     });
 
-    $("#signInContainer").replaceWith("Welcome " + name + "<br /><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button>");
+    $("#signIn").replaceWith("Welcome " + name + "<br /><button type=\"button\" class=\"btn btn-info btn-lg\" id=\"join-game\">Join a Game Now!</button>");
 }
 
 $(function () {
-    $("#join-game").click(function () {
+    $("#join-game").click(function (event) {
+        event.preventDefault();
         window.location.href = "/lobby";
     });
 });
